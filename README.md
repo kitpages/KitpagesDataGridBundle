@@ -37,6 +37,9 @@ Simple Usage example
 In the controller
 -----------------
 
+    use Kitpages\DataGridBundle\Model\GridConfig;
+    use Kitpages\DataGridBundle\Model\Field;
+
     class ContactController
     {
         public function productListAction()
@@ -55,7 +58,7 @@ In the controller
             $gridManager = $this->get("kitpages_data_grid.manager");
             $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $this->getRequest());
 
-            return $this->render('AppSiteBundle:Default:grid.html.twig', array(
+            return $this->render('AppSiteBundle:Default:productList.html.twig', array(
                 "grid" => $grid
             ));
         }
@@ -64,6 +67,7 @@ In the controller
 
 Twig associated
 ---------------
+In your twig you just have to put this code to display the grid you configured.
 
     {% embed 'KitpagesDataGridBundle:Grid:grid.html.twig' with {'grid': grid} %}
     {% endembed %}
@@ -77,6 +81,7 @@ same controller than before
 
 Twig associated
 ---------------
+If you want to add a column on the right of the table, you can put this code in your twig.
 
     {% embed 'KitpagesDataGridBundle:Grid:grid.html.twig' with {'grid': grid} %}
 

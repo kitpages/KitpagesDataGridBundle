@@ -1,0 +1,81 @@
+{% block kit_grid_css %}<link rel="stylesheet" href="{{ asset('bundles/kitpagesdatagrid/css/base.css') }}"/>{%endblock%}
+<div class="kit-grid">
+    <table>
+        {% block kit_grid_thead %}
+        <thead>
+        <tr>
+            <th colspan="50" class="kit-grid-thead-filter">
+                <form action="{{ grid.requestUri }}" id="{{grid.filterFormName}}_form" method="GET">
+                    <label for="{{grid.filterFormName}}">{{ "Filter" | trans }}</label>
+                    <input type="text" name="{{grid.filterFormName}}" id="{{grid.filterFormName}}" size="10" value="{{ grid.filterValue }}"/>
+                    <input type="submit" value="{{ "Apply" | trans }}" name="submit"/>
+                    <a href="{{ grid.requestUri }}" id="{{grid.filterFormName}}_reset_button">Reset</a>
+                </form>
+            </th>
+        </tr>
+        <tr>
+            {% for field in grid.gridConfig.fieldList %}
+                {% if field.visible %}
+                    <th>{{ field.label }}</th>
+                {% endif %}
+            {% endfor %}
+            {% block kit_grid_thead_column %}{%endblock%}
+        </tr>
+        </thead>
+        {% endblock %}
+        {% block kit_grid_tbody %}
+        <tbody>
+        {% for item in grid.itemList %}
+            <tr>
+                {% for field in grid.gridConfig.fieldList %}
+                    {% if field.visible %}
+                        <td class="kit-grid-cell-{{ field.fieldName }}">{{ grid.displayGridValue ( attribute(item, field.fieldName), field) }}</td>
+                    {% endif %}
+                {% endfor %}
+                {% block kit_grid_tbody_column %}{%endblock%}
+            </tr>
+        {% endfor %}
+        </tbody>
+        {% endblock %}
+    </table>
+    {% block kit_grid_paginator %}
+        {% embed 'KitpagesDataGridBundle:Paginator:paginator.html.twig' with {'paginator':grid.paginator} %}
+        {% endembed %}
+    {% endblock %}
+</div>
+{% block kit_grid_javascript %}
+<script>
+(function() {
+    var insertParamInQueryString = function (key, value)
+    {
+        key = escape(key); value = escape(value);
+        var kvp = document.location.search.substr(1).split('&');
+        var i=kvp.length; var x; while(i--)
+        {
+            x = kvp[i].split('=');
+            if (x[0]==key)
+            {
+                x[1] = value;
+                kvp[i] = x.join('=');
+                break;
+            }
+        }
+        if(i<0) {
+            kvp[kvp.length] = [key,value].join('=');
+        }
+        //this will reload the page, it's likely better to store this until finished
+        document.location.search = kvp.join('&');
+    }
+    $('#{{grid.filterFormName}}_form').submit(function(e) {
+        e.preventDefault();
+        value = $('#{{grid.filterFormName}}').val();
+        insertParamInQueryString('{{grid.filterFormName}}',value);
+    });
+    $('#{{grid.filterFormName}}_reset_button').click(function(e) {
+        e.preventDefault();
+        insertParamInQueryString('{{grid.filterFormName}}',"");
+    });
+
+})();
+</script>
+{% endblock kit_grid_javascript %}

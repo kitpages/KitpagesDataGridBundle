@@ -1,0 +1,25 @@
+{% if paginator.totalPageCount > 1%}
+<div class="kit-grid-paginator">
+    {% if paginator.previousButtonPage %}
+        <span class="kit-cms-paginator-previous">
+            <a href="{{ paginator.getUrl("currentPage",paginator.previousButtonPage) }}" title="previous">&lt;</a>
+        </span>
+    {% endif %}
+
+    {% for page in paginator.pageRange %}
+    {% if page != paginator.currentPage %}
+            <span class="kit-grid-paginator-page">
+                <a href="{{ paginator.getUrl("currentPage",page) }}">{{ page }}</a>
+            </span>
+    {% else %}
+    <span class="kit-grid-paginator-current">{{ page }}</span>
+    {% endif %}
+    {% endfor %}
+
+    {% if paginator.nextButtonPage %}
+        <span class="kkit-grid-paginator-next">
+            <a href="{{ paginator.getUrl("currentPage",paginator.nextButtonPage) }}" title="next">&gt;</a>
+        </span>
+    {% endif %}
+</div>
+{% endif %}

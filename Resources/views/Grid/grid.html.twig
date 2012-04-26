@@ -16,7 +16,7 @@
         <tr>
             {% for field in grid.gridConfig.fieldList %}
                 {% if field.visible %}
-                    <th>{{ field.label }}</th>
+                    <th>{{ field.label | trans }}</th>
                 {% endif %}
             {% endfor %}
             {% block kit_grid_thead_column %}{%endblock%}

@@ -7,7 +7,7 @@ WARNING : works only with twig 1.8 +
 
 Actual state
 ============
-beta state
+beta state (sorting is not coded... should arrive soon).
 
 Author
 ======
@@ -95,3 +95,25 @@ If you want to add a column on the right of the table, you can put this code in 
 
     {% endembed %}
 
+
+Reference guide
+===============
+Add a field in the gridConfig
+-----------------------------
+when you add a field, you can set these parameters :
+
+    $gridConfig->addField(new Field("slug", array(
+        "label" => "Mon slug",
+        "sortable" => false,
+        "visible" => true,
+        "filterable"=>true,
+        "formatValueCallback" => function($value) {return strtoupper($value);}
+    )));
+
+What can you personalize in your twig template
+----------------------------------------------
+With the embed system of twig 1.8 and more, you can override some parts of the default
+rendering (see example in the "More advanced usage" paragraph).
+
+You can consult the base twig template here to see what you can personalize.
+https://github.com/kitpages/KitpagesDataGridBundle/blob/master/Resources/views/Grid/grid.html.twig

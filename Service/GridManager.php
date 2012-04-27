@@ -83,7 +83,6 @@ class GridManager
 
         // execute request
         $query = $gridQueryBuilder->getQuery();
-        echo "query=".$query->getSQL();
         $itemList = $query->getResult();
         $grid->setItemList($itemList);
 

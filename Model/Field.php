@@ -15,6 +15,8 @@ class Field
     protected $visible = true;
     /** @var function */
     protected $formatValueCallback = null;
+    /** @var boolean */
+    protected $autoEscape = true;
 
     public function __construct($fieldName, $optionList = array())
     {
@@ -26,7 +28,8 @@ class Field
                 "sortable",
                 "filterable",
                 "visible",
-                "formatValueCallback"
+                "formatValueCallback",
+                "autoEscape"
             ) )) {
                 $this->$key = $val;
             } else {
@@ -129,6 +132,22 @@ class Field
     public function getVisible()
     {
         return $this->visible;
+    }
+
+    /**
+     * @param boolean $autoEscape
+     */
+    public function setAutoEscape($autoEscape)
+    {
+        $this->autoEscape = $autoEscape;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getAutoEscape()
+    {
+        return $this->autoEscape;
     }
 
 }

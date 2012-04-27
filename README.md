@@ -107,7 +107,8 @@ when you add a field, you can set these parameters :
         "sortable" => false,
         "visible" => true,
         "filterable"=>true,
-        "formatValueCallback" => function($value) {return strtoupper($value);}
+        "formatValueCallback" => function($value) {return strtoupper($value);},
+        "autoEscape" => true
     )));
 
 What can you personalize in your twig template

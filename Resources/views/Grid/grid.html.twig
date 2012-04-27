@@ -29,7 +29,9 @@
             <tr>
                 {% for field in grid.gridConfig.fieldList %}
                     {% if field.visible %}
-                        <td class="kit-grid-cell-{{ field.fieldName }}">{{ grid.displayGridValue ( attribute(item, field.fieldName), field) }}</td>
+                        <td class="kit-grid-cell-{{ field.fieldName }}">
+                            {{ grid.displayGridValue ( attribute(item, field.fieldName), field) | raw }}
+                        </td>
                     {% endif %}
                 {% endfor %}
                 {% block kit_grid_tbody_column %}{%endblock%}

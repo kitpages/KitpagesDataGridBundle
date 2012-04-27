@@ -24,16 +24,22 @@ class Grid
     {
         if ( is_callable( $field->getFormatValueCallback() ) ) {
             $callback = $field->getFormatValueCallback();
-            return $callback($value);
+            $returnValue =  $callback($value);
         }
-        if (is_scalar($value)) {
-            return $value;
+        elseif (is_scalar($value)) {
+            $returnValue = $value;
         }
-        if ($value instanceof \DateTime) {
-            return $value->format("Y-m-d H:i:s");
+        elseif ($value instanceof \DateTime) {
+            $returnValue = $value->format("Y-m-d H:i:s");
         }
-
-        return $value;
+        else {
+            $returnValue = $value;
+        }
+        // auto escape ?
+        if ($field->getAutoEscape()) {
+            $returnValue = htmlspecialchars($returnValue);
+        }
+        return $returnValue;
     }
 
     public function getFilterFormName()

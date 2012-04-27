@@ -48,7 +48,8 @@ class GridManager
         // create base request
         $gridQueryBuilder = clone($queryBuilder);
         $gridQueryBuilder->select("item");
-        // TODO : apply filters
+
+        // Apply filters
         $filter = $request->query->get($grid->getFilterFormName(),"");
         if ($filter) {
             $fieldList = $gridConfig->getFieldList();
@@ -60,14 +61,13 @@ class GridManager
             }
             if (count($filterRequestList) > 0) {
                 $reflectionMethod = new \ReflectionMethod($gridQueryBuilder->expr(), "orx");
-                $gridQueryBuilder->where($reflectionMethod->invokeArgs($gridQueryBuilder->expr(), $filterRequestList));
+                $gridQueryBuilder->andWhere($reflectionMethod->invokeArgs($gridQueryBuilder->expr(), $filterRequestList));
                 $gridQueryBuilder->setParameter("filter", "%".$filter."%");
             }
             $grid->setFilterValue($filter);
         }
 
-
-        // TODO : apply sorting
+        // Apply sorting
 
         // build paginator
         $paginatorConfig = $gridConfig->getPaginatorConfig();

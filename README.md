@@ -15,8 +15,14 @@ Versions :
 
 * add possibility to have a join in jour queryBuilder
 * remove mandatory name for your entity
+
+migrations
+
 * you have to add the field name used for counting
 ** Ex : $gridConfig->setCountFieldName("item.id"); // for count(item.id)
+* you have to set complete field name instead of short field name
+** Ex : $gridConfig->addField(new Field("item.id"));
+** instead of just : $gridConfig->addField(new Field("id"));
 
 2012-04-xx
 

@@ -9,6 +9,19 @@ Actual state
 ============
 beta state (sorting is not coded... should arrive soon).
 
+Versions :
+==========
+2012-05-02 :
+
+* add possibility to have a join in jour queryBuilder
+* remove mandatory name for your entity
+* you have to add the field name used for counting
+** Ex : $gridConfig->setCountFieldName("item.id"); // for count(item.id)
+
+2012-04-xx
+
+* creation
+
 Author
 ======
 Philippe Le Van (twitter : @plv)
@@ -46,14 +59,15 @@ In the controller
         {
             // create query builder
             $repository = $this->getDoctrine()->getRepository('AcmeStoreBundle:Product');
-            $queryBuilder = $repository->createQueryBuilder("item") // item is a mandatory name !!
+            $queryBuilder = $repository->createQueryBuilder("item")
                 ->where("item.price > :price")
                 ->setParameter('price', '19.90');
 
             $gridConfig = new GridConfig();
-            $gridConfig->addField(new Field("id"));
-            $gridConfig->addField(new Field("slug", array("filterable"=>true)));
-            $gridConfig->addField(new Field("updatedAt"));
+            $gridConfig->setCountFieldName("item.id");
+            $gridConfig->addField(new Field("item.id"));
+            $gridConfig->addField(new Field("item.slug", array("filterable"=>true)));
+            $gridConfig->addField(new Field("item.updatedAt"));
 
             $gridManager = $this->get("kitpages_data_grid.manager");
             $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $this->getRequest());

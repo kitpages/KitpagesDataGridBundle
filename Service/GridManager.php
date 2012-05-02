@@ -47,7 +47,6 @@ class GridManager
 
         // create base request
         $gridQueryBuilder = clone($queryBuilder);
-        $gridQueryBuilder->select("item");
 
         // Apply filters
         $filter = $request->query->get($grid->getFilterFormName(),"");
@@ -56,7 +55,7 @@ class GridManager
             $filterRequestList = array();
             foreach($fieldList as $field) {
                 if ($field->getFilterable()) {
-                    $filterRequestList[] = $gridQueryBuilder->expr()->like("item.".$field->getFieldName(), ":filter");
+                    $filterRequestList[] = $gridQueryBuilder->expr()->like($field->getFieldName(), ":filter");
                 }
             }
             if (count($filterRequestList) > 0) {
@@ -73,6 +72,7 @@ class GridManager
         $paginatorConfig = $gridConfig->getPaginatorConfig();
         if ($paginatorConfig == null) {
             $paginatorConfig = new PaginatorConfig();
+            $paginatorConfig->setCountFieldName($gridConfig->getCountFieldName());
         }
         $paginator = $this->getPaginator($gridQueryBuilder, $paginatorConfig, $request);
         $grid->setPaginator($paginator);
@@ -83,7 +83,7 @@ class GridManager
 
         // execute request
         $query = $gridQueryBuilder->getQuery();
-        $itemList = $query->getResult();
+        $itemList = $query->getArrayResult();
         $grid->setItemList($itemList);
 
         return $grid;
@@ -102,10 +102,12 @@ class GridManager
 
         // calculate total object count
         $countQueryBuilder = clone($queryBuilder);
-        $countQueryBuilder->select("count(item)");
+        $countQueryBuilder->select("count(".$paginatorConfig->getCountFieldName().")");
         $countQueryBuilder->setMaxResults(null);
         $countQueryBuilder->setFirstResult(null);
-        $totalCount = $countQueryBuilder->getQuery()->getSingleScalarResult();
+        $query = $countQueryBuilder->getQuery();
+        //echo "cnt query=".$query->getSQL()."  <br/>\n";
+        $totalCount = $query->getSingleScalarResult();
         $paginator->setTotalItemCount($totalCount);
 
         // calculate total page count

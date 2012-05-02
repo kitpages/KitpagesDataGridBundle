@@ -13,6 +13,8 @@ class PaginatorConfig
     protected $itemCountInPage = 50;
     /** @var int */
     protected $visiblePageCountInPaginator = 5;
+    /** @var string */
+    protected $countFieldName = null;
 
 
     public function getRequestQueryName($key)
@@ -83,6 +85,22 @@ class PaginatorConfig
     public function getVisiblePageCountInPaginator()
     {
         return $this->visiblePageCountInPaginator;
+    }
+
+    /**
+     * @param string $countFieldName
+     */
+    public function setCountFieldName($countFieldName)
+    {
+        $this->countFieldName = $countFieldName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCountFieldName()
+    {
+        return $this->countFieldName;
     }
 
 }

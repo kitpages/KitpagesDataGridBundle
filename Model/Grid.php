@@ -20,8 +20,15 @@ class Grid
     /** @var string */
     protected $filterValue = null;
 
-    public function displayGridValue($value, Field $field)
+    public function displayGridValue($row, Field $field)
     {
+        // parse field name and get value after the dot
+        $fieldNameTab = explode('.', $field->getFieldName());
+        array_shift($fieldNameTab);
+        $fieldName = array_shift($fieldNameTab);
+        // get parameter in the $row
+        $value = $row[$fieldName];
+        // real treatment
         if ( is_callable( $field->getFormatValueCallback() ) ) {
             $callback = $field->getFormatValueCallback();
             $returnValue =  $callback($value);

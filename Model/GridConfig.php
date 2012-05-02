@@ -13,6 +13,8 @@ class GridConfig
     protected $paginatorConfig = null;
     /** @var array */
     protected $fieldList = array();
+    /** @var string */
+    protected $countFieldName = null;
 
 
     public function addField($field)
@@ -87,4 +89,21 @@ class GridConfig
     {
         return $this->fieldList;
     }
+
+    /**
+     * @param string $countFieldName
+     */
+    public function setCountFieldName($countFieldName)
+    {
+        $this->countFieldName = $countFieldName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCountFieldName()
+    {
+        return $this->countFieldName;
+    }
+
 }

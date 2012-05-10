@@ -1,7 +1,7 @@
 KitpagesDataGridBundle
 ========================
 
-This is a bundle is a simple datagrid bundle. It aims to be simple to use and extensible.
+This Symfony2 Bundle is a simple datagrid bundle. It aims to be simple to use and extensible.
 
 WARNING : works only with twig 1.8 +
 

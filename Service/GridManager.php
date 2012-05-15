@@ -65,7 +65,6 @@ class GridManager
             }
             $grid->setFilterValue($filter);
         }
-
         // Apply sorting
 
         // build paginator
@@ -85,6 +84,7 @@ class GridManager
         $query = $gridQueryBuilder->getQuery();
         $itemList = $query->getArrayResult();
         $grid->setItemList($itemList);
+        $grid->setItemName($gridQueryBuilder->getRootAliases());
 
         return $grid;
     }

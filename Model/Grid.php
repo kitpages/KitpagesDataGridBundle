@@ -24,10 +24,22 @@ class Grid
     {
         // parse field name and get value after the dot
         $fieldNameTab = explode('.', $field->getFieldName());
-        array_shift($fieldNameTab);
-        $fieldName = array_shift($fieldNameTab);
-        // get parameter in the $row
-        $value = $row[$fieldName];
+        if($this->itemName == $fieldNameTab[0]) {
+            array_shift($fieldNameTab);
+        }
+
+        $valueTmp = $row;
+        while (count($fieldNameTab) > 0) {
+            $fieldName = array_shift($fieldNameTab);
+            // get parameter in the $row
+            $valueTmp = $valueTmp[$fieldName];
+        }
+
+        $value = $valueTmp;
+
+//        $fieldName = array_shift($fieldNameTab);
+//        $value = $row[$fieldNameTab];
+
         // real treatment
         if ( is_callable( $field->getFormatValueCallback() ) ) {
             $callback = $field->getFormatValueCallback();
@@ -78,6 +90,14 @@ class Grid
     public function getItemList()
     {
         return $this->itemList;
+    }
+
+    /**
+     * @param array $rootAliases
+     */
+    public function setItemName($rootAliases)
+    {
+        $this->itemName = $rootAliases[0];
     }
 
     /**

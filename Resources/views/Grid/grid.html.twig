@@ -30,7 +30,11 @@
                 {% for field in grid.gridConfig.fieldList %}
                     {% if field.visible %}
                         <td class="kit-grid-cell-{{ field.fieldName }}">
-                            {{ grid.displayGridValue ( item, field) | raw }}
+                            {% if field.translatable %}
+                                {{ grid.displayGridValue ( item, field) | raw | trans }}
+                            {% else %}
+                                {{ grid.displayGridValue ( item, field) | raw }}
+                            {% endif %}
                         </td>
                     {% endif %}
                 {% endfor %}

@@ -17,6 +17,8 @@ class Field
     protected $formatValueCallback = null;
     /** @var boolean */
     protected $autoEscape = true;
+    /** @var boolean */
+    protected $translatable = false;
 
     public function __construct($fieldName, $optionList = array())
     {
@@ -29,7 +31,8 @@ class Field
                 "filterable",
                 "visible",
                 "formatValueCallback",
-                "autoEscape"
+                "autoEscape",
+                "translatable"
             ) )) {
                 $this->$key = $val;
             } else {
@@ -148,6 +151,22 @@ class Field
     public function getAutoEscape()
     {
         return $this->autoEscape;
+    }
+
+    /**
+     * @param boolean $translatable
+     */
+    public function setTranslatable($translatable)
+    {
+        $this->translatable = $translatable;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getTranslatable()
+    {
+        return $this->translatable;
     }
 
 }

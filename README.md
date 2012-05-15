@@ -120,39 +120,39 @@ More advanced usage
 In the controller
 -----------------
 
-use Kitpages\DataGridBundle\Model\GridConfig;
-use Kitpages\DataGridBundle\Model\Field;
+    use Kitpages\DataGridBundle\Model\GridConfig;
+    use Kitpages\DataGridBundle\Model\Field;
 
-class AdminController extends Controller
-{
-
-    public function listAction($state)
+    class AdminController extends Controller
     {
-        // create query builder
-        $em = $this->get('doctrine')->getEntityManager();
-        $queryBuilder = $em->createQueryBuilder()
-            ->select("mission, employee, client")
-            ->from('KitappMissionBundle:Mission', 'mission')
-            ->leftJoin('mission.employee', 'employee')
-            ->leftJoin('mission.client', 'client')
-            ->where('mission.state = :state')
-            ->add('orderBy', 'mission.updatedAt DESC')
-            ->setParameter('state', $state);
-        $gridConfig = new GridConfig();
-        $gridConfig->setCountFieldName("mission.id");
-        $gridConfig->addField(new Field("mission.title", array("label" => "title", "filterable"=>true)));
-        $gridConfig->addField(new Field("mission.country", array("filterable"=>true)));
-        $gridConfig->addField(new Field("client.corporation", array("filterable"=>true)));
-        $gridConfig->addField(new Field("employee.lastname", array("filterable"=>true)));
-        $gridConfig->addField(new Field("employee.email", array("filterable"=>true)));
-        $gridManager = $this->get("kitpages_data_grid.manager");
-        $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $this->getRequest());
 
-        return $this->render('KitappMissionBundle:Admin:list.html.twig', array(
-            "grid" => $grid
-        ));
+        public function listAction($state)
+        {
+            // create query builder
+            $em = $this->get('doctrine')->getEntityManager();
+            $queryBuilder = $em->createQueryBuilder()
+                ->select("mission, employee, client")
+                ->from('KitappMissionBundle:Mission', 'mission')
+                ->leftJoin('mission.employee', 'employee')
+                ->leftJoin('mission.client', 'client')
+                ->where('mission.state = :state')
+                ->add('orderBy', 'mission.updatedAt DESC')
+                ->setParameter('state', $state);
+            $gridConfig = new GridConfig();
+            $gridConfig->setCountFieldName("mission.id");
+            $gridConfig->addField(new Field("mission.title", array("label" => "title", "filterable"=>true)));
+            $gridConfig->addField(new Field("mission.country", array("filterable"=>true)));
+            $gridConfig->addField(new Field("client.corporation", array("filterable"=>true)));
+            $gridConfig->addField(new Field("employee.lastname", array("filterable"=>true)));
+            $gridConfig->addField(new Field("employee.email", array("filterable"=>true)));
+            $gridManager = $this->get("kitpages_data_grid.manager");
+            $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $this->getRequest());
+
+            return $this->render('KitappMissionBundle:Admin:list.html.twig', array(
+                "grid" => $grid
+            ));
+        }
     }
-}
 
 Twig associated
 ---------------

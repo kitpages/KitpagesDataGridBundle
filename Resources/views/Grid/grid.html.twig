@@ -3,16 +3,18 @@
     <table>
         {% block kit_grid_thead %}
         <thead>
-        <tr>
-            <th colspan="50" class="kit-grid-thead-filter">
-                <form action="{{ grid.requestUri }}" id="{{grid.filterFormName}}_form" method="GET">
-                    <label for="{{grid.filterFormName}}">{{ "Filter" | trans }}</label>
-                    <input type="text" name="{{grid.filterFormName}}" id="{{grid.filterFormName}}" size="10" value="{{ grid.filterValue }}"/>
-                    <input type="submit" value="{{ "Apply" | trans }}" name="submit"/>
-                    <a href="{{ grid.requestUri }}" id="{{grid.filterFormName}}_reset_button">Reset</a>
-                </form>
-            </th>
-        </tr>
+            {% block kit_grid_thead_filter %}
+                <tr>
+                    <th colspan="50" class="kit-grid-thead-filter">
+                        <form action="{{ grid.requestUri }}" id="{{grid.filterFormName}}_form" method="GET">
+                            <label for="{{grid.filterFormName}}">{{ "Filter" | trans }}</label>
+                            <input type="text" name="{{grid.filterFormName}}" id="{{grid.filterFormName}}" size="10" value="{{ grid.filterValue }}"/>
+                            <input type="submit" value="{{ "Apply" | trans }}" name="submit"/>
+                            <a href="{{ grid.requestUri }}" id="{{grid.filterFormName}}_reset_button">{{ "Reset" | trans }}</a>
+                        </form>
+                    </th>
+                </tr>
+            {% endblock %}
         <tr>
             {% for field in grid.gridConfig.fieldList %}
                 {% if field.visible %}
@@ -26,7 +28,7 @@
         {% block kit_grid_tbody %}
         <tbody>
         {% for item in grid.itemList %}
-            <tr>
+            <tr class="{% if loop.index % 2 == 0 %}kit-grid-even {% else %}kit-grid-odd {% endif %}">
                 {% for field in grid.gridConfig.fieldList %}
                     {% if field.visible %}
                         <td class="kit-grid-cell-{{ field.fieldName }}">
@@ -39,6 +41,10 @@
                     {% endif %}
                 {% endfor %}
                 {% block kit_grid_tbody_column %}{%endblock%}
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="{{ grid.gridConfig.fieldList | length }}" class="no-grid-data">{{ "No data found" | trans }}</td>
             </tr>
         {% endfor %}
         </tbody>

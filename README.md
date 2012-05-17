@@ -3,7 +3,7 @@ KitpagesDataGridBundle
 
 This Symfony2 Bundle is a simple datagrid bundle. It aims to be simple to use and extensible.
 
-WARNING : works only with twig 1.8 +
+WARNING : works only with twig 1.8 + and jQuery in your pages
 
 Actual state
 ============
@@ -40,11 +40,16 @@ You need to add the following lines in your deps :
         git=git://github.com/kitpages/KitpagesDataGridBundle.git
         target=Kitpages/DataGridBundle
 
+in autoload.php, you have to add :
+
+    'Kitpages'         => __DIR__.'/../vendor',
+
 AppKernel.php
-        $bundles = array(
+
+    $bundles = array(
         ...
-            new Kitpages\DataGridBundle\KitpagesDataGridBundle(),
-        );
+        new Kitpages\DataGridBundle\KitpagesDataGridBundle(),
+    );
 
 Configuration in config.yml
 ===========================

@@ -1,16 +1,27 @@
 KitpagesDataGridBundle
 ========================
 
-This Symfony2 Bundle is a simple datagrid bundle. It aims to be simple to use and extensible.
-
-WARNING : works only with twig 1.8 + and jQuery in your pages
+This Symfony2 Bundle is a simple datagrid bundle. It aims to be easy to use and extensible.
 
 Actual state
 ============
-beta state (sorting is not coded... should arrive soon).
+
+stable, production ready
+
+System Requirement
+==================
+* jQuery has to be present on your pages
+* version 1.8+ of twig is mandatory (use of twig embeds)
 
 Versions :
 ==========
+2012-05-17 : tag v1.0.0
+
+* sorting added
+* template twig more extendable
+* small fix
+* refactor in Grid Manager
+
 2012-05-02 :
 
 * add possibility to have a join in jour queryBuilder

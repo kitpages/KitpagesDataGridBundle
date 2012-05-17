@@ -10,3 +10,6 @@
 .kit-grid thead th {
     background-color: #EEE;
 }
+.kit-grid th.kit-grid-sort  {
+    background-color: #EEF;
+}

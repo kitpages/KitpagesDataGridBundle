@@ -19,6 +19,37 @@ class Grid
     protected $requestUri = null;
     /** @var string */
     protected $filterValue = null;
+    /** @var string */
+    protected $sortField = null;
+    /** @var string */
+    protected $sortOrder = null;
+
+    public function getSortUrl($fieldName) {
+        $uri =  $this->urlTool->changeRequestQueryString(
+            $this->requestUri,
+            $this->getSortFieldFormName(),
+            $fieldName
+        );
+        if ($fieldName == $this->getSortField()) {
+            $order = ($this->getSortOrder() == "ASC") ? "DESC" : "ASC";
+        }
+        else {
+            $order = "ASC";
+        }
+        return $this->urlTool->changeRequestQueryString(
+            $uri,
+            $this->getSortOrderFormName(),
+            $order
+        );
+    }
+    public function getSortCssClass($fieldName) {
+        $css = "";
+        if ($fieldName == $this->getSortField()) {
+            $css .= " kit-grid-sort ";
+            $css .= " kit-grid-sort-".strtolower($this->getSortOrder())." ";
+        }
+        return $css;
+    }
 
     public function displayGridValue($row, Field $field)
     {
@@ -64,6 +95,14 @@ class Grid
     public function getFilterFormName()
     {
         return "kitdg_grid_".$this->getGridConfig()->getName()."_filter";
+    }
+    public function getSortFieldFormName()
+    {
+        return "kitdg_grid_".$this->getGridConfig()->getName()."_sort_field";
+    }
+    public function getSortOrderFormName()
+    {
+        return "kitdg_grid_".$this->getGridConfig()->getName()."_sort_order";
     }
 
     /**
@@ -162,5 +201,37 @@ class Grid
     public function getFilterValue()
     {
         return $this->filterValue;
+    }
+
+    /**
+     * @param string $sortField
+     */
+    public function setSortField($sortField)
+    {
+        $this->sortField = $sortField;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSortField()
+    {
+        return $this->sortField;
+    }
+
+    /**
+     * @param string $sortOrder
+     */
+    public function setSortOrder($sortOrder)
+    {
+        $this->sortOrder = $sortOrder;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSortOrder()
+    {
+        return $this->sortOrder;
     }
 }

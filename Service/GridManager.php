@@ -12,6 +12,8 @@ use Kitpages\DataGridBundle\Model\PaginatorConfig;
 use Kitpages\DataGridBundle\Model\Paginator;
 use Kitpages\DataGridBundle\Tool\UrlTool;
 
+
+
 class GridManager
 {
     /** @var \Symfony\Bundle\DoctrineBundle\Registry */
@@ -35,6 +37,17 @@ class GridManager
         return $this->doctrine;
     }
 
+    ////
+    // grid methods
+    ////
+    /**
+     * get grid object filled
+     *
+     * @param \Doctrine\ORM\QueryBuilder $queryBuilder
+     * @param \Kitpages\DataGridBundle\Model\GridConfig $gridConfig
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return \Kitpages\DataGridBundle\Model\Grid
+     */
     public function getGrid(QueryBuilder $queryBuilder, GridConfig $gridConfig, Request $request)
     {
         // change filter
@@ -50,22 +63,12 @@ class GridManager
 
         // Apply filters
         $filter = $request->query->get($grid->getFilterFormName(),"");
-        if ($filter) {
-            $fieldList = $gridConfig->getFieldList();
-            $filterRequestList = array();
-            foreach($fieldList as $field) {
-                if ($field->getFilterable()) {
-                    $filterRequestList[] = $gridQueryBuilder->expr()->like($field->getFieldName(), ":filter");
-                }
-            }
-            if (count($filterRequestList) > 0) {
-                $reflectionMethod = new \ReflectionMethod($gridQueryBuilder->expr(), "orx");
-                $gridQueryBuilder->andWhere($reflectionMethod->invokeArgs($gridQueryBuilder->expr(), $filterRequestList));
-                $gridQueryBuilder->setParameter("filter", "%".$filter."%");
-            }
-            $grid->setFilterValue($filter);
-        }
+        $this->applyFilter($gridQueryBuilder, $grid, $filter, $gridConfig);
+
         // Apply sorting
+        $sortField = $request->query->get($grid->getSortFieldFormName(),"");
+        $sortOrder = $request->query->get($grid->getSortOrderFormName(),"");
+        $this->applySort($gridQueryBuilder, $grid, $sortField, $sortOrder, $gridConfig);
 
         // build paginator
         $paginatorConfig = $gridConfig->getPaginatorConfig();
@@ -89,6 +92,63 @@ class GridManager
         return $grid;
     }
 
+    protected function applyFilter(QueryBuilder $gridQueryBuilder, Grid $grid, $filter, GridConfig $gridConfig)
+    {
+        if (!$filter) {
+            return;
+        }
+        $fieldList = $gridConfig->getFieldList();
+        $filterRequestList = array();
+        foreach($fieldList as $field) {
+            if ($field->getFilterable()) {
+                $filterRequestList[] = $gridQueryBuilder->expr()->like($field->getFieldName(), ":filter");
+            }
+        }
+        if (count($filterRequestList) > 0) {
+            $reflectionMethod = new \ReflectionMethod($gridQueryBuilder->expr(), "orx");
+            $gridQueryBuilder->andWhere($reflectionMethod->invokeArgs($gridQueryBuilder->expr(), $filterRequestList));
+            $gridQueryBuilder->setParameter("filter", "%".$filter."%");
+        }
+        $grid->setFilterValue($filter);
+    }
+
+    protected function applySort(QueryBuilder $gridQueryBuilder, Grid $grid, $sortField, $sortOrder, GridConfig $gridConfig)
+    {
+        if (!$sortField) {
+            return;
+        }
+        $sortFieldObject = null;
+        $fieldList = $gridConfig->getFieldList();
+        foreach($fieldList as $field) {
+            if ($field->getFieldName() == $sortField) {
+                if ($field->getSortable() == true) {
+                    $sortFieldObject = $field;
+                }
+                break;
+            }
+        }
+        if (!$sortFieldObject) {
+            return;
+        }
+        if ($sortOrder != "DESC") {
+            $sortOrder = "ASC";
+        }
+        $gridQueryBuilder->orderBy($sortField, $sortOrder);
+        $grid->setSortField($sortField);
+        $grid->setSortOrder($sortOrder);
+    }
+
+    ////
+    // paginator
+    ////
+    /**
+     * get Paginator object
+     *
+     * @param \Doctrine\ORM\QueryBuilder $queryBuilder
+     * @param \Kitpages\DataGridBundle\Model\PaginatorConfig $paginatorConfig
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return \Kitpages\DataGridBundle\Model\Paginator
+     */
     public function getPaginator(QueryBuilder $queryBuilder, PaginatorConfig $paginatorConfig, Request $request)
     {
         // create paginator object
@@ -155,5 +215,6 @@ class GridManager
 
         return $paginator;
     }
+
 
 }

@@ -18,7 +18,13 @@
         <tr>
             {% for field in grid.gridConfig.fieldList %}
                 {% if field.visible %}
-                    <th>{{ field.label | trans }}</th>
+                    <th class="{{ grid.getSortCssClass(field.fieldName) }}">
+                        {% if field.sortable %}
+                            <a href="{{ grid.getSortUrl(field.fieldName) }}">{{ field.label | trans }}</a>
+                        {% else %}
+                            {{ field.label | trans }}
+                        {% endif %}
+                    </th>
                 {% endif %}
             {% endfor %}
             {% block kit_grid_thead_column %}{%endblock%}

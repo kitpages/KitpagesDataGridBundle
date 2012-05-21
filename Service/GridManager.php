@@ -86,8 +86,27 @@ class GridManager
         // execute request
         $query = $gridQueryBuilder->getQuery();
         $itemList = $query->getArrayResult();
-        $grid->setItemList($itemList);
-        $grid->setItemName($gridQueryBuilder->getRootAliases());
+
+        // normalize result (for request of type $queryBuilder->select("item, bp, item.id * 3 as titi"); )
+        $normalizedItemList = array();
+        foreach ($itemList as $item) {
+            $normalizedItem = array();
+            foreach ($item as $key => $val) {
+                if (is_int($key)) {
+                    foreach ($val as $newKey => $newVal) {
+                        $normalizedItem[$newKey] = $newVal;
+                    }
+                }
+                else {
+                    $normalizedItem[$key] = $val;
+                }
+            }
+            $normalizedItemList[] = $normalizedItem;
+        }
+        // end normalization
+        //echo "<pre>itemList=".htmlspecialchars(print_r($normalizedItemList, true))."</pre>";exit();
+        $grid->setItemList($normalizedItemList);
+        $grid->setRootAliases($gridQueryBuilder->getRootAliases());
 
         return $grid;
     }

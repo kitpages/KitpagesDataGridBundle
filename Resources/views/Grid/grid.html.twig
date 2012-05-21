@@ -16,6 +16,7 @@
                 </tr>
             {% endblock %}
         <tr>
+            {% block kit_grid_thead_before_column %}{%endblock%}
             {% for field in grid.gridConfig.fieldList %}
                 {% if field.visible %}
                     <th class="{{ grid.getSortCssClass(field.fieldName) }}">
@@ -35,6 +36,7 @@
         <tbody>
         {% for item in grid.itemList %}
             <tr class="{% if loop.index % 2 == 0 %}kit-grid-even {% else %}kit-grid-odd {% endif %}">
+                {% block kit_grid_tbody_before_column %}{%endblock%}
                 {% for field in grid.gridConfig.fieldList %}
                     {% if field.visible %}
                         <td class="kit-grid-cell-{{ field.fieldName }}">

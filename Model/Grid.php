@@ -23,6 +23,8 @@ class Grid
     protected $sortField = null;
     /** @var string */
     protected $sortOrder = null;
+    /** @var array ($gridQueryBuilder->getRootAliases()) */
+    protected $rootAliases = array();
 
     public function getSortUrl($fieldName) {
         $uri =  $this->urlTool->changeRequestQueryString(
@@ -55,18 +57,17 @@ class Grid
     {
         // parse field name and get value after the dot
         $fieldNameTab = explode('.', $field->getFieldName());
-        if($this->itemName == $fieldNameTab[0]) {
+
+        if( in_array($fieldNameTab[0], $this->rootAliases) ) {
             array_shift($fieldNameTab);
         }
 
-        $valueTmp = $row;
+        $value = $row;
         while (count($fieldNameTab) > 0) {
             $fieldName = array_shift($fieldNameTab);
             // get parameter in the $row
-            $valueTmp = $valueTmp[$fieldName];
+            $value = $row[$fieldName];
         }
-
-        $value = $valueTmp;
 
 //        $fieldName = array_shift($fieldNameTab);
 //        $value = $row[$fieldNameTab];
@@ -134,9 +135,9 @@ class Grid
     /**
      * @param array $rootAliases
      */
-    public function setItemName($rootAliases)
+    public function setRootAliases($rootAliases)
     {
-        $this->itemName = $rootAliases[0];
+        $this->rootAliases = $rootAliases;
     }
 
     /**

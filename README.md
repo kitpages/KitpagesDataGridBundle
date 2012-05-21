@@ -15,6 +15,14 @@ System Requirement
 
 Versions :
 ==========
+2012-05-21 : tag v1.0.1
+
+* composer.json added and link to packagist
+* normalization of results for request like $queryBuilder->select("item, item.id * 3 as foo"); // warning : see
+Limitations paragraph
+* add {% block kit_grid_thead_before_column %}{%endblock%} and {% block kit_grid_tbody_before_column %}{%endblock%} for
+adding columns before le natural column list
+
 2012-05-17 : tag v1.0.0
 
 * sorting added
@@ -173,6 +181,23 @@ In the controller
 Twig associated
 ---------------
 same Twig than before
+
+Limitation
+==========
+
+Field "as"
+----------
+For request like
+
+    $queryBuilder->select("item, item.id * 3 as foo");
+
+You can display the titi field with
+
+    $gridConfig->addField(new Field("foo");
+
+But this field can't be sortable or filterable because of a limitation of the
+doctrine2 query builder.
+
 
 Reference guide
 ===============

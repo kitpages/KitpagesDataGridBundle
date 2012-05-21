@@ -1,0 +1,23 @@
+{
+    "name": "kitpages/data-grid-bundle",
+    "type": "symfony-bundle",
+    "description": "Symfony DataGridBundle",
+    "keywords": ["Datagrid", "paginator", "filter", "sort"],
+    "homepage": "https://github.com/kitpages/KitpagesDataGridBundle",
+    "license": "BSD",
+    "authors": [
+        {
+            "name": "Philippe Le Van",
+            "email": "philippe.levan@kitpages.fr"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2",
+        "symfony/framework-bundle": "2.0.*",
+        "doctrine/doctrine-bundle": "*"
+    },
+    "autoload": {
+        "psr-0": { "Kitpages\\DataGridBundle": "" }
+    },
+    "target-dir": "Kitpages/DataGridBundle"
+}

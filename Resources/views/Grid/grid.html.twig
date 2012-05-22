@@ -39,7 +39,7 @@
                 {% block kit_grid_tbody_before_column %}{%endblock%}
                 {% for field in grid.gridConfig.fieldList %}
                     {% if field.visible %}
-                        <td class="kit-grid-cell-{{ field.fieldName }}">
+                        <td class="kit-grid-cell-{{ field.fieldName | replace({'.': '-'}) }}">
                             {% if field.translatable %}
                                 {{ grid.displayGridValue ( item, field) | raw | trans }}
                             {% else %}

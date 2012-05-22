@@ -15,6 +15,8 @@ class GridConfig
     protected $fieldList = array();
     /** @var string */
     protected $countFieldName = null;
+    /** @var boolean */
+    protected $useGedmoTranslatable = false;
 
 
     public function addField($field)
@@ -104,6 +106,22 @@ class GridConfig
     public function getCountFieldName()
     {
         return $this->countFieldName;
+    }
+    
+    /**
+     * @param boolean $value
+     */
+    public function useGedmoTranslatable($value)
+    {
+        $this->useGedmoTranslatable = $value;
+    }
+    
+    /**
+     * @return boolean
+     */
+    public function isUsingGedmoTranslatable()
+    {
+        return $this->useGedmoTranslatable;
     }
 
 }

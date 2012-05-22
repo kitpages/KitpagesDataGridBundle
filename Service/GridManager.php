@@ -3,6 +3,7 @@ namespace Kitpages\DataGridBundle\Service;
 
 use Symfony\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 use Doctrine\ORM\QueryBuilder;
 
@@ -11,6 +12,8 @@ use Kitpages\DataGridBundle\Model\Grid;
 use Kitpages\DataGridBundle\Model\PaginatorConfig;
 use Kitpages\DataGridBundle\Model\Paginator;
 use Kitpages\DataGridBundle\Tool\UrlTool;
+use Kitpages\DataGridBundle\KitpagesDataGridEvents;
+use Kitpages\DataGridBundle\Event\DataGridEvent;
 
 
 
@@ -18,23 +21,37 @@ class GridManager
 {
     /** @var \Symfony\Bundle\DoctrineBundle\Registry */
     protected $doctrine;
+    /** @var EventDispatcherInterface */
+    protected $dispatcher = null;
+
 
     /**
      * @param \Symfony\Bundle\DoctrineBundle\Registry $doctrine
+     * @param EventDispatcherInterface $dispatcher
      */
     public function __construct(
-        Registry $doctrine
+        Registry $doctrine,
+        EventDispatcherInterface $dispatcher
     ) {
         $this->doctrine = $doctrine;
+        $this->dispatcher = $dispatcher;
     }
 
 
     /**
      * @return \Symfony\Bundle\DoctrineBundle\Registry
      */
-    public function getDoctrine()
+    protected function getDoctrine()
     {
         return $this->doctrine;
+    }
+
+    /**
+     * @return null|\Symfony\Component\EventDispatcher\EventDispatcherInterface
+     */
+    protected function getDispatcher()
+    {
+        return $this->dispatcher;
     }
 
     ////
@@ -50,8 +67,6 @@ class GridManager
      */
     public function getGrid(QueryBuilder $queryBuilder, GridConfig $gridConfig, Request $request)
     {
-        // change filter
-
         // create grid objet
         $grid = new Grid();
         $grid->setGridConfig($gridConfig);
@@ -63,12 +78,12 @@ class GridManager
 
         // Apply filters
         $filter = $request->query->get($grid->getFilterFormName(),"");
-        $this->applyFilter($gridQueryBuilder, $grid, $filter, $gridConfig);
+        $this->applyFilter($gridQueryBuilder, $grid, $filter);
 
         // Apply sorting
         $sortField = $request->query->get($grid->getSortFieldFormName(),"");
         $sortOrder = $request->query->get($grid->getSortOrderFormName(),"");
-        $this->applySort($gridQueryBuilder, $grid, $sortField, $sortOrder, $gridConfig);
+        $this->applySort($gridQueryBuilder, $grid, $sortField, $sortOrder);
 
         // build paginator
         $paginatorConfig = $gridConfig->getPaginatorConfig();
@@ -83,8 +98,26 @@ class GridManager
         $gridQueryBuilder->setMaxResults($paginator->getPaginatorConfig()->getItemCountInPage());
         $gridQueryBuilder->setFirstResult(($paginator->getCurrentPage()-1) * $paginator->getPaginatorConfig()->getItemCountInPage());
 
-        // execute request
-        $query = $gridQueryBuilder->getQuery();
+        // send event for changing grid query builder
+        $event = new DataGridEvent();
+        $event->set("grid", $grid);
+        $event->set("gridQueryBuilder", $gridQueryBuilder);
+        $event->set("request", $request);
+        $this->dispatcher->dispatch(KitpagesDataGridEvents::ON_GET_GRID_QUERY, $event);
+
+        if (!$event->isDefaultPrevented()) {
+            // execute request
+            $query = $gridQueryBuilder->getQuery();
+            $event->set("query", $query);
+        }
+
+        $this->dispatcher->dispatch(KitpagesDataGridEvents::AFTER_GET_GRID_QUERY, $event);
+
+        // hack : recover query from the event so the developper can build a new grid
+        // from the gridQueryBuilder in the listener and reinject it in the event.
+        $query = $event->get("query");
+
+        // execute the query
         $itemList = $query->getArrayResult();
 
         // normalize result (for request of type $queryBuilder->select("item, bp, item.id * 3 as titi"); )
@@ -104,57 +137,76 @@ class GridManager
             $normalizedItemList[] = $normalizedItem;
         }
         // end normalization
-        //echo "<pre>itemList=".htmlspecialchars(print_r($normalizedItemList, true))."</pre>";exit();
         $grid->setItemList($normalizedItemList);
         $grid->setRootAliases($gridQueryBuilder->getRootAliases());
 
         return $grid;
     }
 
-    protected function applyFilter(QueryBuilder $gridQueryBuilder, Grid $grid, $filter, GridConfig $gridConfig)
+    protected function applyFilter(QueryBuilder $queryBuilder, Grid $grid, $filter)
     {
         if (!$filter) {
             return;
         }
-        $fieldList = $gridConfig->getFieldList();
-        $filterRequestList = array();
-        foreach($fieldList as $field) {
-            if ($field->getFilterable()) {
-                $filterRequestList[] = $gridQueryBuilder->expr()->like($field->getFieldName(), ":filter");
+        $event = new DataGridEvent();
+        $event->set("grid", $grid);
+        $event->set("gridQueryBuilder", $queryBuilder);
+        $event->set("filter", $filter);
+        $this->dispatcher->dispatch(KitpagesDataGridEvents::ON_APPLY_FILTER, $event);
+
+        if (!$event->isDefaultPrevented()) {
+            $fieldList = $grid->getGridConfig()->getFieldList();
+            $filterRequestList = array();
+            foreach($fieldList as $field) {
+                if ($field->getFilterable()) {
+                    $filterRequestList[] = $queryBuilder->expr()->like($field->getFieldName(), ":filter");
+                }
             }
+            if (count($filterRequestList) > 0) {
+                $reflectionMethod = new \ReflectionMethod($queryBuilder->expr(), "orx");
+                $queryBuilder->andWhere($reflectionMethod->invokeArgs($queryBuilder->expr(), $filterRequestList));
+                $queryBuilder->setParameter("filter", "%".$filter."%");
+            }
+            $grid->setFilterValue($filter);
         }
-        if (count($filterRequestList) > 0) {
-            $reflectionMethod = new \ReflectionMethod($gridQueryBuilder->expr(), "orx");
-            $gridQueryBuilder->andWhere($reflectionMethod->invokeArgs($gridQueryBuilder->expr(), $filterRequestList));
-            $gridQueryBuilder->setParameter("filter", "%".$filter."%");
-        }
-        $grid->setFilterValue($filter);
+        $this->dispatcher->dispatch(KitpagesDataGridEvents::AFTER_APPLY_FILTER, $event);
     }
 
-    protected function applySort(QueryBuilder $gridQueryBuilder, Grid $grid, $sortField, $sortOrder, GridConfig $gridConfig)
+    protected function applySort(QueryBuilder $gridQueryBuilder, Grid $grid, $sortField, $sortOrder)
     {
         if (!$sortField) {
             return;
         }
-        $sortFieldObject = null;
-        $fieldList = $gridConfig->getFieldList();
-        foreach($fieldList as $field) {
-            if ($field->getFieldName() == $sortField) {
-                if ($field->getSortable() == true) {
-                    $sortFieldObject = $field;
+        $event = new DataGridEvent();
+        $event->set("grid", $grid);
+        $event->set("gridQueryBuilder", $gridQueryBuilder);
+        $event->set("sortField", $sortField);
+        $event->set("sortOrder", $sortOrder);
+        $this->dispatcher->dispatch(KitpagesDataGridEvents::ON_APPLY_SORT, $event);
+
+        if (!$event->isDefaultPrevented()) {
+            $sortFieldObject = null;
+            $fieldList = $grid->getGridConfig()->getFieldList();
+            foreach($fieldList as $field) {
+                if ($field->getFieldName() == $sortField) {
+                    if ($field->getSortable() == true) {
+                        $sortFieldObject = $field;
+                    }
+                    break;
                 }
-                break;
             }
+            if (!$sortFieldObject) {
+                return;
+            }
+            if ($sortOrder != "DESC") {
+                $sortOrder = "ASC";
+            }
+            $gridQueryBuilder->orderBy($sortField, $sortOrder);
+            $grid->setSortField($sortField);
+            $grid->setSortOrder($sortOrder);
         }
-        if (!$sortFieldObject) {
-            return;
-        }
-        if ($sortOrder != "DESC") {
-            $sortOrder = "ASC";
-        }
-        $gridQueryBuilder->orderBy($sortField, $sortOrder);
-        $grid->setSortField($sortField);
-        $grid->setSortOrder($sortOrder);
+
+        $this->dispatcher->dispatch(KitpagesDataGridEvents::AFTER_APPLY_SORT, $event);
     }
 
     ////
@@ -184,8 +236,24 @@ class GridManager
         $countQueryBuilder->select("count(".$paginatorConfig->getCountFieldName().")");
         $countQueryBuilder->setMaxResults(null);
         $countQueryBuilder->setFirstResult(null);
-        $query = $countQueryBuilder->getQuery();
-        //echo "cnt query=".$query->getSQL()."  <br/>\n";
+
+        // event to change paginator query builder
+        $event = new DataGridEvent();
+        $event->set("paginator", $paginator);
+        $event->set("paginatorQueryBuilder", $countQueryBuilder);
+        $event->set("request", $request);
+        $this->dispatcher->dispatch(KitpagesDataGridEvents::ON_GET_PAGINATOR_QUERY, $event);
+
+        if (!$event->isDefaultPrevented()) {
+            $query = $countQueryBuilder->getQuery();
+            $event->set("query", $query);
+        }
+        $this->dispatcher->dispatch(KitpagesDataGridEvents::AFTER_GET_PAGINATOR_QUERY, $event);
+
+        // hack : recover query from the event so the developper can build a new query
+        // from the paginatorQueryBuilder in the listener and reinject it in the event.
+        $query = $event->get("query");
+
         $totalCount = $query->getSingleScalarResult();
         $paginator->setTotalItemCount($totalCount);
 

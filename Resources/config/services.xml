@@ -11,6 +11,7 @@
     <services>
         <service id="kitpages_data_grid.manager" class="%kitpages_data_grid.manager.class%">
             <argument type="service" id="doctrine" />
+            <argument type="service" id="event_dispatcher"/>
         </service>
     </services>
 

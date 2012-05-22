@@ -198,6 +198,12 @@ You can display the titi field with
 But this field can't be sortable or filterable because of a limitation of the
 doctrine2 query builder.
 
+Events
+======
+You can modify the way this bundle works by listening events and modify some
+objects injected in the $event.
+
+see the event documentation in Resources/doc/30-Events.md
 
 Reference guide
 ===============

@@ -85,6 +85,12 @@ class GridManager
 
         // execute request
         $query = $gridQueryBuilder->getQuery();
+        if($gridConfig->isUsingGedmoTranslatable()) {
+            $query->setHint(
+                \Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER,
+                'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker'
+            );
+        }
         $itemList = $query->getArrayResult();
 
         // normalize result (for request of type $queryBuilder->select("item, bp, item.id * 3 as titi"); )

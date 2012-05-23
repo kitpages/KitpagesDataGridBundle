@@ -50,3 +50,31 @@ If you want to change the result number on each page for example.
 
     }
 
+Select recursive field
+----------------------
+If you have for exemple a categorie table which as a recursion with parent_id, you must use 
+the leftJoin() condition in your queryBuilder.
+
+    public function gridAction()
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $queryBuilder = $em->createQueryBuilder();
+        $queryBuilder->select(array('c', 'cp'))
+                ->from('My\SiteBundle\Entity\Categorie', 'c')
+                ->leftJoin('c.idParent', 'p');
+
+        $gridConfig = new GridConfig();
+        $gridConfig->setCountFieldName("c.id");
+        $gridConfig->addField(new Field("c.foo");
+        $gridConfig->addField(new Field("c.idParent", array(
+            "label" => "Parent",
+            "formatValueCallback" => function($value) { return (!empty($value)) ? $value['foo'] : 'None'; }
+        )));
+
+        $gridManager = $this->get("kitpages_data_grid.manager");
+        $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $this->getRequest());
+
+        return $this->render('MySiteBundle:Default:grid.html.twig', array(
+            "grid" => $grid
+        ));
+    }

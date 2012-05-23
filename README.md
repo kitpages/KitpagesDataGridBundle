@@ -8,6 +8,19 @@ Actual state
 
 stable, production ready
 
+Features
+========
+
+* Display a Data Grid from a Doctrine 2 Query Builder
+* Automatic filter
+* Sorting on columns
+* Easy to configure
+* Easy to extend
+* Documented (in this readme for basics and in Resources/doc for advanced topics)
+* Paginator can be used as a standalone component
+* Change of DataGrid behaviour with events
+* Change of DataGrid presentation with twig embeds
+
 System Requirement
 ==================
 * jQuery has to be present on your pages
@@ -204,7 +217,7 @@ For request like
 
     $queryBuilder->select("item, item.id * 3 as foo");
 
-You can display the titi field with
+You can display the foo field with
 
     $gridConfig->addField(new Field("foo");
 

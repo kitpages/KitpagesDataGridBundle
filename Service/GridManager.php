@@ -90,6 +90,7 @@ class GridManager
         if ($paginatorConfig == null) {
             $paginatorConfig = new PaginatorConfig();
             $paginatorConfig->setCountFieldName($gridConfig->getCountFieldName());
+            $paginatorConfig->setName($gridConfig->getName());
         }
         $paginator = $this->getPaginator($gridQueryBuilder, $paginatorConfig, $request);
         $grid->setPaginator($paginator);

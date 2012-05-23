@@ -15,6 +15,13 @@ System Requirement
 
 Versions :
 ==========
+2012-05-23 : tag v1.1.0
+
+* added events for modifying the way the grid or the paginator works (see Resources/doc/30-Events.md)
+* modify the default twig in order to remove the filter form from the table. It is useful if you want add
+a form around the grid (let's imagine you add checkboxes on the left of the grid)
+* add documentation in Resources/doc/
+
 2012-05-21 : tag v1.0.1
 
 * composer.json added and link to packagist
@@ -97,7 +104,13 @@ In the controller
             $gridConfig->setCountFieldName("item.id");
             $gridConfig->addField(new Field("item.id"));
             $gridConfig->addField(new Field("item.slug", array("filterable"=>true)));
-            $gridConfig->addField(new Field("item.updatedAt"));
+            $gridConfig->addField(new Field(
+                "item.updatedAt",
+                array(
+                    "sortable"=>true,
+                    "formatValueCallback" => function ($value) { return $value->format("Y/m/d"); }
+                )
+            ));
 
             $gridManager = $this->get("kitpages_data_grid.manager");
             $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $this->getRequest());

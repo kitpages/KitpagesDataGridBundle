@@ -11,5 +11,10 @@
     background-color: #EEE;
 }
 .kit-grid th.kit-grid-sort  {
-    background-color: #EEF;
+    background-color: #ffff66;
+}
+
+.kit-grid .kit-grid-filter {
+    margin-bottom: 3px;
+    margin-left: 10px;
 }

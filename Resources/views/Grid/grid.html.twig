@@ -1,20 +1,18 @@
 {% block kit_grid_css %}<link rel="stylesheet" href="{{ asset('bundles/kitpagesdatagrid/css/base.css') }}"/>{%endblock%}
 <div class="kit-grid">
+    {% block kit_grid_filter %}
+    <div class="kit-grid-filter">
+        <form action="{{ grid.requestUri }}" id="{{grid.filterFormName}}_form" method="GET">
+            <label for="{{grid.filterFormName}}">{{ "Filter" | trans }}</label>
+            <input type="text" name="{{grid.filterFormName}}" id="{{grid.filterFormName}}" size="10" value="{{ grid.filterValue }}"/>
+            <input type="submit" value="{{ "Apply" | trans }}" name="submit"/>
+            <a href="{{ grid.requestUri }}" id="{{grid.filterFormName}}_reset_button">{{ "Reset" | trans }}</a>
+        </form>
+    </div>
+    {% endblock %}
     <table>
         {% block kit_grid_thead %}
         <thead>
-            {% block kit_grid_thead_filter %}
-                <tr>
-                    <th colspan="50" class="kit-grid-thead-filter">
-                        <form action="{{ grid.requestUri }}" id="{{grid.filterFormName}}_form" method="GET">
-                            <label for="{{grid.filterFormName}}">{{ "Filter" | trans }}</label>
-                            <input type="text" name="{{grid.filterFormName}}" id="{{grid.filterFormName}}" size="10" value="{{ grid.filterValue }}"/>
-                            <input type="submit" value="{{ "Apply" | trans }}" name="submit"/>
-                            <a href="{{ grid.requestUri }}" id="{{grid.filterFormName}}_reset_button">{{ "Reset" | trans }}</a>
-                        </form>
-                    </th>
-                </tr>
-            {% endblock %}
         <tr>
             {% block kit_grid_thead_before_column %}{%endblock%}
             {% for field in grid.gridConfig.fieldList %}

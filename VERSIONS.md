@@ -1,5 +1,9 @@
 Versions :
 ==========
+2012-05-23 : tag v1.1.1
+
+* doc refactoring
+
 2012-05-23 : tag v1.1.0
 
 * added events for modifying the way the grid or the paginator works (see Resources/doc/30-Events.md)

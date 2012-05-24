@@ -12,8 +12,8 @@ class UrlTool
 {
     /**
      * @param $url
-     * @param array $mixedKey
-     * @param null $value
+     * @param  array  $mixedKey
+     * @param  null   $value
      * @return string
      */
     public function changeRequestQueryString($url, $mixedKey = array(), $value = null)

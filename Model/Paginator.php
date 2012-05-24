@@ -26,10 +26,12 @@ class Paginator
         for ($i = $this->minPage ; $i <= $this->maxPage ; $i++) {
             $tab[] = $i;
         }
+
         return $tab;
     }
 
-    public function getUrl($key, $val) {
+    public function getUrl($key, $val)
+    {
         return $this->urlTool->changeRequestQueryString(
             $this->requestUri,
             $this->paginatorConfig->getRequestQueryName($key),
@@ -154,6 +156,5 @@ class Paginator
     {
         return $this->requestUri;
     }
-
 
 }

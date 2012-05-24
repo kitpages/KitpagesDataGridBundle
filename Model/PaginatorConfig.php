@@ -16,12 +16,10 @@ class PaginatorConfig
     /** @var string */
     protected $countFieldName = null;
 
-
     public function getRequestQueryName($key)
     {
         return 'kitdg_paginator_'.$this->getName().'_'.$key;
     }
-
 
     /**
      * @param int $itemCountInPage

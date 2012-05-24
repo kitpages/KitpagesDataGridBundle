@@ -26,7 +26,8 @@ class Grid
     /** @var array ($gridQueryBuilder->getRootAliases()) */
     protected $rootAliases = array();
 
-    public function getSortUrl($fieldName) {
+    public function getSortUrl($fieldName)
+    {
         $uri =  $this->urlTool->changeRequestQueryString(
             $this->requestUri,
             $this->getSortFieldFormName(),
@@ -34,22 +35,24 @@ class Grid
         );
         if ($fieldName == $this->getSortField()) {
             $order = ($this->getSortOrder() == "ASC") ? "DESC" : "ASC";
-        }
-        else {
+        } else {
             $order = "ASC";
         }
+
         return $this->urlTool->changeRequestQueryString(
             $uri,
             $this->getSortOrderFormName(),
             $order
         );
     }
-    public function getSortCssClass($fieldName) {
+    public function getSortCssClass($fieldName)
+    {
         $css = "";
         if ($fieldName == $this->getSortField()) {
             $css .= " kit-grid-sort ";
             $css .= " kit-grid-sort-".strtolower($this->getSortOrder())." ";
         }
+
         return $css;
     }
 
@@ -58,7 +61,7 @@ class Grid
         // parse field name and get value after the dot
         $fieldNameTab = explode('.', $field->getFieldName());
 
-        if( in_array($fieldNameTab[0], $this->rootAliases) ) {
+        if ( in_array($fieldNameTab[0], $this->rootAliases) ) {
             array_shift($fieldNameTab);
         }
 
@@ -76,20 +79,18 @@ class Grid
         if ( is_callable( $field->getFormatValueCallback() ) ) {
             $callback = $field->getFormatValueCallback();
             $returnValue =  $callback($value);
-        }
-        elseif (is_scalar($value)) {
+        } elseif (is_scalar($value)) {
             $returnValue = $value;
-        }
-        elseif ($value instanceof \DateTime) {
+        } elseif ($value instanceof \DateTime) {
             $returnValue = $value->format("Y-m-d H:i:s");
-        }
-        else {
+        } else {
             $returnValue = $value;
         }
         // auto escape ?
         if ($field->getAutoEscape()) {
             $returnValue = htmlspecialchars($returnValue);
         }
+
         return $returnValue;
     }
 

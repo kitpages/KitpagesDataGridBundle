@@ -15,8 +15,6 @@ use Kitpages\DataGridBundle\Tool\UrlTool;
 use Kitpages\DataGridBundle\KitpagesDataGridEvents;
 use Kitpages\DataGridBundle\Event\DataGridEvent;
 
-
-
 class GridManager
 {
     /** @var \Symfony\Bundle\DoctrineBundle\Registry */
@@ -24,10 +22,9 @@ class GridManager
     /** @var EventDispatcherInterface */
     protected $dispatcher = null;
 
-
     /**
      * @param \Symfony\Bundle\DoctrineBundle\Registry $doctrine
-     * @param EventDispatcherInterface $dispatcher
+     * @param EventDispatcherInterface                $dispatcher
      */
     public function __construct(
         Registry $doctrine,
@@ -36,7 +33,6 @@ class GridManager
         $this->doctrine = $doctrine;
         $this->dispatcher = $dispatcher;
     }
-
 
     /**
      * @return \Symfony\Bundle\DoctrineBundle\Registry
@@ -60,9 +56,9 @@ class GridManager
     /**
      * get grid object filled
      *
-     * @param \Doctrine\ORM\QueryBuilder $queryBuilder
-     * @param \Kitpages\DataGridBundle\Model\GridConfig $gridConfig
-     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param  \Doctrine\ORM\QueryBuilder                $queryBuilder
+     * @param  \Kitpages\DataGridBundle\Model\GridConfig $gridConfig
+     * @param  \Symfony\Component\HttpFoundation\Request $request
      * @return \Kitpages\DataGridBundle\Model\Grid
      */
     public function getGrid(QueryBuilder $queryBuilder, GridConfig $gridConfig, Request $request)
@@ -130,8 +126,7 @@ class GridManager
                     foreach ($val as $newKey => $newVal) {
                         $normalizedItem[$newKey] = $newVal;
                     }
-                }
-                else {
+                } else {
                     $normalizedItem[$key] = $val;
                 }
             }
@@ -158,7 +153,7 @@ class GridManager
         if (!$event->isDefaultPrevented()) {
             $fieldList = $grid->getGridConfig()->getFieldList();
             $filterRequestList = array();
-            foreach($fieldList as $field) {
+            foreach ($fieldList as $field) {
                 if ($field->getFilterable()) {
                     $filterRequestList[] = $queryBuilder->expr()->like($field->getFieldName(), ":filter");
                 }
@@ -188,7 +183,7 @@ class GridManager
         if (!$event->isDefaultPrevented()) {
             $sortFieldObject = null;
             $fieldList = $grid->getGridConfig()->getFieldList();
-            foreach($fieldList as $field) {
+            foreach ($fieldList as $field) {
                 if ($field->getFieldName() == $sortField) {
                     if ($field->getSortable() == true) {
                         $sortFieldObject = $field;
@@ -216,9 +211,9 @@ class GridManager
     /**
      * get Paginator object
      *
-     * @param \Doctrine\ORM\QueryBuilder $queryBuilder
-     * @param \Kitpages\DataGridBundle\Model\PaginatorConfig $paginatorConfig
-     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param  \Doctrine\ORM\QueryBuilder                     $queryBuilder
+     * @param  \Kitpages\DataGridBundle\Model\PaginatorConfig $paginatorConfig
+     * @param  \Symfony\Component\HttpFoundation\Request      $request
      * @return \Kitpages\DataGridBundle\Model\Paginator
      */
     public function getPaginator(QueryBuilder $queryBuilder, PaginatorConfig $paginatorConfig, Request $request)
@@ -261,10 +256,9 @@ class GridManager
         // calculate total page count
         if ($paginator->getTotalItemCount() == 0) {
             $paginator->setTotalPageCount(0);
-        }
-        else {
+        } else {
             $paginator->setTotalPageCount(
-                (int)((($paginator->getTotalItemCount() - 1) / $paginatorConfig->getItemCountInPage()) + 1)
+                (int) ((($paginator->getTotalItemCount() - 1) / $paginatorConfig->getItemCountInPage()) + 1)
             );
         }
 
@@ -274,7 +268,7 @@ class GridManager
         }
 
         // calculate nbPageLeft and nbPageRight
-        $nbPageLeft = (int)($paginatorConfig->getVisiblePageCountInPaginator() / 2);
+        $nbPageLeft = (int) ($paginatorConfig->getVisiblePageCountInPaginator() / 2);
         $nbPageRight = $paginatorConfig->getVisiblePageCountInPaginator() - 1 - $nbPageLeft ;
 
         // calculate lastPage to display
@@ -289,20 +283,17 @@ class GridManager
         // calculate previousButton
         if ($paginator->getCurrentPage() == 1) {
             $paginator->setPreviousButtonPage(null);
-        }
-        else {
+        } else {
             $paginator->setPreviousButtonPage( $paginator->getCurrentPage() - 1 );
         }
         // calculate nextButton
         if ($paginator->getCurrentPage() == $paginator->getTotalPageCount()) {
             $paginator->setNextButtonPage(null);
-        }
-        else {
+        } else {
             $paginator->setNextButtonPage( $paginator->getCurrentPage() + 1);
         }
 
         return $paginator;
     }
-
 
 }

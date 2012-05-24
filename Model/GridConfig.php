@@ -16,13 +16,13 @@ class GridConfig
     /** @var string */
     protected $countFieldName = null;
 
-
     public function addField($field)
     {
         if (is_string($field)) {
             $field = new Field($field);
         }
         $this->fieldList[] = $field;
+
         return $this;
     }
     /**
@@ -40,7 +40,6 @@ class GridConfig
     {
         return $this->name;
     }
-
 
     /**
      * @param \Doctrine\ORM\QueryBuilder|null $queryBuilder

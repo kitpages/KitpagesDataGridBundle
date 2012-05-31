@@ -4,6 +4,7 @@ namespace Kitpages\DataGridBundle\Model;
 
 use Kitpages\DataGridBundle\Tool\UrlTool;
 use Kitpages\DataGridBundle\Model\Field;
+use Kitpages\DataGridBundle\DataGridException;
 
 class Grid
 {
@@ -78,7 +79,14 @@ class Grid
         // real treatment
         if ( is_callable( $field->getFormatValueCallback() ) ) {
             $callback = $field->getFormatValueCallback();
-            $returnValue =  $callback($value);
+            $reflection = new \ReflectionFunction($callback);
+            if ($reflection->getNumberOfParameters() == 1) {
+                $returnValue =  $callback($value);
+            } elseif ($reflection->getNumberOfParameters() == 2) {
+                $returnValue =  $callback($value, $row);
+            } else {
+                throw new DataGridException("Wrong number of parameters in the callback for field ".$field->getFieldName());
+            }
         } elseif (is_scalar($value)) {
             $returnValue = $value;
         } elseif ($value instanceof \DateTime) {

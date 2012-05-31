@@ -1,5 +1,11 @@
 Versions :
 ==========
+2012-05-31 : tag v1.2.0
+
+* some unit test
+* travis-ci integration
+* an more advanced format callback system. See [Resources/doc/10-GridExtendedUse.md](Resources/doc/10-GridExtendedUse.md)
+
 2012-05-23 : tag v1.1.1
 
 * doc refactoring

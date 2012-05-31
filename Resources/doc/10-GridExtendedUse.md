@@ -78,3 +78,28 @@ the leftJoin() condition in your queryBuilder.
             "grid" => $grid
         ));
     }
+
+formatValueCallback
+-------------------
+If you want to format a data, you can use a simple callback. For example, if a data is a dateTime, you can format
+use that code :
+
+    $gridConfig->addField(new Field(
+        "ol.updatedAt",
+        array(
+            "label" => "Updated at",
+            "sortable"=>true,
+            "formatValueCallback" => function ($value) { return $value->format("Y/m/d"); }
+        )
+    ));
+
+You can also have a second argument in your callback that will receive the entire row received from the query.
+
+    $gridConfig->addField(new Field(
+        "ol.updatedAt",
+        array(
+            "label" => "Date and Id",
+            "sortable"=>true,
+            "formatValueCallback" => function ($value, $row) { return $value->format("Y/m/d").'--'.$row["id"]; }
+        )
+    ));

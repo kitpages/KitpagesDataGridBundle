@@ -36,7 +36,7 @@ class Field
             ) )) {
                 $this->$key = $val;
             } else {
-                throw new InvalidArgumentException("key $key doesn't exist in option list");
+                throw new \InvalidArgumentException("key $key doesn't exist in option list");
             }
         }
     }

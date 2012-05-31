@@ -56,7 +56,7 @@ class PaginatorConfig
     /**
      * @param \Doctrine\ORM\QueryBuilder|null $queryBuilder
      */
-    public function setQueryBuilder($queryBuilder)
+    public function setQueryBuilder(QueryBuilder $queryBuilder)
     {
         $this->queryBuilder = $queryBuilder;
     }

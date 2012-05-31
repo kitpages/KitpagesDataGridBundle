@@ -1,6 +1,8 @@
 KitpagesDataGridBundle
 ========================
 
+[![Build Status](http://travis-ci.org/kitpages/KitpagesDataGridBundle.png)](http://travis-ci.org/#!/kitpages/KitpagesDataGridBundle)
+
 This Symfony2 Bundle is a simple datagrid bundle. It aims to be easy to use and extensible.
 
 Actual state

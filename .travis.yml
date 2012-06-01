@@ -9,8 +9,8 @@ env:
 
 before_script:
   - pear channel-discover pear.phpunit.de
-  - pear install pear install phpunit/DbUnit
-  - vendor/vendors.php
+  - pear install phpunit/DbUnit
+  - php vendor/vendors.php
 
 notifications:
   email:

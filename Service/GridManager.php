@@ -17,29 +17,16 @@ use Kitpages\DataGridBundle\Event\DataGridEvent;
 
 class GridManager
 {
-    /** @var \Symfony\Bundle\DoctrineBundle\Registry */
-    protected $doctrine;
     /** @var EventDispatcherInterface */
     protected $dispatcher = null;
 
     /**
-     * @param \Symfony\Bundle\DoctrineBundle\Registry $doctrine
      * @param EventDispatcherInterface                $dispatcher
      */
     public function __construct(
-        Registry $doctrine,
         EventDispatcherInterface $dispatcher
     ) {
-        $this->doctrine = $doctrine;
         $this->dispatcher = $dispatcher;
-    }
-
-    /**
-     * @return \Symfony\Bundle\DoctrineBundle\Registry
-     */
-    protected function getDoctrine()
-    {
-        return $this->doctrine;
     }
 
     /**

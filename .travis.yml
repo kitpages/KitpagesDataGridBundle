@@ -8,8 +8,7 @@ env:
   - SYMFONY_VERSION=origin/master
 
 before_script:
-  - pear channel-discover pear.phpunit.de
-  - pear install phpunit/DbUnit
+  - pyrus install --force phpunit/DbUnit
   - php vendor/vendors.php
 
 notifications:

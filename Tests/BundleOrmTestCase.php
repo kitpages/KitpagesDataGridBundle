@@ -1,5 +1,4 @@
 <?php
-
 namespace Kitpages\DataGridBundle\Tests;
 
 use Kitpages\DataGridBundle\Tests\SchemaSetupListener;
@@ -8,14 +7,15 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\Common\EventManager;
 use Doctrine\ORM\Configuration;
 use Doctrine\Common\Cache\ArrayCache;
-use Doctrine\ORM\Tools\Setup;
-use Doctrine\ORM\Tools\SchemaTool;
 
 use DoctrineExtensions\PHPUnit\OrmTestCase;
 
 class BundleOrmTestCase
     extends OrmTestCase
 {
+    /**
+     * @return \Doctrine\ORM\EntityManager
+     */
     protected function createEntityManager()
     {
         // event manager used to create schema before tests

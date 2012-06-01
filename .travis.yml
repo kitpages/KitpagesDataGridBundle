@@ -7,7 +7,7 @@ php:
 env:
   - SYMFONY_VERSION=origin/master
 
-before_script: php vendor/vendors.php
+before_script: pear install pear install phpunit/DbUnit && vendor/vendors.php
 
 notifications:
   email:

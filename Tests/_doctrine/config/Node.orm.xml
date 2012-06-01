@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                  http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="Kitpages\DataGridBundle\Tests\TestEntities\Node" table="node">
+
+        <id name="id" type="integer" column="id"/>
+        <field name="content" column="content" type="text" nullable="true" />
+        <field name="user" column="user" type="text" nullable="true" />
+        <field name="createdAt" column="created_at" type="datetime" />
+        <field name="parentId" column="parent_id" type="integer" />
+
+    </entity>
+
+</doctrine-mapping>

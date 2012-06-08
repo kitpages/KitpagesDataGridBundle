@@ -19,11 +19,11 @@ class FieldTest extends \PHPUnit_Framework_TestCase
             "autoEscape" => true,
             "translatable" => true
         ));
-        $this->assertEquals($field->getLabel(), "Phone");
+        $this->assertEquals("Phone", $field->getLabel());
         $this->assertTrue($field->getSortable());
         $this->assertTrue($field->getFilterable());
         $this->assertFalse($field->getVisible());
-        $this->assertNotEquals($field->getFormatValueCallback(), null);
+        $this->assertNotNull($field->getFormatValueCallback());
         $this->assertTrue($field->getFilterable());
         $this->assertTrue($field->getFilterable());
     }
@@ -34,7 +34,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
             $field = new Field("phone", array(
                 "foo" => "bar"
             ));
-            $this->assertTrue(false);
+            $this->fail();
         } catch (\InvalidArgumentException $e) {
             $this->assertTrue(true);
         }

@@ -51,7 +51,7 @@ class BundleOrmTestCase
         $em = EntityManager::create(
             array(
                 'driver' => 'pdo_sqlite',
-                'memory' => true
+                'path' => "/tmp/sqlite-test.db"
             ),
             $config,
             $eventManager

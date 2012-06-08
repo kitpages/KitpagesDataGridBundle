@@ -29,14 +29,6 @@ class GridManager
         $this->dispatcher = $dispatcher;
     }
 
-    /**
-     * @return null|\Symfony\Component\EventDispatcher\EventDispatcherInterface
-     */
-    protected function getDispatcher()
-    {
-        return $this->dispatcher;
-    }
-
     ////
     // grid methods
     ////

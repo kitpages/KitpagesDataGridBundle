@@ -2,6 +2,7 @@
 namespace Kitpages\DataGridBundle\Model;
 
 use Doctrine\ORM\QueryBuilder;
+use Kitpages\DataGridBundle\Model\PaginatorConfig;
 
 class GridConfig
 {
@@ -9,7 +10,7 @@ class GridConfig
     protected $name = "grid";
     /** @var QueryBuilder|null */
     protected $queryBuilder = null;
-    /** @var array */
+    /** @var PaginatorConfig */
     protected $paginatorConfig = null;
     /** @var array */
     protected $fieldList = array();
@@ -58,15 +59,15 @@ class GridConfig
     }
 
     /**
-     * @param array $paginatorConfig
+     * @param PaginatorConfig $paginatorConfig
      */
-    public function setPaginatorConfig($paginatorConfig)
+    public function setPaginatorConfig(PaginatorConfig $paginatorConfig)
     {
         $this->paginatorConfig = $paginatorConfig;
     }
 
     /**
-     * @return array
+     * @return PaginatorConfig
      */
     public function getPaginatorConfig()
     {
@@ -87,6 +88,22 @@ class GridConfig
     public function getFieldList()
     {
         return $this->fieldList;
+    }
+
+    /**
+     * returns the field corresponding to the name
+     *
+     * @param $name
+     * @return Field $field
+     */
+    public function getFieldByName($name)
+    {
+        foreach ($this->fieldList as $field) {
+            if ($field->getFieldName() === $name) {
+                return $field;
+            }
+        }
+        return null;
     }
 
     /**

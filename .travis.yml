@@ -11,6 +11,8 @@ before_script:
   - pyrus install --force phpunit/DbUnit
   - php vendor/vendors.php
 
+script: phpunit --coverage-text
+
 notifications:
   email:
     - travis-ci@kitpages.fr

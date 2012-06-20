@@ -103,3 +103,35 @@ You can also have a second argument in your callback that will receive the entir
             "formatValueCallback" => function ($value, $row) { return $value->format("Y/m/d").'--'.$row["id"]; }
         )
     ));
+
+Add multiple action with checkboxes on the left
+-----------------------------------------------
+
+You can add a form around the datagrid and add any input elements in the datagrid just by extending
+the embeded twig.
+
+Let's see in this example how to add checkboxes on the left of the grid for multiple actions.
+
+    {% embed 'KitpagesDataGridBundle:Grid:grid.html.twig' with {'grid': grid} %}
+
+        {% block kit_grid_before_table %}
+            <form action="{{ path("my_route") }}" method="POST">
+        {% endblock %}
+
+        {% block kit_grid_thead_before_column %}
+            <th>select</th>
+        {% endblock %}
+
+        {% block kit_grid_tbody_before_column %}
+            <td><input type="checkbox" name="check_{{ item.id }}"></td>
+        {% endblock %}
+
+        {% block kit_grid_after_table %}
+            <input type="submit">
+            </form>
+        {% endblock %}
+
+    {% endembed %}
+
+You can see all the extension points of the data grid template in the
+file [views/Grid/grid.html.twig](https://github.com/kitpages/KitpagesDataGridBundle/blob/master/Resources/views/Grid/grid.html.twig)

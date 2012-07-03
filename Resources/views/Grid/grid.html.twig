@@ -1,4 +1,6 @@
 {% block kit_grid_css %}<link rel="stylesheet" href="{{ asset('bundles/kitpagesdatagrid/css/base.css') }}"/>{%endblock%}
+
+{% block kit_grid_main %}
 <div class="kit-grid">
     {% block kit_grid_filter %}
     <div class="kit-grid-filter">
@@ -100,3 +102,4 @@
 })();
 </script>
 {% endblock kit_grid_javascript %}
+{% endblock kit_grid_main %}

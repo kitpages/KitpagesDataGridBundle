@@ -1,4 +1,5 @@
 {% if paginator.totalPageCount > 1%}
+{% block kit_grid_paginator %}
 <div class="kit-grid-paginator">
     {% if paginator.previousButtonPage %}
         <span class="kit-cms-paginator-previous">
@@ -22,4 +23,5 @@
         </span>
     {% endif %}
 </div>
+{% endblock kit_grid_paginator %}
 {% endif %}

@@ -208,7 +208,7 @@ class GridManager
 
         // calculate total object count
         $countQueryBuilder = clone($queryBuilder);
-        $countQueryBuilder->select("count(".$paginatorConfig->getCountFieldName().")");
+        $countQueryBuilder->select("count(DISTINCT ".$paginatorConfig->getCountFieldName().")");
         $countQueryBuilder->setMaxResults(null);
         $countQueryBuilder->setFirstResult(null);
 

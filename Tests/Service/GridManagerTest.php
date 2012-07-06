@@ -66,8 +66,9 @@ class GridManagerTest extends BundleOrmTestCase
         $gridConfig = new GridConfig();
         $gridConfig->setPaginatorConfig($paginatorConfig);
         $gridConfig->setCountFieldName("node.id");
-        $gridConfig->addField(new Field("node.id"));
-        $gridConfig->addField(new Field("node.createdAt",
+        $gridConfig
+            ->addField(new Field("node.id"))
+            ->addField(new Field("node.createdAt",
             array(
                 "sortable"=>true,
                 "formatValueCallback" => function ($value) { return $value->format("Y/m/d"); }

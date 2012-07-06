@@ -28,6 +28,17 @@ System Requirement
 * jQuery has to be present on your pages
 * version 1.8+ of twig is mandatory (use of twig embeds)
 
+Documentation
+=============
+
+The documentation is in this README and in [Resources/doc](Resources/doc)
+
+* [Installation and simple user's guide : In this README](#installation)
+* [Grid Extended Use](Resources/doc/10-GridExtendedUse.md)
+* [Standalone Paginator](Resources/doc/20-StandalonePaginator.md)
+* [Events for extended use case](Resources/doc/30-Events.md)
+
+
 Installation
 ============
 You need to add the following lines in your deps :

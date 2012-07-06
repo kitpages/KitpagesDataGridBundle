@@ -1,4 +1,5 @@
 <?php
+
 namespace Kitpages\DataGridBundle\Model;
 
 use Doctrine\ORM\QueryBuilder;
@@ -7,16 +8,25 @@ use Kitpages\DataGridBundle\Model\PaginatorConfig;
 class GridConfig
 {
     /** @var string */
-    protected $name = "grid";
+    protected $name = 'grid';
+
     /** @var QueryBuilder|null */
     protected $queryBuilder = null;
+
     /** @var PaginatorConfig */
     protected $paginatorConfig = null;
-    /** @var array */
+
+    /** @var array|Field[] */
     protected $fieldList = array();
+
     /** @var string */
     protected $countFieldName = null;
 
+    /**
+     * @param Field $field
+     *
+     * @return GridConfig Fluent interface
+     */
     public function addField($field)
     {
         if (is_string($field)) {
@@ -26,12 +36,17 @@ class GridConfig
 
         return $this;
     }
+
     /**
      * @param string $name
+     *
+     * @return GridConfig Fluent interface
      */
     public function setName($name)
     {
         $this->name = $name;
+
+        return $this;
     }
 
     /**
@@ -44,10 +59,14 @@ class GridConfig
 
     /**
      * @param \Doctrine\ORM\QueryBuilder|null $queryBuilder
+     *
+     * @return GridConfig Fluent interface
      */
     public function setQueryBuilder(QueryBuilder $queryBuilder)
     {
         $this->queryBuilder = $queryBuilder;
+
+        return $this;
     }
 
     /**
@@ -60,10 +79,14 @@ class GridConfig
 
     /**
      * @param PaginatorConfig $paginatorConfig
+     *
+     * @return GridConfig Fluent interface
      */
     public function setPaginatorConfig(PaginatorConfig $paginatorConfig)
     {
         $this->paginatorConfig = $paginatorConfig;
+
+        return $this;
     }
 
     /**
@@ -76,10 +99,14 @@ class GridConfig
 
     /**
      * @param array $fieldList
+     *
+     * @return GridConfig Fluent interface
      */
     public function setFieldList($fieldList)
     {
         $this->fieldList = $fieldList;
+
+        return $this;
     }
 
     /**
@@ -93,8 +120,9 @@ class GridConfig
     /**
      * returns the field corresponding to the name
      *
-     * @param $name
-     * @return Field $field
+     * @param string $name
+     *
+     * @return Field|null $field
      */
     public function getFieldByName($name)
     {
@@ -103,15 +131,20 @@ class GridConfig
                 return $field;
             }
         }
+
         return null;
     }
 
     /**
      * @param string $countFieldName
+     *
+     * @return GridConfig Fluent interface
      */
     public function setCountFieldName($countFieldName)
     {
         $this->countFieldName = $countFieldName;
+
+        return $this;
     }
 
     /**
@@ -121,5 +154,4 @@ class GridConfig
     {
         return $this->countFieldName;
     }
-
 }

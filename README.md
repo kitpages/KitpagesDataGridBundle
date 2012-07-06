@@ -77,27 +77,30 @@ In the controller
         {
             // create query builder
             $repository = $this->getDoctrine()->getRepository('AcmeStoreBundle:Product');
-            $queryBuilder = $repository->createQueryBuilder("item")
-                ->where("item.price > :price")
-                ->setParameter('price', '19.90');
+            $queryBuilder = $repository->createQueryBuilder('item')
+                ->where('item.price > :price')
+                ->setParameter('price', '19.90')
+            ;
 
             $gridConfig = new GridConfig();
-            $gridConfig->setCountFieldName("item.id");
-            $gridConfig->addField(new Field("item.id"));
-            $gridConfig->addField(new Field("item.slug", array("filterable"=>true)));
-            $gridConfig->addField(new Field(
-                "item.updatedAt",
-                array(
-                    "sortable"=>true,
-                    "formatValueCallback" => function ($value) { return $value->format("Y/m/d"); }
-                )
-            ));
+            $gridConfig
+                ->setCountFieldName('item.id')
+                ->addField(new Field('item.id'))
+                ->addField(new Field('item.slug', array('filterable' => true)))
+                ->addField(new Field(
+                    'item.updatedAt',
+                    array(
+                        'sortable' => true,
+                        'formatValueCallback' => function($value) { return $value->format('Y/m/d'); }
+                    )
+                ))
+            ;
 
-            $gridManager = $this->get("kitpages_data_grid.manager");
+            $gridManager = $this->get('kitpages_data_grid.manager');
             $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $this->getRequest());
 
             return $this->render('AppSiteBundle:Default:productList.html.twig', array(
-                "grid" => $grid
+                'grid' => $grid
             ));
         }
     }
@@ -149,25 +152,30 @@ In the controller
             // create query builder
             $em = $this->get('doctrine')->getEntityManager();
             $queryBuilder = $em->createQueryBuilder()
-                ->select("mission, employee, client")
+                ->select('mission, employee, client')
                 ->from('KitappMissionBundle:Mission', 'mission')
                 ->leftJoin('mission.employee', 'employee')
                 ->leftJoin('mission.client', 'client')
                 ->where('mission.state = :state')
                 ->add('orderBy', 'mission.updatedAt DESC')
-                ->setParameter('state', $state);
+                ->setParameter('state', $state)
+            ;
+                
             $gridConfig = new GridConfig();
-            $gridConfig->setCountFieldName("mission.id");
-            $gridConfig->addField(new Field("mission.title", array("label" => "title", "filterable"=>true)));
-            $gridConfig->addField(new Field("mission.country", array("filterable"=>true)));
-            $gridConfig->addField(new Field("client.corporation", array("filterable"=>true)));
-            $gridConfig->addField(new Field("employee.lastname", array("filterable"=>true)));
-            $gridConfig->addField(new Field("employee.email", array("filterable"=>true)));
-            $gridManager = $this->get("kitpages_data_grid.manager");
+            $gridConfig
+                ->setCountFieldName("mission.id");
+                ->addField(new Field('mission.title', array('label' => 'title', 'filterable' => true)))
+                ->addField(new Field('mission.country', array('filterable' => true)))
+                ->addField(new Field('client.corporation', array('filterable' => true)))
+                ->addField(new Field('employee.lastname', array('filterable' => true)))
+                ->addField(new Field('employee.email', array('filterable' => true)))
+            ;
+
+            $gridManager = $this->get('kitpages_data_grid.manager');
             $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $this->getRequest());
 
             return $this->render('KitappMissionBundle:Admin:list.html.twig', array(
-                "grid" => $grid
+                'grid' => $grid
             ));
         }
     }
@@ -205,14 +213,14 @@ Add a field in the gridConfig
 -----------------------------
 when you add a field, you can set these parameters :
 
-    $gridConfig->addField(new Field("slug", array(
-        "label" => "Mon slug",
-        "sortable" => false,
-        "visible" => true,
-        "filterable"=>true,
-        "translatable"=>true,
-        "formatValueCallback" => function($value) {return strtoupper($value);},
-        "autoEscape" => true
+    $gridConfig->addField(new Field('slug', array(
+        'label' => 'Mon slug',
+        'sortable' => false,
+        'visible' => true,
+        'filterable' => true,
+        'translatable' => true,
+        'formatValueCallback' => function($value) { return strtoupper($value); },
+        'autoEscape' => true,
     )));
 
 What can you personalize in your twig template

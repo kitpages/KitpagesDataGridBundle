@@ -6,27 +6,40 @@ use Doctrine\ORM\QueryBuilder;
 class PaginatorConfig
 {
     /** @var string */
-    protected $name = "paginator";
+    protected $name = 'paginator';
+
     /** @var QueryBuilder|null */
     protected $queryBuilder = null;
+
     /** @var int */
     protected $itemCountInPage = 50;
+
     /** @var int */
     protected $visiblePageCountInPaginator = 5;
+
     /** @var string */
     protected $countFieldName = null;
 
+    /**
+     * @param string $key
+     *
+     * @return string
+     */
     public function getRequestQueryName($key)
     {
-        return 'kitdg_paginator_'.$this->getName().'_'.$key;
+        return 'kitdg_paginator_' . $this->getName() . '_' . $key;
     }
 
     /**
      * @param int $itemCountInPage
+     *
+     * @return PaginatorConfig Fluent interface
      */
     public function setItemCountInPage($itemCountInPage)
     {
         $this->itemCountInPage = $itemCountInPage;
+
+        return $this;
     }
 
     /**
@@ -39,10 +52,14 @@ class PaginatorConfig
 
     /**
      * @param string $name
+     *
+     * @return PaginatorConfig Fluent interface
      */
     public function setName($name)
     {
         $this->name = $name;
+
+        return $this;
     }
 
     /**
@@ -55,10 +72,14 @@ class PaginatorConfig
 
     /**
      * @param \Doctrine\ORM\QueryBuilder|null $queryBuilder
+     *
+     * @return PaginatorConfig Fluent interface
      */
     public function setQueryBuilder(QueryBuilder $queryBuilder)
     {
         $this->queryBuilder = $queryBuilder;
+
+        return $this;
     }
 
     /**
@@ -71,10 +92,14 @@ class PaginatorConfig
 
     /**
      * @param int $visiblePageCountInPaginator
+     *
+     * @return PaginatorConfig Fluent interface
      */
     public function setVisiblePageCountInPaginator($visiblePageCountInPaginator)
     {
         $this->visiblePageCountInPaginator = $visiblePageCountInPaginator;
+
+        return $this;
     }
 
     /**
@@ -87,10 +112,14 @@ class PaginatorConfig
 
     /**
      * @param string $countFieldName
+     *
+     * @return PaginatorConfig Fluent interface
      */
     public function setCountFieldName($countFieldName)
     {
         $this->countFieldName = $countFieldName;
+
+        return $this;
     }
 
     /**
@@ -100,5 +129,4 @@ class PaginatorConfig
     {
         return $this->countFieldName;
     }
-
 }

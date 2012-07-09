@@ -9,3 +9,5 @@ Contributors
 ------------
 Valentin Ferriere (twitter : @choomz, github: choomz)
 Sébastien Lefebre (github : kitpagesSeb)
+Benjamin Dulau (twitter: @Delendial , github : benjamindulau)
+Thimothée Barray (twitter : @timbarray, github: tyx )

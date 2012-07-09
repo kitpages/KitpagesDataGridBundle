@@ -1,10 +1,17 @@
 Versions :
 ==========
-2012-05-31 : tag v1.2.0
 
-* some unit test
+2012-07-09 : tag v1.2.0
+
+* More documentation
+* a fluent interface
+* small bug fixes (line count for group by queries)
+* unit testing
+* code cleaning
+* twig templates more flexible
 * travis-ci integration
 * an more advanced format callback system. See [Resources/doc/10-GridExtendedUse.md](Resources/doc/10-GridExtendedUse.md)
+* 2 new contributors
 
 2012-05-23 : tag v1.1.1
 

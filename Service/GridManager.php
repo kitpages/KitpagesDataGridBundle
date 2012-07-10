@@ -229,8 +229,12 @@ class GridManager
         // from the paginatorQueryBuilder in the listener and reinject it in the event.
         $query = $event->get("query");
 
-        $totalCount = $query->getSingleScalarResult();
-        $paginator->setTotalItemCount($totalCount);
+        try {
+            $totalCount = $query->getSingleScalarResult();
+            $paginator->setTotalItemCount($totalCount);
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            $paginator->setTotalItemCount(0);
+        }
 
         // calculate total page count
         if ($paginator->getTotalItemCount() == 0) {

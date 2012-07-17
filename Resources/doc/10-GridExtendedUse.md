@@ -108,6 +108,32 @@ You can also have a second argument in your callback that will receive the entir
         )
     ));
 
+Render the item value with a twig template
+------------------------------------------
+
+You can format a data with a twig template by using the callback system :
+
+    // get templating service
+    $twig = $this->get('templating');
+    // add the field
+    $gridConfig->addField(new Field(
+        'ol.updatedAt',
+        array(
+            "formatValueCallback"=>function($value, $row) use ($twig) {
+                return $twig->render("AppSiteBundle:Default:grid-element.html.twig", $row);
+            },
+            "autoEscape" => false
+        )
+    ));
+
+And the twig file could be grid-element.html.twig in the right bundle :
+
+    <strong>
+      id={{id}}<br/>
+      date={{updatedAt | date ("Y/m/d") }}
+    </strong>
+
+
 Add multiple action with checkboxes on the left
 -----------------------------------------------
 

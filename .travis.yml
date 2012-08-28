@@ -8,6 +8,7 @@ env:
   - SYMFONY_VERSION=origin/2.0
 
 before_script:
+  - pyrus channel-discover pear.symfony.com
   - pyrus install --force phpunit/DbUnit
   - php vendor/vendors.php
 

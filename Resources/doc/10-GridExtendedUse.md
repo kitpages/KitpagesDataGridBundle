@@ -108,6 +108,30 @@ You can also have a second argument in your callback that will receive the entir
         )
     ));
 
+Grid with a "GROUP BY" querybuilder
+-----------------------------------
+For group by queries, watch out for the count field name you define. In the count query
+for the paginator, the groupBy part is removed form the queryBuilder and a distinct is
+added before the count field.
+
+    // create query builder
+    $repository = $this->getDoctrine()->getRepository('AcmeStoreBundle:Product');
+    $queryBuilder = $repository->createQueryBuilder("item")
+        ->select('item.type, count(item.id) as cnt')
+        ->groupBy('item.type')
+        ->where('item.price > :price')
+        ->setParameter('price', '19.90')
+    ;
+
+    $gridConfig = new GridConfig();
+    $gridConfig
+        ->setCountFieldName('item.type')
+        ->addField(new Field('item.type'))
+        ->addField(new Field('cnt'))
+    ;
+
+
+
 Render the item value with a twig template
 ------------------------------------------
 

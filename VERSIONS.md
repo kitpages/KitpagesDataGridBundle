@@ -1,6 +1,14 @@
 Versions :
 ==========
 
+2012-08-28 : tag v1.3.0
+
+* manage "group by" requests (thanks to tyx)
+* docs : render a cell with a twig file
+* docs : group by queries
+* fix : travis configuration
+* fix : composer dependency
+
 2012-07-09 : tag v1.2.0
 
 * More documentation

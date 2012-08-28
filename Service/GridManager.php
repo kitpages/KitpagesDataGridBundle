@@ -211,6 +211,7 @@ class GridManager
         $countQueryBuilder->select("count(DISTINCT ".$paginatorConfig->getCountFieldName().")");
         $countQueryBuilder->setMaxResults(null);
         $countQueryBuilder->setFirstResult(null);
+        $countQueryBuilder->resetDQLPart('groupBy');
 
         // event to change paginator query builder
         $event = new DataGridEvent();

@@ -4,13 +4,10 @@ php:
   - 5.3
   - 5.4
 
-env:
-  - SYMFONY_VERSION=origin/2.0
-
 before_script:
   - pyrus channel-discover pear.symfony.com
   - pyrus install --force phpunit/DbUnit
-  - php vendor/vendors.php
+  - composer install --dev --prefer-source
 
 script: phpunit --coverage-text
 

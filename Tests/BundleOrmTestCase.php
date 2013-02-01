@@ -35,8 +35,9 @@ class BundleOrmTestCase
             $prefixList[$dir] = 'Kitpages\DataGridBundle\Tests\TestEntities';
         }
         // create drivers (that reads xml configs)
-        $driver = new \Symfony\Bridge\Doctrine\Mapping\Driver\XmlDriver($configPathList);
-        $driver->setNamespacePrefixes($prefixList);
+//        $driver = new \Doctrine\ORM\Mapping\Driver\SimplifiedXmlDriver($configPathList);
+        $driver = new \Doctrine\ORM\Mapping\Driver\SimplifiedXmlDriver($prefixList);
+//        $driver->setNamespacePrefixes($prefixList);
 
         // create config object
         $config = new Configuration();

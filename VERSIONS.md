@@ -1,6 +1,11 @@
 Versions :
 ==========
 
+2013-03-12 : tag v1.4.0
+
+* unit test updated for composer and sf2.1
+* readme updated for sf2.1
+
 2012-08-28 : tag v1.3.0
 
 * manage "group by" requests (thanks to tyx)

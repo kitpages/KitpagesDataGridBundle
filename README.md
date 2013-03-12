@@ -43,20 +43,30 @@ Installation
 ============
 You need to add the following lines in your deps :
 
-    [DataGridBundle]
-        git=git://github.com/kitpages/KitpagesDataGridBundle.git
-        target=Kitpages/DataGridBundle
+Add KitpagesChainBundle in your composer.json
 
-in autoload.php, you have to add :
+```js
+{
+    "require": {
+        "kitpages/data-grid-bundle": "*"
+    }
+}
+```
 
-    'Kitpages'         => __DIR__.'/../vendor',
+Now tell composer to download the bundle by running the step:
+
+``` bash
+$ php composer.phar update kitpages/data-grid-bundle
+```
 
 AppKernel.php
 
-    $bundles = array(
-        ...
-        new Kitpages\DataGridBundle\KitpagesDataGridBundle(),
-    );
+``` php
+$bundles = array(
+    ...
+    new Kitpages\DataGridBundle\KitpagesDataGridBundle(),
+);
+```
 
 Configuration in config.yml
 ===========================

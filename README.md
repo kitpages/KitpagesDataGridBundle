@@ -31,12 +31,12 @@ System Requirement
 Documentation
 =============
 
-The documentation is in this README and in [Resources/doc](Resources/doc)
+The documentation is in this README and in [Resources/doc](https://github.com/kitpages/KitpagesDataGridBundle/tree/master/Resources/doc)
 
 * [Installation and simple user's guide : In this README](#installation)
-* [Grid Extended Use](Resources/doc/10-GridExtendedUse.md)
-* [Standalone Paginator](Resources/doc/20-StandalonePaginator.md)
-* [Events for extended use case](Resources/doc/30-Events.md)
+* [Grid Extended Use](https://github.com/kitpages/KitpagesDataGridBundle/tree/master/Resources/doc/10-GridExtendedUse.md)
+* [Standalone Paginator](https://github.com/kitpages/KitpagesDataGridBundle/tree/master/Resources/doc/20-StandalonePaginator.md)
+* [Events for extended use case](https://github.com/kitpages/KitpagesDataGridBundle/tree/master/Resources/doc/30-Events.md)
 
 
 Installation

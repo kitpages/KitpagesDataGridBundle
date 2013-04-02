@@ -83,6 +83,46 @@ the leftJoin() condition in your queryBuilder.
         ));
     }
 
+Select collection from a 1-n relationship
+-----------------------------------------
+If you have for exemple an article with a comments property wich is a 1-n relationship. You have the article id and you want to create a grid for the article's comments :
+
+    public function gridAction()
+    {
+        $manager = $this->getDoctrine()->getManager();
+        
+        /* @var $qb \Doctrine\ORM\QueryBuilder */
+        $qb = $manager->createQueryBuilder('comments-list');
+        $qb->select('c1')
+            ->from('Acme\MyBundle\Entity\Comment', 'c1')
+            ->where(
+                $qb->expr()->in(
+                    'c1.id', 
+                    $manager->createQueryBuilder('articles')
+                        ->select('c2.id')
+                        ->from('Acme\MyBundle\Entity\Article', 'a')
+                        ->join('a.comments', 'c2')
+                        ->where('a.id = :id_article')
+                        ->getDQL()
+                )
+            )
+            ->orderBy('c1.created', 'DESC')
+            ->setParameter('id_article', $articleId)
+        ;
+
+        $gridConfig = new GridConfig();
+        $gridConfig->setCountFieldName("c1.id");
+        $gridConfig->addField(new Field("c1.comment", array("label" => "Comment")));
+        $gridConfig->addField(new Field("c1.author", array("label" => "Author", "filterable" => true, "sortable" => true)));
+
+        $gridManager = $this->get("kitpages_data_grid.manager");
+        $grid = $gridManager->getGrid($qb, $gridConfig, $this->getRequest());
+
+        return $this->render('MySiteBundle:Default:grid.html.twig', array(
+            'grid' => $grid
+        ));
+    }
+
 formatValueCallback
 -------------------
 If you want to format a data, you can use a simple callback. For example, if a data is a dateTime, you can format

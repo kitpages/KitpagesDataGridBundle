@@ -12,6 +12,13 @@
         </form>
     </div>
     {% endblock %}
+    {% block kit_grid_debug %}
+        {% if grid.isDebug %}
+        <pre>
+            {{ dump(grid.itemList) }}
+        </pre>
+        {% endif %}
+    {% endblock %}
     {{ block('kit_grid_before_table') }}
     <table>
         {% block kit_grid_thead %}

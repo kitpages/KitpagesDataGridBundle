@@ -26,6 +26,8 @@ class Grid
     protected $sortOrder = null;
     /** @var array ($gridQueryBuilder->getRootAliases()) */
     protected $rootAliases = array();
+    /** @var bool */
+    protected $isDebug = false;
 
     public function getSortUrl($fieldName)
     {
@@ -244,4 +246,22 @@ class Grid
     {
         return $this->sortOrder;
     }
+
+    /**
+     * @param boolean $isDebug
+     */
+    public function setIsDebug($isDebug)
+    {
+        $this->isDebug = $isDebug;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getIsDebug()
+    {
+        return $this->isDebug;
+    }
+
+
 }

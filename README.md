@@ -78,43 +78,45 @@ Simple Usage example
 In the controller
 -----------------
 
-    use Kitpages\DataGridBundle\Model\GridConfig;
-    use Kitpages\DataGridBundle\Model\Field;
+```php
+use Kitpages\DataGridBundle\Model\GridConfig;
+use Kitpages\DataGridBundle\Model\Field;
 
-    class ContactController
+class ContactController
+{
+    public function productListAction()
     {
-        public function productListAction()
-        {
-            // create query builder
-            $repository = $this->getDoctrine()->getRepository('AcmeStoreBundle:Product');
-            $queryBuilder = $repository->createQueryBuilder('item')
-                ->where('item.price > :price')
-                ->setParameter('price', '19.90')
-            ;
+        // create query builder
+        $repository = $this->getDoctrine()->getRepository('AcmeStoreBundle:Product');
+        $queryBuilder = $repository->createQueryBuilder('item')
+            ->where('item.price > :price')
+            ->setParameter('price', '19.90')
+        ;
 
-            $gridConfig = new GridConfig();
-            $gridConfig
-                ->setCountFieldName('item.id')
-                ->addField(new Field('item.id'))
-                ->addField(new Field('item.slug', array('filterable' => true)))
-                ->addField(new Field(
-                    'item.updatedAt',
-                    array(
-                        'sortable' => true,
-                        'formatValueCallback' => function($value) { return $value->format('Y/m/d'); }
-                    )
-                ))
-            ;
+        $gridConfig = new GridConfig();
+        $gridConfig
+            ->setCountFieldName('item.id')
+            ->addField(new Field('item.id'))
+            ->addField(new Field('item.slug', array('filterable' => true)))
+            ->addField(new Field(
+                'item.updatedAt',
+                array(
+                    'sortable' => true,
+                    'formatValueCallback' => function($value) { return $value->format('Y/m/d'); }
+                )
+            ))
+        ;
 
-            $gridManager = $this->get('kitpages_data_grid.manager');
-            $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $this->getRequest());
+        $gridManager = $this->get('kitpages_data_grid.manager');
+        $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $this->getRequest());
 
-            return $this->render('AppSiteBundle:Default:productList.html.twig', array(
-                'grid' => $grid
-            ));
-        }
+        return $this->render('AppSiteBundle:Default:productList.html.twig', array(
+            'grid' => $grid
+        ));
     }
-    ?>
+}
+?>
+```
 
 Twig associated
 ---------------
@@ -122,6 +124,18 @@ In your twig you just have to put this code to display the grid you configured.
 
     {% embed 'KitpagesDataGridBundle:Grid:grid.html.twig' with {'grid': grid} %}
     {% endembed %}
+
+Debug system
+------------
+If you want to see which data are available, you can do that :
+
+```php
+        $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $this->getRequest());
+        $grid->setIsDebug(true);
+        return $this->render('AppSiteBundle:Default:productList.html.twig', array(
+            'grid' => $grid
+        ));
+```
 
 More advanced usage
 ===================

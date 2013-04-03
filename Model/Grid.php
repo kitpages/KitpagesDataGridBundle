@@ -143,6 +143,14 @@ class Grid
         return $this->itemList;
     }
 
+    public function dump()
+    {
+        $html = '<pre class="kit-grid-debug">';
+        $html .= print_r($this->itemList);
+        $html .= '</pre>';
+        return $html;
+    }
+
     /**
      * @param array $rootAliases
      */

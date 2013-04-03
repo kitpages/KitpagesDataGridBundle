@@ -14,9 +14,7 @@
     {% endblock %}
     {% block kit_grid_debug %}
         {% if grid.isDebug %}
-        <pre>
-            {{ dump(grid.itemList) }}
-        </pre>
+            {{ grid.dump() }}
         {% endif %}
     {% endblock %}
     {{ block('kit_grid_before_table') }}

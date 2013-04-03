@@ -14,7 +14,7 @@
     {% endblock %}
     {% block kit_grid_debug %}
         {% if grid.isDebug %}
-            {{ grid.dump() }}
+            {{ grid.dump() | raw }}
         {% endif %}
     {% endblock %}
     {{ block('kit_grid_before_table') }}

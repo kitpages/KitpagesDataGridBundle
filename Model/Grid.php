@@ -72,7 +72,7 @@ class Grid
         while (count($fieldNameTab) > 0) {
             $fieldName = array_shift($fieldNameTab);
             // get parameter in the $row
-            $value = $row[$fieldName];
+            $value = $value[$fieldName];
         }
 
 //        $fieldName = array_shift($fieldNameTab);

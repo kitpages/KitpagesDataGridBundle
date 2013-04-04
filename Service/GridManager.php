@@ -212,6 +212,7 @@ class GridManager
         $countQueryBuilder->setMaxResults(null);
         $countQueryBuilder->setFirstResult(null);
         $countQueryBuilder->resetDQLPart('groupBy');
+        $countQueryBuilder->resetDQLPart('orderBy');
 
         // event to change paginator query builder
         $event = new DataGridEvent();

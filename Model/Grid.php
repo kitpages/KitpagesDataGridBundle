@@ -72,6 +72,9 @@ class Grid
         while (count($fieldNameTab) > 0) {
             $fieldName = array_shift($fieldNameTab);
             // get parameter in the $row
+            if (!array_key_exists($fieldName, $value)) {
+                throw new DataGridException("key=$fieldName not found in array=".print_r($value, true));
+            }
             $value = $value[$fieldName];
         }
 

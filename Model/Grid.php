@@ -29,6 +29,11 @@ class Grid
     /** @var bool */
     protected $isDebug = false;
 
+    public function __construct()
+    {
+
+    }
+
     public function getSortUrl($fieldName)
     {
         $uri =  $this->urlTool->changeRequestQueryString(

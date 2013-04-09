@@ -50,6 +50,94 @@ If you want to change the result number on each page for example.
         ));
     }
 
+Format some fields system wide
+------------------------------
+You can change the way datagrid displays a date for your entire website. Or you want add a link around every email.
+
+You can use events to do that :
+
+Before rendering a field, the datagrid sends an event KitpagesDataGridEvents::ON_DISPLAY_GRID_VALUE_CONVERSION that can
+replace the standard rendering way to display a field.
+
+After the default formatting, another event KitpagesDataGridEvents::AFTER_DISPLAY_GRID_VALUE_CONVERSION is sent.
+You can still here make some small modifications on the display result.
+
+We will create a EventListener to change the way to display these fields:
+
+```php
+<?php
+namespace App\SiteBundle\EventListener;
+
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Kitpages\DataGridBundle\KitpagesDataGridEvents;
+use Kitpages\DataGridBundle\Event\DataGridEvent;
+
+class DataGridConversionSubscriber
+    implements EventSubscriberInterface
+{
+    public static function getSubscribedEvents()
+    {
+        return array(
+            KitpagesDataGridEvents::ON_DISPLAY_GRID_VALUE_CONVERSION => 'onConversion',
+            KitpagesDataGridEvents::AFTER_DISPLAY_GRID_VALUE_CONVERSION => 'afterConversion'
+        );
+    }
+
+    public function onConversion(DataGridEvent $event)
+    {
+        // prevent default formatting
+        $event->preventDefault();
+
+        // get value to display
+        $value = $event->get("value");
+
+        // datetime formatting
+        if ($value instanceof \DateTime) {
+            $formatter = new \IntlDateFormatter(
+                'fr',
+                \IntlDateFormatter::LONG,
+                \IntlDateFormatter::SHORT,
+                $value->getTimezone()->getName(),
+                \IntlDateFormatter::GREGORIAN
+            );
+            $event->set("returnValue", $formatter->format($value->getTimestamp()));
+            return;
+        }
+
+        // email formating (note the way the autoEscape is modified)
+        $field = $event->get("field");
+        if (strpos($field->getFieldName(), "email") !== false) {
+            $field->setAutoEscape(false);
+            $ret = '<a href="mailto:'.$value.'">'.$value.'</a>';
+            $event->set("returnValue", $ret);
+            return;
+        }
+
+        // for the other cases, copy the value to the return value
+        $event->set("returnValue", $value);
+    }
+
+    public function afterConversion(DataGridEvent $event)
+    {
+        // set to uppercase all lastnames
+        $field = $event->get("field");
+        if (strpos(strtolower($field->getFieldName()), "lastname") !== false) {
+            $event->set("returnValue", strtoupper($event->get("returnValue"));
+            return;
+        }
+    }
+}
+
+```
+
+And add the subscriber to the event listener. This is an example in a service.xml.
+```xml
+<service id="app_site.data_grid_conversion" class="App\SiteBundle\EventListener\DataGridConversionSubscriber">
+    <tag name="kernel.event_subscriber" />
+</service>
+```
+
+
 Select recursive field
 ----------------------
 If you have for exemple a categorie table which as a recursion with parent_id, you must use 

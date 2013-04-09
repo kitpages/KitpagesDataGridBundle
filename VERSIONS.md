@@ -1,6 +1,10 @@
 Versions :
 ==========
 
+2013-04-10 : tag v1.6.0
+
+* new : global formatting system with events (see [doc](https://github.com/kitpages/KitpagesDataGridBundle/blob/master/Resources/doc/10-GridExtendedUse.md#format-some-fields-system-wide) )
+
 2013-04-09 : tag v1.5.0
 
 * fix: for accessing data with join relations
@@ -31,7 +35,7 @@ Versions :
 * code cleaning
 * twig templates more flexible
 * travis-ci integration
-* an more advanced format callback system. See [Resources/doc/10-GridExtendedUse.md](Resources/doc/10-GridExtendedUse.md)
+* an more advanced format callback system. See [Resources/doc/10-GridExtendedUse.md](https://github.com/kitpages/KitpagesDataGridBundle/blob/master/Resources/doc/10-GridExtendedUse.md)
 * 2 new contributors
 
 2012-05-23 : tag v1.1.1

@@ -18,7 +18,7 @@ use Kitpages\DataGridBundle\Event\DataGridEvent;
 class GridManager
 {
     /** @var EventDispatcherInterface */
-    protected $dispatcher = null;
+    protected $dispatcher;
 
     /**
      * @param EventDispatcherInterface                $dispatcher
@@ -47,6 +47,7 @@ class GridManager
         $grid->setGridConfig($gridConfig);
         $grid->setUrlTool(new UrlTool());
         $grid->setRequestUri($request->getRequestUri());
+        $grid->setDispatcher($this->dispatcher);
 
         // create base request
         $gridQueryBuilder = clone($queryBuilder);

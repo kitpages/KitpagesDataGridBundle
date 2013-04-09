@@ -14,4 +14,7 @@ final class KitpagesDataGridEvents
 
     const ON_APPLY_SORT = "kitpages_data_grid.on_apply_sort";
     const AFTER_APPLY_SORT = "kitpages_data_grid.after_apply_sort";
+
+    const ON_DISPLAY_GRID_VALUE_CONVERSION = "kitpages_data_grid.on_display_grid_value_conversion";
+    const AFTER_DISPLAY_GRID_VALUE_CONVERSION = "kitpages_data_grid.after_display_grid_value_conversion";
 }

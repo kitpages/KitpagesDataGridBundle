@@ -3,6 +3,9 @@ namespace Kitpages\DataGridBundle\Tests\Model;
 
 use Kitpages\DataGridBundle\Model\Grid;
 use Kitpages\DataGridBundle\Model\Field;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Kitpages\DataGridBundle\Tests\Model\ConversionSubscriber;
+
 
 class GridTest extends \PHPUnit_Framework_TestCase
 {
@@ -11,8 +14,11 @@ class GridTest extends \PHPUnit_Framework_TestCase
     private $row;
     public function setUp()
     {
+        $dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher');
+
         $this->grid = new Grid();
         $this->grid->setRootAliases(array("shopOrder"));
+        $this->grid->setDispatcher($dispatcher);
         $this->now = new \DateTime();
         $this->row = array(
             "id" => 12,
@@ -114,5 +120,32 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('TEST COMPANY;12', $displayValue);
         $displayValue = $this->grid->displayGridValue($this->row, $this->mockField);
         $this->assertEquals('&lt;A&gt;;12', $displayValue);
+    }
+
+    public function testDisplayGridValueConvertionEvent()
+    {
+        $this->mockField->expects($this->any())
+            ->method('getAutoEscape')
+            ->will($this->returnValue(true));
+
+        $this->mockField->expects($this->any())
+            ->method('getFieldName')
+            ->will($this->returnValue('company.name'));
+
+        $subscriber = new ConversionSubscriber();
+        $dispatcher = new EventDispatcher();
+        $dispatcher->addSubscriber($subscriber);
+        $this->grid->setDispatcher($dispatcher);
+
+        $displayValue = $this->grid->displayGridValue($this->row, $this->mockField);
+        $this->assertEquals('12;Test Company', $displayValue);
+
+        $subscriber->setIsDefaultPrevented(true);
+        $displayValue = $this->grid->displayGridValue($this->row, $this->mockField);
+        $this->assertEquals('company.name;preventDefault;Test Company', $displayValue);
+
+        $subscriber->setAfterActivated(true);
+        $displayValue = $this->grid->displayGridValue($this->row, $this->mockField);
+        $this->assertEquals('after;company.name;preventDefault;Test Company', $displayValue);
     }
 }

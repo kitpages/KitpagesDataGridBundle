@@ -5,6 +5,10 @@ namespace Kitpages\DataGridBundle\Model;
 use Kitpages\DataGridBundle\Tool\UrlTool;
 use Kitpages\DataGridBundle\Model\Field;
 use Kitpages\DataGridBundle\DataGridException;
+use Kitpages\DataGridBundle\Event\DataGridEvent;
+use Kitpages\DataGridBundle\KitpagesDataGridEvents;
+
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Grid
 {
@@ -28,10 +32,12 @@ class Grid
     protected $rootAliases = array();
     /** @var bool */
     protected $isDebug = false;
+    /** @var EventDispatcherInterface */
+    protected $dispatcher = null;
+
 
     public function __construct()
     {
-
     }
 
     public function getSortUrl($fieldName)
@@ -97,12 +103,24 @@ class Grid
             } else {
                 throw new DataGridException("Wrong number of parameters in the callback for field ".$field->getFieldName());
             }
-        } elseif (is_scalar($value)) {
-            $returnValue = $value;
-        } elseif ($value instanceof \DateTime) {
-            $returnValue = $value->format("Y-m-d H:i:s");
         } else {
-            $returnValue = $value;
+            // send event for changing grid query builder
+            $event = new DataGridEvent();
+            $event->set("value", $value);
+            $event->set("row", $row);
+            $event->set("field", $field);
+            $this->dispatcher->dispatch(KitpagesDataGridEvents::ON_DISPLAY_GRID_VALUE_CONVERSION, $event);
+            if (!$event->isDefaultPrevented()) {
+                $value = $event->get("value");
+                if ($value instanceof \DateTime) {
+                    $returnValue = $value->format("Y-m-d H:i:s");
+                } else {
+                    $returnValue = $value;
+                }
+                $event->set("returnValue", $returnValue);
+            }
+            $this->dispatcher->dispatch(KitpagesDataGridEvents::AFTER_DISPLAY_GRID_VALUE_CONVERSION, $event);
+            $returnValue = $event->get("returnValue");
         }
         // auto escape ?
         if ($field->getAutoEscape()) {
@@ -284,5 +302,20 @@ class Grid
         return $this->isDebug;
     }
 
+    /**
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
+     */
+    public function setDispatcher(EventDispatcherInterface $dispatcher)
+    {
+        $this->dispatcher = $dispatcher;
+    }
+
+    /**
+     * @return \Symfony\Component\EventDispatcher\EventDispatcherInterface
+     */
+    public function getDispatcher()
+    {
+        return $this->dispatcher;
+    }
 
 }

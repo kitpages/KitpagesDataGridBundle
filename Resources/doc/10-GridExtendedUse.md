@@ -137,6 +137,8 @@ And add the subscriber to the event listener. This is an example in a service.xm
 </service>
 ```
 
+(Note that these events are not sent if a formatValueCallback is given for a field.)
+
 
 Select recursive field
 ----------------------

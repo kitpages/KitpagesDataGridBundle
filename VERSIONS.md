@@ -1,6 +1,14 @@
 Versions :
 ==========
 
+2013-04-09 : tag v1.5.0
+
+* fix: for accessing data with join relations
+* new: error messages more readable during twig displaying
+* test: much more unit tests on the Grid::displayGridValue(). Very sensitive method...
+* doc: more documentation (thanks to @choomz)
+* new : a (ridiculously simple) debug system
+
 2013-03-12 : tag v1.4.0
 
 * unit test updated for composer and sf2.1

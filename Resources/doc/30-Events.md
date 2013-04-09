@@ -289,3 +289,52 @@ Allow to modify the query of the paginator
             // operation : do what you want
         }
     }
+
+kitpages_data_grid.on_display_grid_value_conversion
+---------------------------------------------------
+Allow to reformat value displayed in a grid on this all application
+
+```php
+namespace App\SiteBundle\EventListener;
+
+use Kitpages\DataGridBundle\Event\DataGridEvent;
+
+class GridListener
+{
+    public function onConversion(DataGridEvent $event)
+    {
+        $event->preventDefault(); // remove default formating
+        $value = $event->get("value");
+        if ($value instanceof \DateTime) {
+            $returnValue = $value->format("m/d/Y");
+        } else {
+            $returnValue = $value;
+        }
+        $event->set("returnValue", $returnValue);
+
+        // accessible values in event:
+        $event->get("field"); // field
+        $event->get("row"); // entire row
+    }
+}
+```
+
+kitpages_data_grid.after_display_grid_value_conversion
+---------------------------------------------------
+Allow to reformat value displayed in a grid on this all application, but post default processing.
+
+This example transform result to uppercase
+
+```php
+namespace App\SiteBundle\EventListener;
+
+use Kitpages\DataGridBundle\Event\DataGridEvent;
+
+class GridListener
+{
+    public function afterConversion(DataGridEvent $event)
+    {
+        $event->set("returnValue", strtoupper($event->get("returnValue")));
+    }
+}
+```

@@ -35,7 +35,7 @@ If you want to change the result number on each page for example.
         ;
 
         // paginator configuration
-        $gridPaginatorConfig = new PaginatorConfig()
+        $gridPaginatorConfig = new PaginatorConfig();
         $gridPaginatorConfig
             ->setName($gridConfig->getName())
             ->setCountFieldName($gridConfig->getCountFieldName())

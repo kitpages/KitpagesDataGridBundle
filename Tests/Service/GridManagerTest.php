@@ -206,6 +206,50 @@ class GridManagerTest extends BundleOrmTestCase
         // simple callback
     }
 
+    /*
+     * Test added following this issue : https://github.com/kitpages/KitpagesDataGridBundle/issues/18
+     * But I can't reproduce that bug...
+     * TODO: go back here later and reproduce this issue...
+     */
+    public function testGridLeftJoin()
+    {
+        // create EventDispatcher mock
+        $service = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher');
+        // create Request mock (ok this is not a mock....)
+        $request = new \Symfony\Component\HttpFoundation\Request();
+        $request->query->set("kitdg_paginator_paginator_currentPage", 2);
+        // create gridManager instance
+        $gridManager = new GridManager($service);
+
+        // create queryBuilder
+        $em = $this->getEntityManager();
+        $repository = $em->getRepository('Kitpages\DataGridBundle\Tests\TestEntities\Node');
+        $queryBuilder = $repository->createQueryBuilder("node");
+        $queryBuilder->select("DISTINCT(node.id), node, count(sn.id) as intervals")
+            ->leftJoin('node.subNodeList', 'sn')
+            ->groupBy('node.id')
+            ->orderBy('node.id', 'ASC');
+
+        $gridConfig = $this->initGridConfig();
+        $gridConfig->addField(new Field("doubleId"));
+
+        // get paginator
+        $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $request);
+        $paginator = $grid->getPaginator();
+
+        // tests paginator
+        $this->assertEquals(11, $paginator->getTotalItemCount());
+
+        // grid test
+        $itemList = $grid->getItemList();
+        $this->assertEquals( 3 , count($itemList));
+        $this->assertEquals( "paginator", $paginator->getPaginatorConfig()->getName());
+        $this->assertEquals( 2, $paginator->getCurrentPage() );
+        $this->assertEquals( 1, $paginator->getPreviousButtonPage());
+        $this->assertEquals( 3, $paginator->getNextButtonPage());
+        // simple callback
+    }
+
     public function testGridFilter()
     {
         // create EventDispatcher mock

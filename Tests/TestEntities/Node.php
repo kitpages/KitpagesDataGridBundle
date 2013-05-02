@@ -9,6 +9,8 @@ class Node
     protected $content;
     protected $createdAt;
     protected $parentId;
+    protected $subNodeList;
+    protected $mainNode;
 
     public function setContent($content)
     {
@@ -59,4 +61,26 @@ class Node
     {
         return $this->user;
     }
+
+    public function setMainNode($mainNode)
+    {
+        $this->mainNode = $mainNode;
+    }
+
+    public function getMainNode()
+    {
+        return $this->mainNode;
+    }
+
+    public function setSubNodeList($subNodeList)
+    {
+        $this->subNodeList = $subNodeList;
+    }
+
+    public function getSubNodeList()
+    {
+        return $this->subNodeList;
+    }
+
+
 }

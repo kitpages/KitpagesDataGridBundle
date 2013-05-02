@@ -12,6 +12,11 @@
         <field name="createdAt" column="created_at" type="datetime" />
         <field name="parentId" column="parent_id" type="integer" />
 
+        <one-to-many field="subNodeList" target-entity="Kitpages\DataGridBundle\Tests\TestEntities\Node" mapped-by="mainNode" />
+        <many-to-one field="mainNode" target-entity="Kitpages\DataGridBundle\Tests\TestEntities\Node" inversed-by="subNodeList">
+            <join-column name="mainNodeId" referenced-column-name="id" />
+        </many-to-one>
+
     </entity>
 
 </doctrine-mapping>

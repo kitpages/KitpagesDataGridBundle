@@ -1,6 +1,10 @@
 Versions :
 ==========
 
+2013-05-02 : tag v1.6.1
+
+* fix following issue #18 : https://github.com/kitpages/KitpagesDataGridBundle/issues/18
+
 2013-04-10 : tag v1.6.0
 
 * new : global formatting system with events (see [doc](https://github.com/kitpages/KitpagesDataGridBundle/blob/master/Resources/doc/10-GridExtendedUse.md#format-some-fields-system-wide) )

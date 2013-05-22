@@ -245,6 +245,8 @@ when you add a field, you can set these parameters :
         'translatable' => true,
         'formatValueCallback' => function($value) { return strtoupper($value); },
         'autoEscape' => true,
+        'category' => null, // only used by you for checking this value in your events if you want to...
+        'nullIfNotExists' => false, // for leftJoin, if value is not defined, this can return null instead of an exception
     )));
 
 What can you personalize in your twig template

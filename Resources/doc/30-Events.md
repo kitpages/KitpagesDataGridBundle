@@ -292,7 +292,7 @@ Allow to modify the query of the paginator
 
 kitpages_data_grid.on_display_grid_value_conversion
 ---------------------------------------------------
-Allow to reformat value displayed in a grid on this all application
+Allow to reformat value displayed in a grid on this entire application.
 
 ```php
 namespace App\SiteBundle\EventListener;
@@ -334,7 +334,9 @@ class GridListener
 {
     public function afterConversion(DataGridEvent $event)
     {
-        $event->set("returnValue", strtoupper($event->get("returnValue")));
+        if ($event->get("field")->getCategory() == "need_uppercase") {
+            $event->set("returnValue", strtoupper($event->get("returnValue")));
+        }
     }
 }
 ```

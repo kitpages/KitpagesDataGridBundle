@@ -1,6 +1,13 @@
 Versions :
 ==========
 
+2013-05-22 : tag v1.7.0
+
+* add category parameter in fields. This value is not used internally. You can use it for whatever. It can be useful
+for a global formatting of fields with convertion events (seen kitpages_data_grid.on_display_grid_value_conversion)
+* add a nullIfNotExists in fields. If you want to display values of a leftJoin query, if there is no value, you can
+get an exception. With this value set to true, null is returned without any exception.
+
 2013-05-02 : tag v1.6.1
 
 * fix following issue #18 : https://github.com/kitpages/KitpagesDataGridBundle/issues/18

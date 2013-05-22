@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
 <dataset>
     <node id="1" content="foobar" user="joe" created_at="2010-04-24 17:15:23" parent_id=""/>
-    <node id="2" content="I like it!" user="toto" created_at="2010-04-26 12:14:20" parent_id="1"/>
-    <node id="3" content="I like it!" user="toto" created_at="2010-04-27 12:14:20" parent_id="1"/>
+    <node id="2" content="I like it!" user="toto" created_at="2010-04-26 12:14:20" parent_id="1"  mainNodeId="1"/>
+    <node id="3" content="I like it!" user="toto" created_at="2010-04-27 12:14:20" parent_id="1"  mainNodeId="1"/>
     <node id="4" content="Hello bob" user="toto" created_at="2010-04-28 12:14:20" parent_id="2"/>
     <node id="5" content="I like it!" user="toto" created_at="2010-04-29 12:14:20" parent_id=""/>
     <node id="6" content="Hello robert" user="foouser" created_at="2010-04-26 12:14:20" parent_id=""/>

@@ -17,7 +17,9 @@ class FieldTest extends \PHPUnit_Framework_TestCase
             "visible" => false,
             "formatValueCallback" => function($value) { return strtoupper($value);},
             "autoEscape" => true,
-            "translatable" => true
+            "translatable" => true,
+            'category' => "my.category",
+            'nullIfNotExists' => true
         ));
         $this->assertEquals("Phone", $field->getLabel());
         $this->assertTrue($field->getSortable());
@@ -25,7 +27,11 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($field->getVisible());
         $this->assertNotNull($field->getFormatValueCallback());
         $this->assertTrue($field->getFilterable());
-        $this->assertTrue($field->getFilterable());
+        $this->assertEquals("my.category", $field->getCategory());
+        $this->assertTrue( $field->getNullIfNotExists());
+
+        $field = new Field("test");
+        $this->assertFalse( $field->getNullIfNotExists());
     }
 
     public function testWrongParameterConstructor()

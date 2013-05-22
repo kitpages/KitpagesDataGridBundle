@@ -249,6 +249,74 @@ class GridManagerTest extends BundleOrmTestCase
         $this->assertEquals( 3, $paginator->getNextButtonPage());
         // simple callback
     }
+    /*
+     *
+     */
+    public function testGridLeftJoinWithoutGroupBy()
+    {
+        // create EventDispatcher mock
+        $service = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher');
+        // create Request mock (ok this is not a mock....)
+        $request = new \Symfony\Component\HttpFoundation\Request();
+        // create gridManager instance
+        $gridManager = new GridManager($service);
+
+        // create queryBuilder
+        $em = $this->getEntityManager();
+        $repository = $em->getRepository('Kitpages\DataGridBundle\Tests\TestEntities\Node');
+        $queryBuilder = $repository->createQueryBuilder("node");
+        $queryBuilder->select("node", "mainNode")
+            ->leftJoin('node.mainNode', 'mainNode');
+
+        $gridConfig = $this->initGridConfig();
+        $nodeIdField = new Field("node.id");
+        $gridConfig->addField($nodeIdField);
+        $mainNodeIdField = new Field("node.mainNode.id");
+        $gridConfig->addField($mainNodeIdField);
+
+        // get paginator
+        $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $request);
+        $paginator = $grid->getPaginator();
+
+        // tests paginator
+        $this->assertEquals(11, $paginator->getTotalItemCount());
+
+        // grid test
+        $itemList = $grid->getItemList();
+        $this->assertEquals( 3 , count($itemList));
+
+        $cnt = 0;
+        foreach($itemList as $item) {
+//            var_dump($item);
+            $cnt ++;
+            $nodeId = $grid->displayGridValue($item, $nodeIdField);
+            $this->assertEquals($cnt, $nodeId);
+            try {
+                $mainNodeId = $grid->displayGridValue($item, $mainNodeIdField);
+                if ($cnt == 1) {
+                    $this->fail("node 1 should not have a parentId");
+                } else {
+                    $this->assertEquals($mainNodeId, 1);
+                }
+            } catch (\Exception $e) {
+                $this->assertEquals($cnt, 1);
+            }
+        }
+
+        $mainNodeIdField->setNullIfNotExists(true);
+        $cnt = 0;
+        foreach($itemList as $item) {
+            $cnt ++;
+            $nodeId = $grid->displayGridValue($item, $nodeIdField);
+            $this->assertEquals($cnt, $nodeId);
+            $mainNodeId = $grid->displayGridValue($item, $mainNodeIdField);
+            if ($cnt == 1) {
+                $this->assertTrue(is_null($mainNodeId));
+            } else {
+                $this->assertEquals(1, $mainNodeId);
+            }
+        }
+    }
 
     public function testGridFilter()
     {

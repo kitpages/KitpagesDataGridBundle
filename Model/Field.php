@@ -19,6 +19,10 @@ class Field
     protected $autoEscape = true;
     /** @var boolean */
     protected $translatable = false;
+    /** @var string  */
+    protected $category = null;
+    /** @var bool */
+    protected $nullIfNotExists = false;
 
     public function __construct($fieldName, $optionList = array())
     {
@@ -32,7 +36,9 @@ class Field
                 "visible",
                 "formatValueCallback",
                 "autoEscape",
-                "translatable"
+                "translatable",
+                "category",
+                "nullIfNotExists"
             ) )) {
                 $this->$key = $val;
             } else {
@@ -167,6 +173,38 @@ class Field
     public function getTranslatable()
     {
         return $this->translatable;
+    }
+
+    /**
+     * @param string $category
+     */
+    public function setCategory($category)
+    {
+        $this->category = $category;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param boolean $nullIfNotExists
+     */
+    public function setNullIfNotExists($nullIfNotExists)
+    {
+        $this->nullIfNotExists = $nullIfNotExists;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getNullIfNotExists()
+    {
+        return $this->nullIfNotExists;
     }
 
 }

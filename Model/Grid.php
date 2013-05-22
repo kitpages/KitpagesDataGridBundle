@@ -79,19 +79,25 @@ class Grid
             array_shift($fieldNameTab);
         }
 
+        $setToNull = false;
         $value = $row;
         while (count($fieldNameTab) > 0) {
             $fieldName = array_shift($fieldNameTab);
+            // return null if not found and nullIfNotExists to true
+            if ( ( !( is_array($value) && array_key_exists($fieldName, $value) ) ) && $field->getNullIfNotExists() ) {
+                $setToNull = true;
+                $value = null;
+                break;
+            }
             // get parameter in the $row
+            if (!is_array($value)) {
+                throw new DataGridException("for key=$fieldName (origin=".$field->getFieldName().") value should be an array and it is not one. value=".print_r($value, true));
+            }
             if (!array_key_exists($fieldName, $value)) {
-                throw new DataGridException("key=$fieldName not found in array=".print_r($value, true));
+                throw new DataGridException("key=$fieldName (origin=".$field->getFieldName().") not found in array=".print_r($value, true));
             }
             $value = $value[$fieldName];
         }
-
-//        $fieldName = array_shift($fieldNameTab);
-//        $value = $row[$fieldNameTab];
-
         // real treatment
         if ( is_callable( $field->getFormatValueCallback() ) ) {
             $callback = $field->getFormatValueCallback();
@@ -122,11 +128,10 @@ class Grid
             $this->dispatcher->dispatch(KitpagesDataGridEvents::AFTER_DISPLAY_GRID_VALUE_CONVERSION, $event);
             $returnValue = $event->get("returnValue");
         }
-        // auto escape ?
-        if ($field->getAutoEscape()) {
+        // auto escape ? (if null, return null, without autoescape...)
+        if ($field->getAutoEscape() && !is_null($returnValue)) {
             $returnValue = htmlspecialchars($returnValue);
         }
-
         return $returnValue;
     }
 

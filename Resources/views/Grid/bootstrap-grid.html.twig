@@ -1,0 +1,109 @@
+{% block kit_grid_css %}<link rel="stylesheet" href="{{ asset('bundles/kitpagesdatagrid/css/base.css') }}"/>{%endblock%}
+
+{% block kit_grid_main %}
+<div class="kit-grid-bootstrap">
+    {% block kit_grid_filter %}
+    <div class="clearfix">
+        <form class="form-search pull-right" action="{{ grid.requestUri }}" id="{{grid.filterFormName}}_form" method="GET">
+            <input class="input-medium search-query" type="text" name="{{grid.filterFormName}}" placeholder="{{ "Filter" | trans }}" id="{{grid.filterFormName}}" value="{{ grid.filterValue }}"/>
+            <button type="submit" class="btn" value="{{ "Apply" | trans }}">{{ "Apply" | trans }}</button>
+            <a class="btn btn-mini" href="{{ grid.requestUri }}" id="{{grid.filterFormName}}_reset_button">{{ "Reset" | trans }}</a>
+        </form>
+    </div>
+    {% endblock %}
+    {% block kit_grid_debug %}
+        {% if grid.isDebug %}
+            {{ grid.dump() | raw }}
+        {% endif %}
+    {% endblock %}
+    {{ block('kit_grid_before_table') }}
+    <table class="table table-striped table-bordered table-hover">
+        {% block kit_grid_thead %}
+        <thead>
+        <tr>
+            {{ block('kit_grid_thead_before_column') }}
+            {% for field in grid.gridConfig.fieldList %}
+                {% if field.visible %}
+                    <th class="{{ grid.getSortCssClass(field.fieldName) }}">
+                        {% if field.sortable %}
+                            <a href="{{ grid.getSortUrl(field.fieldName) }}">{{ field.label | trans }}</a>
+                        {% else %}
+                            {{ field.label | trans }}
+                        {% endif %}
+                    </th>
+                {% endif %}
+            {% endfor %}
+            {{ block('kit_grid_thead_column') }}
+        </tr>
+        </thead>
+        {% endblock %}
+        {% block kit_grid_tbody %}
+        <tbody>
+        {% for item in grid.itemList %}
+            <tr class="{% if loop.index % 2 == 0 %}kit-grid-even {% else %}kit-grid-odd {% endif %}">
+                {% block kit_grid_tbody_before_column %}{%endblock%}
+                {% for field in grid.gridConfig.fieldList %}
+                    {% if field.visible %}
+                        <td class="kit-grid-cell-{{ field.fieldName | replace({'.': '-'}) }}">
+                            {% if field.translatable %}
+                                {{ grid.displayGridValue ( item, field) | raw | trans }}
+                            {% else %}
+                                {{ grid.displayGridValue ( item, field) | raw }}
+                            {% endif %}
+                        </td>
+                    {% endif %}
+                {% endfor %}
+                {{ block('kit_grid_tbody_column') }}
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="{{ grid.gridConfig.fieldList | length }}" class="kit-grid-no-data">{{ "No data found" | trans }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        {% endblock %}
+    </table>
+    {{ block('kit_grid_after_table') }}
+    {% block kit_grid_paginator %}
+        {% embed 'KitpagesDataGridBundle:Paginator:bootstrap-paginator.html.twig' with {'paginator':grid.paginator} %}
+        {% endembed %}
+    {% endblock %}
+    {{ block(' kit_grid_after_paginator') }}
+</div>
+{% block kit_grid_javascript %}
+<script>
+(function() {
+    var insertParamInQueryString = function (key, value)
+    {
+        key = escape(key); value = escape(value);
+        var kvp = document.location.search.substr(1).split('&');
+        var i=kvp.length; var x; while(i--)
+        {
+            x = kvp[i].split('=');
+            if (x[0]==key)
+            {
+                x[1] = value;
+                kvp[i] = x.join('=');
+                break;
+            }
+        }
+        if(i<0) {
+            kvp[kvp.length] = [key,value].join('=');
+        }
+        //this will reload the page, it's likely better to store this until finished
+        document.location.search = kvp.join('&');
+    }
+    $('#{{grid.filterFormName}}_form').submit(function(e) {
+        e.preventDefault();
+        value = $('#{{grid.filterFormName}}').val();
+        insertParamInQueryString('{{grid.filterFormName}}',value);
+    });
+    $('#{{grid.filterFormName}}_reset_button').click(function(e) {
+        e.preventDefault();
+        insertParamInQueryString('{{grid.filterFormName}}',"");
+    });
+
+})();
+</script>
+{% endblock kit_grid_javascript %}
+{% endblock kit_grid_main %}

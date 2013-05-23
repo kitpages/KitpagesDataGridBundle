@@ -1,6 +1,10 @@
 Versions :
 ==========
 
+2013-05-23 : tag v1.8.0
+
+* add a twitter bootstrap layout for the datagrid
+
 2013-05-22 : tag v1.7.0
 
 * add category parameter in fields. This value is not used internally. You can use it for whatever. It can be useful

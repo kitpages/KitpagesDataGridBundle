@@ -45,14 +45,23 @@ class Grid
 
     public function getSelectorUrl($selectorField, $selectorValue)
     {
-        $uri =  $this->urlTool->changeRequestQueryString(
-            $this->requestUri,
-            array(
-                $this->getSelectorFieldFormName() => $selectorField,
-                $this->getSelectorValueFormName() => $selectorValue
-            )
-        );
-
+        if (!$this->isSelectorSelected($selectorField, $selectorValue)) {
+            $uri =  $this->urlTool->changeRequestQueryString(
+                $this->requestUri,
+                array(
+                    $this->getSelectorFieldFormName() => $selectorField,
+                    $this->getSelectorValueFormName() => $selectorValue
+                )
+            );
+        } else {
+            $uri =  $this->urlTool->changeRequestQueryString(
+                $this->requestUri,
+                array(
+                    $this->getSelectorFieldFormName() => '',
+                    $this->getSelectorValueFormName() => ''
+                )
+            );
+        }
         return $uri;
     }
 

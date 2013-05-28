@@ -238,6 +238,17 @@ You can also have a second argument in your callback that will receive the entir
         )
     ));
 
+
+Add selector action (to filter on a field with a value)
+-------------------------------------------------------
+You can add button action filters with
+
+    $gridConfig->addSelector(array('label' => 'button label', 'field' => 'c1.author', 'value' => 'Arthur Rimbaud'));
+    $gridConfig->addSelector(array('label' => 'button label2', 'field' => 'c1.author', 'value' => 'Paul Verlaine'));
+    $gridConfig->addSelector(array('label' => 'button label3', 'field' => 'c1.comment', 'value' => 'No comment'));
+
+
+
 Grid with a "GROUP BY" querybuilder
 -----------------------------------
 For group by queries, watch out for the count field name you define. In the count query

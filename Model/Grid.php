@@ -40,6 +40,19 @@ class Grid
     {
     }
 
+    public function getSelectorUrl($selectorField, $selectorValue)
+    {
+        $uri =  $this->urlTool->changeRequestQueryString(
+            $this->requestUri,
+            array(
+                $this->getSelectorFieldFormName() => $selectorField,
+                $this->getSelectorValueFormName() => $selectorValue
+            )
+        );
+
+        return $uri;
+    }
+
     public function getSortUrl($fieldName)
     {
         $uri =  $this->urlTool->changeRequestQueryString(
@@ -146,6 +159,36 @@ class Grid
     public function getSortOrderFormName()
     {
         return "kitdg_grid_".$this->getGridConfig()->getName()."_sort_order";
+    }
+    public function getSelectorCssSelected($selectorField, $selectorValue)
+    {
+        if ($this->isSelectorSelected($selectorField, $selectorValue)) {
+            return "kit-grid-selector-selected";
+        } else {
+            return ;
+        }
+    }
+    public function isSelectorSelected($selectorField, $selectorValue)
+    {
+        if ($this->getSelectorField() == $selectorField
+            && $this->getSelectorValue() == $selectorValue) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function getSelectorFieldFormName()
+    {
+        return "kitdg_grid_".$this->getGridConfig()->getName()."_selector_field";
+    }
+    public function getSelectorValueFormName()
+    {
+        return "kitdg_grid_".$this->getGridConfig()->getName()."_selector_value";
+    }
+
+    public function getGridCssName()
+    {
+        return 'kit-grid-'.$this->getGridConfig()->getName();
     }
 
     /**
@@ -289,6 +332,38 @@ class Grid
     public function getSortOrder()
     {
         return $this->sortOrder;
+    }
+
+    /**
+     * @param string $selectorField
+     */
+    public function setSelectorField($selectorField)
+    {
+        $this->selectorField = $selectorField;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSelectorField()
+    {
+        return $this->selectorField;
+    }
+
+    /**
+     * @param string $selectorValue
+     */
+    public function setSelectorValue($selectorValue)
+    {
+        $this->selectorValue = $selectorValue;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSelectorValue()
+    {
+        return $this->selectorValue;
     }
 
     /**

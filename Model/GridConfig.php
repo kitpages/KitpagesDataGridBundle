@@ -19,6 +19,9 @@ class GridConfig
     /** @var array|Field[] */
     protected $fieldList = array();
 
+    /** @var array|Selector[] */
+    protected $selectorList = array();
+
     /** @var string */
     protected $countFieldName = null;
 
@@ -154,4 +157,38 @@ class GridConfig
     {
         return $this->countFieldName;
     }
+
+    /**
+     * @param array
+     *
+     * @return GridConfig Fluent interface
+     */
+    public function addSelector($selector)
+    {
+        $this->selectorList[] = $selector;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getSelectorList()
+    {
+        return $this->selectorList;
+    }
+
+    /**
+     * @param array $selectorList
+     *
+     * @return GridConfig Fluent interface
+     */
+    public function setSelectorList($selectorList)
+    {
+        $this->selectorList = $selectorList;
+
+        return $this;
+    }
+
+
 }

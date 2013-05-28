@@ -12,6 +12,9 @@ final class KitpagesDataGridEvents
     const ON_APPLY_FILTER = "kitpages_data_grid.on_apply_filter";
     const AFTER_APPLY_FILTER = "kitpages_data_grid.after_apply_filter";
 
+    const ON_APPLY_SELECTOR = "kitpages_data_grid.on_apply_selector";
+    const AFTER_APPLY_SELECTOR = "kitpages_data_grid.after_apply_selector";
+
     const ON_APPLY_SORT = "kitpages_data_grid.on_apply_sort";
     const AFTER_APPLY_SORT = "kitpages_data_grid.after_apply_sort";
 

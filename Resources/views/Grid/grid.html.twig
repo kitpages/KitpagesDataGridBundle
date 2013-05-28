@@ -1,7 +1,14 @@
 {% block kit_grid_css %}<link rel="stylesheet" href="{{ asset('bundles/kitpagesdatagrid/css/base.css') }}"/>{%endblock%}
 
 {% block kit_grid_main %}
-<div class="kit-grid">
+<div class="kit-grid {{ grid.getGridCssName }}">
+    {% block kit_grid_selector %}
+        <div class="kit-grid-selector">
+            {% for selector in grid.gridConfig.selectorList %}
+                <a href="{{ grid.getSelectorUrl(selector.field, selector.value) }}" class="kit-grid-selector {{ grid.getSelectorCssSelected(selector.field, selector.value) }}" >{{ selector.label }}</a>
+            {% endfor %}
+        </div>
+    {% endblock %}
     {% block kit_grid_filter %}
     <div class="kit-grid-filter">
         <form action="{{ grid.requestUri }}" id="{{grid.filterFormName}}_form" method="GET">

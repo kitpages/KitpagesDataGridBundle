@@ -56,6 +56,11 @@ class GridManager
         $filter = $request->query->get($grid->getFilterFormName(),"");
         $this->applyFilter($gridQueryBuilder, $grid, $filter);
 
+        // Apply selector
+        $selectorField = $request->query->get($grid->getSelectorFieldFormName(),"");
+        $selectorValue = $request->query->get($grid->getSelectorValueFormName(),"");
+        $this->applySelector($gridQueryBuilder, $grid, $selectorField, $selectorValue);
+
         // Apply sorting
         $sortField = $request->query->get($grid->getSortFieldFormName(),"");
         $sortOrder = $request->query->get($grid->getSortOrderFormName(),"");
@@ -148,6 +153,28 @@ class GridManager
             $grid->setFilterValue($filter);
         }
         $this->dispatcher->dispatch(KitpagesDataGridEvents::AFTER_APPLY_FILTER, $event);
+    }
+
+    protected function applySelector(QueryBuilder $queryBuilder, Grid $grid, $selectorField, $selectorValue)
+    {
+        if (!$selectorField || !$selectorValue) {
+            return;
+        }
+        $event = new DataGridEvent();
+        $event->set("grid", $grid);
+        $event->set("gridQueryBuilder", $queryBuilder);
+        $event->set("selectorField", $selectorField);
+        $event->set("selectorValue", $selectorValue);
+        $this->dispatcher->dispatch(KitpagesDataGridEvents::ON_APPLY_SELECTOR, $event);
+
+        if (!$event->isDefaultPrevented()) {
+            $queryBuilder->andWhere($selectorField." = :selectorValue");
+            $queryBuilder->setParameter("selectorValue", $selectorValue);
+
+            $grid->setSelectorField($selectorField);
+            $grid->setSelectorValue($selectorValue);
+        }
+        $this->dispatcher->dispatch(KitpagesDataGridEvents::AFTER_APPLY_SELECTOR, $event);
     }
 
     protected function applySort(QueryBuilder $gridQueryBuilder, Grid $grid, $sortField, $sortOrder)

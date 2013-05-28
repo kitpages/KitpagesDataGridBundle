@@ -34,7 +34,10 @@ class Grid
     protected $isDebug = false;
     /** @var EventDispatcherInterface */
     protected $dispatcher = null;
-
+    /** @var string */
+    protected $selectorField = null;
+    /** @var string */
+    protected $selectorValue = null;
 
     public function __construct()
     {

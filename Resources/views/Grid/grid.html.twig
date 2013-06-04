@@ -3,11 +3,13 @@
 {% block kit_grid_main %}
 <div class="kit-grid {{ grid.getGridCssName }}">
     {% block kit_grid_selector %}
+        {% if grid.gridConfig.selectorList != null %}
         <div class="kit-grid-selector">
             {% for selector in grid.gridConfig.selectorList %}
                 <a href="{{ grid.getSelectorUrl(selector.field, selector.value) }}" class="kit-grid-selector {{ grid.getSelectorCssSelected(selector.field, selector.value) }}" >{{ selector.label }}</a>
             {% endfor %}
         </div>
+        {% endif %}
     {% endblock %}
     {% block kit_grid_filter %}
     <div class="kit-grid-filter">

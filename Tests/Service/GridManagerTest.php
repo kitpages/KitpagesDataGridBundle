@@ -83,7 +83,7 @@ class GridManagerTest extends BundleOrmTestCase
         $paginator = $gridManager->getPaginator($queryBuilder, $paginatorConfig, $request);
 
         // tests
-        $this->assertEquals(5, $paginator->getTotalItemCount());
+        $this->assertEquals(6, $paginator->getTotalItemCount());
 
         $this->assertEquals(2, $paginator->getTotalPageCount());
 
@@ -356,10 +356,50 @@ class GridManagerTest extends BundleOrmTestCase
         $itemList = $grid->getItemList();
         $this->assertEquals( 6 , $itemList[0]["id"]);
 
-        $request->query->set("kitdg_grid_grid_filter", "unknown_string");
+        $request->query->set("kitdg_grid_grid_filter", "foo");
         $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $request);
         $itemList = $grid->getItemList();
-        $this->assertEquals( 0 , count($itemList));
+        $this->assertEquals( 3 , count($itemList));
+
+    }
+
+    public function testGridUtf8Filter()
+    {
+        // create EventDispatcher mock
+        $service = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher');
+        // create Request mock (ok this is not a mock....)
+        $request = new \Symfony\Component\HttpFoundation\Request();
+        $request->query->set("kitdg_grid_grid_filter", "foouser");
+        $request->query->set("kitdg_grid_grid_sort_field", "node.createdAt");
+        $request->query->set("kitdg_paginator_paginator_currentPage", 2);
+        // create gridManager instance
+        $gridManager = new GridManager($service);
+
+        // create queryBuilder
+        $em = $this->getEntityManager();
+        $repository = $em->getRepository('Kitpages\DataGridBundle\Tests\TestEntities\Node');
+        $queryBuilder = $repository->createQueryBuilder("node");
+        $queryBuilder->select("node");
+
+        $gridConfig = $this->initGridConfig();
+
+        // get paginator
+        $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $request);
+        $paginator = $grid->getPaginator();
+
+        // tests paginator
+        $this->assertEquals(2, $paginator->getTotalItemCount());
+
+        // grid test
+        $itemList = $grid->getItemList();
+        $this->assertEquals( 2 , count($itemList));
+        $this->assertEquals( 8 , $itemList[0]["id"]);
+        $this->assertEquals( 1 , $paginator->getCurrentPage());
+
+        $request->query->set("kitdg_grid_grid_filter", "fös");
+        $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $request);
+        $itemList = $grid->getItemList();
+        $this->assertEquals( 1 , count($itemList));
 
     }
 

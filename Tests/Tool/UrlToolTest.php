@@ -30,5 +30,21 @@ class UrlToolTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertEquals("/titi?key1=val1&key2=val2&key3=val3", $newUrl);
     }
-
+    public function testChangeRequestUtf8QueryString()
+    {
+        $urlTool = new UrlTool();
+        $url = "/titi?key1=val1&key2=val2";
+        $newUrl = $urlTool->changeRequestQueryString(
+            $url,
+            "key1",
+            "fös"
+        );
+        $this->assertEquals("/titi?key1=f%C3%B6s&key2=val2", $newUrl);
+        $newUrl = $urlTool->changeRequestQueryString(
+            $newUrl,
+            "key3",
+            "mystring=-+ glou"
+        );
+        $this->assertEquals("/titi?key1=f%C3%B6s&key2=val2&key3=mystring%3D-%2B%20glou", $newUrl);
+    }
 }

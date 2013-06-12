@@ -6,9 +6,9 @@
     <node id="4" content="Hello bob" user="toto" created_at="2010-04-28 12:14:20" parent_id="2"/>
     <node id="5" content="I like it!" user="toto" created_at="2010-04-29 12:14:20" parent_id=""/>
     <node id="6" content="Hello robert" user="foouser" created_at="2010-04-26 12:14:20" parent_id=""/>
-    <node id="7" content="I like it!" user="toto" created_at="2010-04-17 12:14:20" parent_id=""/>
+    <node id="7" content="I like it!" user="fös" created_at="2010-04-17 12:14:20" parent_id=""/>
     <node id="8" content="Hello foo" user="foouser" created_at="2010-04-18 12:14:20" parent_id=""/>
-    <node id="9" content="I like it!" user="foo" created_at="2010-04-19 12:14:20" parent_id=""/>
+    <node id="9" content="I fös it!" user="foo" created_at="2010-04-19 12:14:20" parent_id=""/>
     <node id="10" content="I like it!" user="bar" created_at="2010-04-20 12:14:20" parent_id="" mainNodeId="1"/>
     <node id="11" content="I like it!" user="toto" created_at="2010-04-21 12:14:20" parent_id="" mainNodeId="1"/>
 </dataset>

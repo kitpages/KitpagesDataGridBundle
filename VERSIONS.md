@@ -1,6 +1,16 @@
 Versions :
 ==========
 
+2013-06-12 : tag v1.10.0
+
+* fix : change url encoding in urlTools (+ phpunit)
+* fix : change url encoding in javascript
+* refactor : common javascript for every themes
+
+2013-06-04 : tag v1.9.0
+
+* add selectors for predefined filters : (see [doc](https://github.com/kitpages/KitpagesDataGridBundle/blob/master/Resources/doc/10-GridExtendedUse.md#add-selector-action-to-filter-on-a-field-with-a-value) )
+
 2013-05-23 : tag v1.8.0
 
 * add a twitter bootstrap layout for the datagrid

@@ -81,39 +81,6 @@
     {{ block(' kit_grid_after_paginator') }}
 </div>
 {% block kit_grid_javascript %}
-<script>
-(function() {
-    var insertParamInQueryString = function (key, value)
-    {
-        key = encodeURIComponent(key); value = encodeURIComponent(value);
-        var kvp = document.location.search.substr(1).split('&');
-        var i=kvp.length; var x; while(i--)
-        {
-            x = kvp[i].split('=');
-            if (x[0]==key)
-            {
-                x[1] = value;
-                kvp[i] = x.join('=');
-                break;
-            }
-        }
-        if(i<0) {
-            kvp[kvp.length] = [key,value].join('=');
-        }
-        //this will reload the page, it's likely better to store this until finished
-        document.location.search = kvp.join('&');
-    }
-    $('#{{grid.filterFormName}}_form').submit(function(e) {
-        e.preventDefault();
-        value = $('#{{grid.filterFormName}}').val();
-        insertParamInQueryString('{{grid.filterFormName}}',value);
-    });
-    $('#{{grid.filterFormName}}_reset_button').click(function(e) {
-        e.preventDefault();
-        insertParamInQueryString('{{grid.filterFormName}}',"");
-    });
-
-})();
-</script>
+    {% include "KitpagesDataGridBundle:Grid:javascript.html.twig" %}
 {% endblock kit_grid_javascript %}
 {% endblock kit_grid_main %}

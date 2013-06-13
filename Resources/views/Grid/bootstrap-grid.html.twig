@@ -2,6 +2,15 @@
 
 {% block kit_grid_main %}
 <div class="kit-grid-bootstrap">
+    {% block kit_grid_selector %}
+        {% if grid.gridConfig.selectorList != null %}
+            <ul class="nav nav-tabs">
+                {% for selector in grid.gridConfig.selectorList %}
+                    <li><a href="{{ grid.getSelectorUrl(selector.field, selector.value) }}" class="{{ grid.getSelectorCssSelected(selector.field, selector.value) }}" >{{ selector.label }}</a></li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endblock %}
     {% block kit_grid_filter %}
     <div class="clearfix">
         <form class="form-search pull-right" action="{{ grid.requestUri }}" id="{{grid.filterFormName}}_form" method="GET">

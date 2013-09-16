@@ -157,7 +157,7 @@ class GridManager
 
     protected function applySelector(QueryBuilder $queryBuilder, Grid $grid, $selectorField, $selectorValue)
     {
-        if (!$selectorField || !$selectorValue) {
+        if (!$selectorField) {
             return;
         }
         $event = new DataGridEvent();

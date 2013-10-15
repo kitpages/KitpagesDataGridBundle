@@ -57,5 +57,11 @@ class UrlToolTest extends \PHPUnit_Framework_TestCase
             "glou"
         );
         $this->assertEquals("/titi?tab[]=val_tab1&tab[]=val_tab2&key2=glou", $newUrl);
+        $newUrl = $urlTool->changeRequestQueryString(
+            $url,
+            "tab",
+            array("newval1", "newval2", "newval3")
+        );
+        $this->assertEquals("/titi?tab[]=newval1&tab[]=newval2&tab[]=newval3&key2=val2", $newUrl);
     }
 }

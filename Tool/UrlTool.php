@@ -37,7 +37,15 @@ class UrlTool
         // build new query string
         $newQueryTab = array();
         foreach ($query as $key=>$val) {
-            $newQueryTab[] = $key."=".rawurlencode($val);
+            if (is_array($val)) {
+                $key = $key."[]";
+            }
+            if (!is_array($val)) {
+                $val = array($val);
+            }
+            foreach ($val as $subValue) {
+                $newQueryTab[] = $key."=".rawurlencode($subValue);
+            }
         }
         $newQueryString = implode("&", $newQueryTab);
 //        $newQueryString = http_build_query($query);

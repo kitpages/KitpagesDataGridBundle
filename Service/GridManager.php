@@ -1,7 +1,6 @@
 <?php
 namespace Kitpages\DataGridBundle\Service;
 
-use Symfony\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 

@@ -4,7 +4,7 @@
     "description": "Symfony DataGridBundle",
     "keywords": ["Datagrid", "paginator", "filter", "sort"],
     "homepage": "https://github.com/kitpages/KitpagesDataGridBundle",
-    "license": "BSD",
+    "license": "MIT",
     "authors": [
         {
             "name": "Philippe Le Van",

@@ -32,7 +32,6 @@ class UrlTool
         parse_str($queryString, $query);
         foreach ($changeTab as $key => $val) {
             $query[$key] = $val;
-//            echo "key : $key => $val\n";
         }
         // build new query string
         $newQueryTab = array();
@@ -48,7 +47,6 @@ class UrlTool
             }
         }
         $newQueryString = implode("&", $newQueryTab);
-//        $newQueryString = http_build_query($query);
         $parseTab["query"] = $newQueryString;
 
         // change

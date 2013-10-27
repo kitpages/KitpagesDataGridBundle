@@ -104,13 +104,11 @@ class Grid
             array_shift($fieldNameTab);
         }
 
-        $setToNull = false;
         $value = $row;
         while (count($fieldNameTab) > 0) {
             $fieldName = array_shift($fieldNameTab);
             // return null if not found and nullIfNotExists to true
             if ( ( !( is_array($value) && array_key_exists($fieldName, $value) ) ) && $field->getNullIfNotExists() ) {
-                $setToNull = true;
                 $value = null;
                 break;
             }

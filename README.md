@@ -131,7 +131,7 @@ If you want to see which data are available, you can do that :
 
 ```php
         $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $this->getRequest());
-        $grid->setIsDebug(true);
+        $grid->setDebugMode(true);
         return $this->render('AppSiteBundle:Default:productList.html.twig', array(
             'grid' => $grid
         ));

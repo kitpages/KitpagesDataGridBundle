@@ -31,7 +31,7 @@ class Grid
     /** @var array ($gridQueryBuilder->getRootAliases()) */
     protected $rootAliases = array();
     /** @var bool */
-    protected $isDebug = false;
+    protected $debugMode = false;
     /** @var EventDispatcherInterface */
     protected $dispatcher = null;
     /** @var string */
@@ -377,19 +377,38 @@ class Grid
     }
 
     /**
+     * @param boolean $debugMode
+     */
+    public function setDebugMode($debugMode)
+    {
+        $this->debugMode = $debugMode;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getDebugMode()
+    {
+        return $this->debugMode;
+    }
+    /**
      * @param boolean $isDebug
+     * @deprecated use setDebugMode instead
      */
     public function setIsDebug($isDebug)
     {
-        $this->isDebug = $isDebug;
+        $this->setDebugMode($isDebug);
+        return $this;
     }
 
     /**
      * @return boolean
+     * @deprecated use getDebugMode instead
      */
     public function getIsDebug()
     {
-        return $this->isDebug;
+        return $this->getDebugMode();
     }
 
     /**

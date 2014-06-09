@@ -115,7 +115,6 @@ class ContactController
         ));
     }
 }
-?>
 ```
 
 Twig associated
@@ -130,11 +129,11 @@ Debug system
 If you want to see which data are available, you can do that :
 
 ```php
-        $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $this->getRequest());
-        $grid->setDebugMode(true);
-        return $this->render('AppSiteBundle:Default:productList.html.twig', array(
-            'grid' => $grid
-        ));
+$grid = $gridManager->getGrid($queryBuilder, $gridConfig, $this->getRequest());
+$grid->setDebugMode(true);
+return $this->render('AppSiteBundle:Default:productList.html.twig', array(
+    'grid' => $grid
+));
 ```
 
 More advanced usage
@@ -165,44 +164,46 @@ More advanced usage
 In the controller
 -----------------
 
-    use Kitpages\DataGridBundle\Model\GridConfig;
-    use Kitpages\DataGridBundle\Model\Field;
+```php
+use Kitpages\DataGridBundle\Model\GridConfig;
+use Kitpages\DataGridBundle\Model\Field;
 
-    class AdminController extends Controller
+class AdminController extends Controller
+{
+
+    public function listAction($state)
     {
+        // create query builder
+        $em = $this->get('doctrine')->getEntityManager();
+        $queryBuilder = $em->createQueryBuilder()
+            ->select('mission, employee, client')
+            ->from('KitappMissionBundle:Mission', 'mission')
+            ->leftJoin('mission.employee', 'employee')
+            ->leftJoin('mission.client', 'client')
+            ->where('mission.state = :state')
+            ->add('orderBy', 'mission.updatedAt DESC')
+            ->setParameter('state', $state)
+        ;
 
-        public function listAction($state)
-        {
-            // create query builder
-            $em = $this->get('doctrine')->getEntityManager();
-            $queryBuilder = $em->createQueryBuilder()
-                ->select('mission, employee, client')
-                ->from('KitappMissionBundle:Mission', 'mission')
-                ->leftJoin('mission.employee', 'employee')
-                ->leftJoin('mission.client', 'client')
-                ->where('mission.state = :state')
-                ->add('orderBy', 'mission.updatedAt DESC')
-                ->setParameter('state', $state)
-            ;
-                
-            $gridConfig = new GridConfig();
-            $gridConfig
-                ->setCountFieldName("mission.id");
-                ->addField(new Field('mission.title', array('label' => 'title', 'filterable' => true)))
-                ->addField(new Field('mission.country', array('filterable' => true)))
-                ->addField(new Field('client.corporation', array('filterable' => true)))
-                ->addField(new Field('employee.lastname', array('filterable' => true)))
-                ->addField(new Field('employee.email', array('filterable' => true)))
-            ;
+        $gridConfig = new GridConfig();
+        $gridConfig
+            ->setCountFieldName("mission.id");
+            ->addField(new Field('mission.title', array('label' => 'title', 'filterable' => true)))
+            ->addField(new Field('mission.country', array('filterable' => true)))
+            ->addField(new Field('client.corporation', array('filterable' => true)))
+            ->addField(new Field('employee.lastname', array('filterable' => true)))
+            ->addField(new Field('employee.email', array('filterable' => true)))
+        ;
 
-            $gridManager = $this->get('kitpages_data_grid.manager');
-            $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $this->getRequest());
+        $gridManager = $this->get('kitpages_data_grid.manager');
+        $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $this->getRequest());
 
-            return $this->render('KitappMissionBundle:Admin:list.html.twig', array(
-                'grid' => $grid
-            ));
-        }
+        return $this->render('KitappMissionBundle:Admin:list.html.twig', array(
+            'grid' => $grid
+        ));
     }
+}
+```
 
 Twig associated
 ---------------
@@ -219,7 +220,7 @@ For request like
 
 You can display the foo field with
 
-    $gridConfig->addField(new Field("foo");
+    $gridConfig->addField(new Field("foo"));
 
 But this field can't be sortable or filterable because of a limitation of the
 doctrine2 query builder.
@@ -237,17 +238,19 @@ Add a field in the gridConfig
 -----------------------------
 when you add a field, you can set these parameters :
 
-    $gridConfig->addField(new Field('slug', array(
-        'label' => 'Mon slug',
-        'sortable' => false,
-        'visible' => true,
-        'filterable' => true,
-        'translatable' => true,
-        'formatValueCallback' => function($value) { return strtoupper($value); },
-        'autoEscape' => true,
-        'category' => null, // only used by you for checking this value in your events if you want to...
-        'nullIfNotExists' => false, // for leftJoin, if value is not defined, this can return null instead of an exception
-    )));
+```php
+$gridConfig->addField(new Field('slug', array(
+    'label' => 'Mon slug',
+    'sortable' => false,
+    'visible' => true,
+    'filterable' => true,
+    'translatable' => true,
+    'formatValueCallback' => function($value) { return strtoupper($value); },
+    'autoEscape' => true,
+    'category' => null, // only used by you for checking this value in your events if you want to...
+    'nullIfNotExists' => false, // for leftJoin, if value is not defined, this can return null instead of an exception
+)));
+```
 
 What can you personalize in your twig template
 ----------------------------------------------

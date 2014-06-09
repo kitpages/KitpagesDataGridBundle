@@ -5,11 +5,9 @@ php:
   - 5.4
 
 before_script:
-  - pyrus channel-discover pear.symfony.com
-  - pyrus install --force phpunit/DbUnit
   - composer install --dev --prefer-source
 
-script: phpunit --coverage-text
+script: ./vendor/bin/phpunit --coverage-text
 
 notifications:
   email:

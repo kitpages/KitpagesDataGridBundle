@@ -5,12 +5,15 @@ You can use the paginator as a standalone component.
 
 In your controller
 
+```php
+<?php
+
     use Kitpages\DataGridBundle\Model\PaginatorConfig;
     [...]
 
     public function gridAction()
     {
-        $gridManater = $this->get("kitpages_data_grid.manager");
+        $gridManager = $this->get("kitpages_data_grid.manager");
 
         $repository = $this->getDoctrine()->getRepository('KitpagesShopBundle:OrderLine');
         $queryBuilder = $repository->createQueryBuilder("ol");
@@ -23,6 +26,7 @@ In your controller
             "paginator" => $paginator
         ));
     }
+```
 
 In your twig :
 

@@ -1,6 +1,7 @@
 <?php
 namespace Kitpages\DataGridBundle\Grid;
 
+use Kitpages\DataGridBundle\Grid\ItemListNormalizer\NormalizerInterface;
 use Kitpages\DataGridBundle\Paginator\PaginatorManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -26,14 +27,21 @@ class GridManager
     protected $paginatorManager;
 
     /**
+     * @var NormalizerInterface
+     */
+    protected $itemListNormalizer;
+
+    /**
      * @param EventDispatcherInterface                $dispatcher
      */
     public function __construct(
         EventDispatcherInterface $dispatcher,
-        PaginatorManager $paginatorManager
+        PaginatorManager $paginatorManager,
+        NormalizerInterface $itemListNormalizer
     ) {
         $this->dispatcher = $dispatcher;
         $this->paginatorManager = $paginatorManager;
+        $this->itemListNormalizer = $itemListNormalizer;
     }
 
     ////
@@ -106,26 +114,8 @@ class GridManager
         // from the gridQueryBuilder in the listener and reinject it in the event.
         $query = $event->get("query");
 
-        // execute the query
-        $itemList = $query->getArrayResult();
+        $normalizedItemList = $this->itemListNormalizer->normalize($query);
 
-        // normalize result (for request of type $queryBuilder->select("item, bp, item.id * 3 as titi"); )
-        $normalizedItemList = array();
-        foreach ($itemList as $item) {
-            $normalizedItem = array();
-            foreach ($item as $key => $val) {
-                // hack : is_array is added according to this issue : https://github.com/kitpages/KitpagesDataGridBundle/issues/18
-                // can't reproduce this error...
-                if (is_int($key) && is_array($val)) {
-                    foreach ($val as $newKey => $newVal) {
-                        $normalizedItem[$newKey] = $newVal;
-                    }
-                } else {
-                    $normalizedItem[$key] = $val;
-                }
-            }
-            $normalizedItemList[] = $normalizedItem;
-        }
         // end normalization
         $grid->setItemList($normalizedItemList);
         $grid->setRootAliases($gridQueryBuilder->getRootAliases());

@@ -2,6 +2,7 @@
 namespace Kitpages\DataGridBundle\Tests\Grid;
 
 use Kitpages\DataGridBundle\Grid\Field;
+use Kitpages\DataGridBundle\Grid\ItemListNormalizer\LegacyNormalizer;
 use Kitpages\DataGridBundle\Paginator\PaginatorConfig;
 use Kitpages\DataGridBundle\Grid\GridConfig;
 use Kitpages\DataGridBundle\Grid\GridManager;
@@ -50,16 +51,27 @@ class GridManagerTest extends BundleOrmTestCase
         return $gridConfig;
     }
 
-
-    public function testGridBasic()
+    public function getGridManager()
     {
         // create EventDispatcher mock
         $service = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher');
+
+        // normalizer
+        $normalizer = new LegacyNormalizer();
+
+        $gridManager = new GridManager($service, new PaginatorManager($service), $normalizer);
+        return $gridManager;
+
+    }
+
+
+    public function testGridBasic()
+    {
         // create Request mock (ok this is not a mock....)
         $_SERVER["REQUEST_URI"] = "/foo";
         $request = new \Symfony\Component\HttpFoundation\Request();
         // create gridManager instance
-        $gridManager = new GridManager($service, new PaginatorManager($service));
+        $gridManager = $this->getGridManager();
 
         // create queryBuilder
         $em = $this->getEntityManager();
@@ -99,13 +111,11 @@ class GridManagerTest extends BundleOrmTestCase
 
     public function testGridRelation()
     {
-        // create EventDispatcher mock
-        $service = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher');
         // create Request mock (ok this is not a mock....)
         $request = new \Symfony\Component\HttpFoundation\Request();
         $request->query->set("kitdg_paginator_paginator_currentPage", 2);
         // create gridManager instance
-        $gridManager = new GridManager($service, new PaginatorManager($service));
+        $gridManager = $this->getGridManager();
 
         // create queryBuilder
         $em = $this->getEntityManager();
@@ -141,13 +151,11 @@ class GridManagerTest extends BundleOrmTestCase
      */
     public function testGridLeftJoin()
     {
-        // create EventDispatcher mock
-        $service = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher');
         // create Request mock (ok this is not a mock....)
         $request = new \Symfony\Component\HttpFoundation\Request();
         $request->query->set("kitdg_paginator_paginator_currentPage", 2);
         // create gridManager instance
-        $gridManager = new GridManager($service, new PaginatorManager($service));
+        $gridManager = $this->getGridManager();
 
         // create queryBuilder
         $em = $this->getEntityManager();
@@ -182,12 +190,10 @@ class GridManagerTest extends BundleOrmTestCase
      */
     public function testGridLeftJoinWithoutGroupBy()
     {
-        // create EventDispatcher mock
-        $service = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher');
         // create Request mock (ok this is not a mock....)
         $request = new \Symfony\Component\HttpFoundation\Request();
         // create gridManager instance
-        $gridManager = new GridManager($service, new PaginatorManager($service));
+        $gridManager = $this->getGridManager();
 
         // create queryBuilder
         $em = $this->getEntityManager();
@@ -248,15 +254,13 @@ class GridManagerTest extends BundleOrmTestCase
 
     public function testGridFilter()
     {
-        // create EventDispatcher mock
-        $service = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher');
         // create Request mock (ok this is not a mock....)
         $request = new \Symfony\Component\HttpFoundation\Request();
         $request->query->set("kitdg_grid_grid_filter", "foouser");
         $request->query->set("kitdg_grid_grid_sort_field", "node.createdAt");
         $request->query->set("kitdg_paginator_paginator_currentPage", 2);
         // create gridManager instance
-        $gridManager = new GridManager($service, new PaginatorManager($service));
+        $gridManager = $this->getGridManager();
 
         // create queryBuilder
         $em = $this->getEntityManager();
@@ -293,15 +297,13 @@ class GridManagerTest extends BundleOrmTestCase
 
     public function testGridUtf8Filter()
     {
-        // create EventDispatcher mock
-        $service = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher');
         // create Request mock (ok this is not a mock....)
         $request = new \Symfony\Component\HttpFoundation\Request();
         $request->query->set("kitdg_grid_grid_filter", "foouser");
         $request->query->set("kitdg_grid_grid_sort_field", "node.createdAt");
         $request->query->set("kitdg_paginator_paginator_currentPage", 2);
         // create gridManager instance
-        $gridManager = new GridManager($service, new PaginatorManager($service));
+        $gridManager = $this->getGridManager();
 
         // create queryBuilder
         $em = $this->getEntityManager();
@@ -333,8 +335,6 @@ class GridManagerTest extends BundleOrmTestCase
 
     public function testGridSelector()
     {
-        // create EventDispatcher mock
-        $service = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher');
         // create Request mock (ok this is not a mock....)
         $request = new \Symfony\Component\HttpFoundation\Request();
         $request->query->set("kitdg_grid_grid_selector_field", "node.user");
@@ -342,7 +342,7 @@ class GridManagerTest extends BundleOrmTestCase
         $request->query->set("kitdg_grid_grid_sort_field", "node.createdAt");
         $request->query->set("kitdg_paginator_paginator_currentPage", 2);
         // create gridManager instance
-        $gridManager = new GridManager($service, new PaginatorManager($service));
+        $gridManager = $this->getGridManager();
 
         // create queryBuilder
         $em = $this->getEntityManager();

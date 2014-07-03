@@ -1,6 +1,12 @@
 Versions :
 ==========
 
+2014-07-03 : v2.0.0
+
+* WARINIG : Huge BC Break
+* new : major refactoring: separation of paginator and grid
+* new : request normalizer modification
+
 2013-06-12 : tag v1.10.0
 
 * fix : change url encoding in urlTools (+ phpunit)

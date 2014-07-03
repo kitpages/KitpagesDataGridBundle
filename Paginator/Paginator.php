@@ -1,6 +1,6 @@
 <?php
 
-namespace Kitpages\DataGridBundle\Model;
+namespace Kitpages\DataGridBundle\Paginator;
 
 use Kitpages\DataGridBundle\Tool\UrlTool;
 
@@ -126,7 +126,7 @@ class Paginator
     }
 
     /**
-     * @param \Kitpages\DataGridBundle\Model\PaginatorConfig $paginatorConfig
+     * @param \Kitpages\DataGridBundle\Paginator\PaginatorConfig $paginatorConfig
      */
     public function setPaginatorConfig($paginatorConfig)
     {
@@ -134,7 +134,7 @@ class Paginator
     }
 
     /**
-     * @return \Kitpages\DataGridBundle\Model\PaginatorConfig
+     * @return \Kitpages\DataGridBundle\Paginator\PaginatorConfig
      */
     public function getPaginatorConfig()
     {

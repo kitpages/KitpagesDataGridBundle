@@ -8,7 +8,7 @@ In your controller
 ```php
 <?php
 
-    use Kitpages\DataGridBundle\Model\PaginatorConfig;
+    use Kitpages\DataGridBundle\Paginator\PaginatorConfig;
     [...]
 
     public function gridAction()

@@ -186,7 +186,7 @@ modify the way we can apply the sort
         {
             // data available
             $gridQueryBuilder = $event->get("gridQueryBuilder");
-            $grid = $event->get("grid"); // Kitpages\DataGridBundle\Model\Grid object
+            $grid = $event->get("grid"); // Kitpages\DataGridBundle\Grid\Grid object
             $sortField = $event->get("sortField"); // field name for the sort (string)
             $sortOrder = $event->get("sortOrder"); // order ("ASC" or "DESC") of the sort
 
@@ -231,7 +231,7 @@ can modify the $queryBuilder after the sort
         {
             // data available
             $gridQueryBuilder = $event->get("gridQueryBuilder");
-            $grid = $event->get("grid"); // Kitpages\DataGridBundle\Model\Grid object
+            $grid = $event->get("grid"); // Kitpages\DataGridBundle\Grid\Grid object
             $sortField = $event->get("sortField"); // field name for the sort (string)
             $sortOrder = $event->get("sortOrder"); // order ("ASC" or "DESC") of the sort
 

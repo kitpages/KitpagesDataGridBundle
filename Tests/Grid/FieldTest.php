@@ -1,7 +1,7 @@
 <?php
-namespace Kitpages\DataGridBundle\Tests\Model;
+namespace Kitpages\DataGridBundle\Tests\Grid;
 
-use Kitpages\DataGridBundle\Model\Field;
+use Kitpages\DataGridBundle\Grid\Field;
 
 class FieldTest extends \PHPUnit_Framework_TestCase
 {

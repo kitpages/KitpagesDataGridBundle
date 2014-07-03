@@ -5,11 +5,16 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="kitpages_data_grid.manager.class">Kitpages\DataGridBundle\Service\GridManager</parameter>
+        <parameter key="kitpages_data_grid.grid_manager.class">Kitpages\DataGridBundle\Grid\GridManager</parameter>
+        <parameter key="kitpages_data_grid.paginator_manager.class">Kitpages\DataGridBundle\Paginator\PaginatorManager</parameter>
     </parameters>
 
     <services>
-        <service id="kitpages_data_grid.manager" class="%kitpages_data_grid.manager.class%">
+        <service id="kitpages_data_grid.grid_manager" class="%kitpages_data_grid.grid_manager.class%">
+            <argument type="service" id="event_dispatcher"/>
+            <argument type="service" id="kitpages_data_grid.paginator_manager"/>
+        </service>
+        <service id="kitpages_data_grid.paginator_manager" class="%kitpages_data_grid.paginator_manager.class%">
             <argument type="service" id="event_dispatcher"/>
         </service>
     </services>

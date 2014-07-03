@@ -79,8 +79,8 @@ In the controller
 -----------------
 
 ```php
-use Kitpages\DataGridBundle\Model\GridConfig;
-use Kitpages\DataGridBundle\Model\Field;
+use Kitpages\DataGridBundle\Grid\GridConfig;
+use Kitpages\DataGridBundle\Grid\Field;
 
 class ContactController
 {
@@ -165,8 +165,8 @@ In the controller
 -----------------
 
 ```php
-use Kitpages\DataGridBundle\Model\GridConfig;
-use Kitpages\DataGridBundle\Model\Field;
+use Kitpages\DataGridBundle\Grid\GridConfig;
+use Kitpages\DataGridBundle\Grid\Field;
 
 class AdminController extends Controller
 {

@@ -1,5 +1,5 @@
 <?php
-namespace Kitpages\DataGridBundle\Model;
+namespace Kitpages\DataGridBundle\Paginator;
 
 use Doctrine\ORM\QueryBuilder;
 

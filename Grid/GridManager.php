@@ -1,15 +1,16 @@
 <?php
-namespace Kitpages\DataGridBundle\Service;
+namespace Kitpages\DataGridBundle\Grid;
 
+use Kitpages\DataGridBundle\Paginator\PaginatorManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 use Doctrine\ORM\QueryBuilder;
 
-use Kitpages\DataGridBundle\Model\GridConfig;
-use Kitpages\DataGridBundle\Model\Grid;
-use Kitpages\DataGridBundle\Model\PaginatorConfig;
-use Kitpages\DataGridBundle\Model\Paginator;
+use Kitpages\DataGridBundle\Grid\GridConfig;
+use Kitpages\DataGridBundle\Grid\Grid;
+use Kitpages\DataGridBundle\Paginator\PaginatorConfig;
+use Kitpages\DataGridBundle\Paginator\Paginator;
 use Kitpages\DataGridBundle\Tool\UrlTool;
 use Kitpages\DataGridBundle\KitpagesDataGridEvents;
 use Kitpages\DataGridBundle\Event\DataGridEvent;
@@ -20,12 +21,19 @@ class GridManager
     protected $dispatcher;
 
     /**
+     * @var PaginatorManager
+     */
+    protected $paginatorManager;
+
+    /**
      * @param EventDispatcherInterface                $dispatcher
      */
     public function __construct(
-        EventDispatcherInterface $dispatcher
+        EventDispatcherInterface $dispatcher,
+        PaginatorManager $paginatorManager
     ) {
         $this->dispatcher = $dispatcher;
+        $this->paginatorManager = $paginatorManager;
     }
 
     ////
@@ -35,9 +43,9 @@ class GridManager
      * get grid object filled
      *
      * @param  \Doctrine\ORM\QueryBuilder                $queryBuilder
-     * @param  \Kitpages\DataGridBundle\Model\GridConfig $gridConfig
+     * @param  \Kitpages\DataGridBundle\Grid\GridConfig $gridConfig
      * @param  \Symfony\Component\HttpFoundation\Request $request
-     * @return \Kitpages\DataGridBundle\Model\Grid
+     * @return \Kitpages\DataGridBundle\Grid\Grid
      */
     public function getGrid(QueryBuilder $queryBuilder, GridConfig $gridConfig, Request $request)
     {
@@ -220,9 +228,9 @@ class GridManager
      * get Paginator object
      *
      * @param  \Doctrine\ORM\QueryBuilder                     $queryBuilder
-     * @param  \Kitpages\DataGridBundle\Model\PaginatorConfig $paginatorConfig
+     * @param  \Kitpages\DataGridBundle\Paginator\PaginatorConfig $paginatorConfig
      * @param  \Symfony\Component\HttpFoundation\Request      $request
-     * @return \Kitpages\DataGridBundle\Model\Paginator
+     * @return \Kitpages\DataGridBundle\Paginator\Paginator
      */
     public function getPaginator(QueryBuilder $queryBuilder, PaginatorConfig $paginatorConfig, Request $request)
     {

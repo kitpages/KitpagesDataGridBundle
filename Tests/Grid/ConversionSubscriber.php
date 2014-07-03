@@ -1,5 +1,5 @@
 <?php
-namespace Kitpages\DataGridBundle\Tests\Model;
+namespace Kitpages\DataGridBundle\Tests\Grid;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Kitpages\DataGridBundle\KitpagesDataGridEvents;

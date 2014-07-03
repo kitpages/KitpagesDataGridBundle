@@ -1,9 +1,9 @@
 <?php
 
-namespace Kitpages\DataGridBundle\Model;
+namespace Kitpages\DataGridBundle\Grid;
 
 use Kitpages\DataGridBundle\Tool\UrlTool;
-use Kitpages\DataGridBundle\Model\Field;
+use Kitpages\DataGridBundle\Grid\Field;
 use Kitpages\DataGridBundle\DataGridException;
 use Kitpages\DataGridBundle\Event\DataGridEvent;
 use Kitpages\DataGridBundle\KitpagesDataGridEvents;
@@ -202,7 +202,7 @@ class Grid
     }
 
     /**
-     * @param \Kitpages\DataGridBundle\Model\GridConfig $gridConfig
+     * @param \Kitpages\DataGridBundle\Grid\GridConfig $gridConfig
      */
     public function setGridConfig($gridConfig)
     {
@@ -210,7 +210,7 @@ class Grid
     }
 
     /**
-     * @return \Kitpages\DataGridBundle\Model\GridConfig
+     * @return \Kitpages\DataGridBundle\Grid\GridConfig
      */
     public function getGridConfig()
     {
@@ -249,7 +249,7 @@ class Grid
     }
 
     /**
-     * @param \Kitpages\DataGridBundle\Model\Paginator $paginator
+     * @param \Kitpages\DataGridBundle\Paginator\Paginator $paginator
      */
     public function setPaginator($paginator)
     {
@@ -257,7 +257,7 @@ class Grid
     }
 
     /**
-     * @return \Kitpages\DataGridBundle\Model\Paginator
+     * @return \Kitpages\DataGridBundle\Paginator\Paginator
      */
     public function getPaginator()
     {

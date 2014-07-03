@@ -1,10 +1,10 @@
 <?php
-namespace Kitpages\DataGridBundle\Tests\Model;
+namespace Kitpages\DataGridBundle\Tests\Grid;
 
-use Kitpages\DataGridBundle\Model\Grid;
-use Kitpages\DataGridBundle\Model\Field;
+use Kitpages\DataGridBundle\Grid\Grid;
+use Kitpages\DataGridBundle\Grid\Field;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Kitpages\DataGridBundle\Tests\Model\ConversionSubscriber;
+use Kitpages\DataGridBundle\Tests\Grid\ConversionSubscriber;
 
 
 class GridTest extends \PHPUnit_Framework_TestCase
@@ -28,7 +28,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
             'html' => "<a>",
             "createdAt" => $this->now
         );
-        $this->mockField = $this->getMockBuilder('Kitpages\DataGridBundle\Model\Field')
+        $this->mockField = $this->getMockBuilder('Kitpages\DataGridBundle\Grid\Field')
             ->disableOriginalConstructor()
             ->getMock();
     }

@@ -1,9 +1,9 @@
 <?php
 
-namespace Kitpages\DataGridBundle\Model;
+namespace Kitpages\DataGridBundle\Grid;
 
 use Doctrine\ORM\QueryBuilder;
-use Kitpages\DataGridBundle\Model\PaginatorConfig;
+use Kitpages\DataGridBundle\Paginator\PaginatorConfig;
 
 class GridConfig
 {

@@ -1,5 +1,5 @@
 <?php
-namespace Kitpages\DataGridBundle\Model;
+namespace Kitpages\DataGridBundle\Grid;
 
 class Field
 {
@@ -80,7 +80,7 @@ class Field
     }
 
     /**
-     * @param \Kitpages\DataGridBundle\Model\function $formatValueCallback
+     * @param \Kitpages\DataGridBundle\Grid\function $formatValueCallback
      */
     public function setFormatValueCallback($formatValueCallback)
     {
@@ -88,7 +88,7 @@ class Field
     }
 
     /**
-     * @return \Kitpages\DataGridBundle\Model\function
+     * @return \Kitpages\DataGridBundle\Grid\function
      */
     public function getFormatValueCallback()
     {

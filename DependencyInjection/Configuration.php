@@ -2,6 +2,7 @@
 
 namespace Kitpages\DataGridBundle\DependencyInjection;
 
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -18,12 +19,33 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $treeBuilder->root('kitpages_data_grid');
+        $rootNode = $treeBuilder->root('kitpages_data_grid');
+
+        $this->addGridConfiguration($rootNode);
 
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for
         // more information on that topic.
 
         return $treeBuilder;
+    }
+
+    private function addGridConfiguration(ArrayNodeDefinition $node)
+    {
+        $node
+            ->addDefaultsIfNotSet()
+            ->children()
+                ->arrayNode('grid')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('default_twig')
+                            ->cannotBeEmpty()
+                            ->defaultValue('KitpagesDataGridBundle:Grid:grid-standard.html.twig')
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+
     }
 }

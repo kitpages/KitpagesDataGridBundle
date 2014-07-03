@@ -5,10 +5,11 @@
 
 namespace Kitpages\DataGridBundle\Grid\ItemListNormalizer;
 
+
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 
-class LegacyNormalizer
+class StandardNormalizer
     implements NormalizerInterface
 {
     /**

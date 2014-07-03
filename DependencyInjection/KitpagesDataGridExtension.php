@@ -20,9 +20,31 @@ class KitpagesDataGridExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $configuration = new Configuration();
-        $this->processConfiguration($configuration, $configs);
+        $config = $this->processConfiguration($configuration, $configs);
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
+
+        $this->remapParameters($config, $container, array(
+            'grid'  => 'kitpages_data_grid.grid'
+        ));
+
     }
+
+    /**
+     *
+     * @param array            $config
+     * @param ContainerBuilder $container
+     * @param array            $map
+     * @return void
+     */
+    protected function remapParameters(array $config, ContainerBuilder $container, array $map)
+    {
+        foreach ($map as $name => $paramName) {
+            if (isset($config[$name])) {
+                $container->setParameter($paramName, $config[$name]);
+            }
+        }
+    }
+
 }

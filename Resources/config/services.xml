@@ -8,6 +8,8 @@
         <parameter key="kitpages_data_grid.grid_manager.class">Kitpages\DataGridBundle\Grid\GridManager</parameter>
         <parameter key="kitpages_data_grid.paginator_manager.class">Kitpages\DataGridBundle\Paginator\PaginatorManager</parameter>
         <parameter key="kitpages_data_grid.item_list_normalizer.legacy.class">Kitpages\DataGridBundle\Grid\ItemListNormalizer\LegacyNormalizer</parameter>
+        <parameter key="kitpages_data_grid.item_list_normalizer.standard.class">Kitpages\DataGridBundle\Grid\ItemListNormalizer\StandardNormalizer</parameter>
+        <parameter key="kitpages_data_grid.globals_twig_extension.class">Kitpages\DataGridBundle\Twig\GlobalsTwigExtension</parameter>
     </parameters>
 
     <services>
@@ -19,8 +21,16 @@
         <service id="kitpages_data_grid.paginator_manager" class="%kitpages_data_grid.paginator_manager.class%">
             <argument type="service" id="event_dispatcher"/>
         </service>
-        <service id="kitpages_data_grid.item_list_normalizer.legacy" class="%kitpages_data_grid.item_list_normalizer.legacy%">
+        <service id="kitpages_data_grid.item_list_normalizer.legacy" class="%kitpages_data_grid.item_list_normalizer.legacy.class%">
         </service>
+        <service id="kitpages_data_grid.item_list_normalizer.standard" class="%kitpages_data_grid.item_list_normalizer.standard.class%">
+        </service>
+
+        <service id="kitpages_data_grid.globals_twig_extension" class="%kitpages_data_grid.globals_twig_extension.class%">
+            <argument>%kitpages_data_grid.grid%</argument>
+            <tag name="twig.extension"/>
+        </service>
+
     </services>
 
 </container>

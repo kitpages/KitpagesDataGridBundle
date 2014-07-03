@@ -307,7 +307,7 @@ the embeded twig.
 
 Let's see in this example how to add checkboxes on the left of the grid for multiple actions.
 
-    {% embed 'KitpagesDataGridBundle:Grid:grid.html.twig' with {'grid': grid} %}
+    {% embed kitpages_data_grid.grid.default_twig with {'grid': grid} %}
 
         {% block kit_grid_before_table %}
             <form action="{{ path('my_route') }}" method="POST">

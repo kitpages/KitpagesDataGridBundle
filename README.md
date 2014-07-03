@@ -121,7 +121,7 @@ Twig associated
 ---------------
 In your twig you just have to put this code to display the grid you configured.
 
-    {% embed 'KitpagesDataGridBundle:Grid:grid.html.twig' with {'grid': grid} %}
+    {% embed kitpages_data_grid.grid.default_twig with {'grid': grid} %}
     {% endembed %}
 
 Debug system
@@ -147,7 +147,7 @@ Twig associated
 ---------------
 If you want to add a column on the right of the table, you can put this code in your twig.
 
-    {% embed 'KitpagesDataGridBundle:Grid:grid.html.twig' with {'grid': grid} %}
+    {% embed kitpages_data_grid.grid.default_twig with {'grid': grid} %}
 
         {% block kit_grid_thead_column %}
             <th>Action</th>

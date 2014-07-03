@@ -112,9 +112,10 @@ class GridManager
 
         // hack : recover query from the event so the developper can build a new grid
         // from the gridQueryBuilder in the listener and reinject it in the event.
-        $query = $event->get("query");
-
-        $normalizedItemList = $this->itemListNormalizer->normalize($query);
+        $normalizedItemList = $this->itemListNormalizer->normalize(
+            $event->get("query"),
+            $event->get("gridQueryBuilder")
+        );
 
         // end normalization
         $grid->setItemList($normalizedItemList);

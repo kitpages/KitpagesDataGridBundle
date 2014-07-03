@@ -30,6 +30,6 @@ In your controller
 
 In your twig :
 
-    {% embed 'KitpagesDataGridBundle:Paginator:paginator.html.twig' with {'paginator': paginator} %}
+    {% embed kitpages_data_grid.paginator.default_twig with {'paginator': paginator} %}
     {% endembed %}
 

@@ -1,0 +1,21 @@
+kitpages_data_grid:
+    grid:
+        default_twig: KitpagesDataGridBundle:Grid:grid-standard.html.twig
+
+framework:
+    trusted_hosts: ~
+    secret: "test"
+    test: ~
+    templating:
+        engines: ['twig']
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+
+
+doctrine:
+    dbal:
+        driver:   'pdo_sqlite'
+        memory:   true
+    orm:
+        entity_managers:
+            default: ~

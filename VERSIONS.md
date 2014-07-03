@@ -1,6 +1,15 @@
 Versions :
 ==========
 
+2014-07-03 : tag v1.11.0
+
+* fix : update twig-bootstrap for new selector function
+* fix : selection fix for null or false values
+* fix : doc typo
+* enh : allow to have an array in the query string
+* enh : moved script tags outside the datagrid (allow to extend easily the JS)
+* fix : coding style for sensiolabs insight
+
 2013-06-12 : tag v1.10.0
 
 * fix : change url encoding in urlTools (+ phpunit)

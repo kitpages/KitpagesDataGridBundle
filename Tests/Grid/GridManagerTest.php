@@ -3,6 +3,7 @@ namespace Kitpages\DataGridBundle\Tests\Grid;
 
 use Kitpages\DataGridBundle\Grid\Field;
 use Kitpages\DataGridBundle\Grid\ItemListNormalizer\LegacyNormalizer;
+use Kitpages\DataGridBundle\Grid\ItemListNormalizer\StandardNormalizer;
 use Kitpages\DataGridBundle\Paginator\PaginatorConfig;
 use Kitpages\DataGridBundle\Grid\GridConfig;
 use Kitpages\DataGridBundle\Grid\GridManager;
@@ -62,7 +63,7 @@ class GridManagerTest extends BundleOrmTestCase
         );
 
         // normalizer
-        $normalizer = new LegacyNormalizer();
+        $normalizer = new StandardNormalizer();
 
         $gridManager = new GridManager($service, new PaginatorManager($service, $parameters), $normalizer);
         return $gridManager;
@@ -94,7 +95,7 @@ class GridManagerTest extends BundleOrmTestCase
         ));
         $gridConfig->addField(new Field("node.content",
             array(
-                "formatValueCallback" => function ($value, $row) { return $value.":".$row["createdAt"]->format("Y"); }
+                "formatValueCallback" => function ($value, $row) { return $value.":".$row["node.createdAt"]->format("Y"); }
             )
         ));
 
@@ -108,7 +109,7 @@ class GridManagerTest extends BundleOrmTestCase
         // grid test
         $itemList = $grid->getItemList();
         $this->assertEquals( 11 , count($itemList));
-        $this->assertEquals( 1 , $itemList[0]["id"]);
+        $this->assertEquals( 1 , $itemList[0]["node.id"]);
         // simple callback
         $this->assertEquals( "2010/04/24" , $grid->displayGridValue($itemList[0], $gridConfig->getFieldByName("node.createdAt")));
         $this->assertEquals( "foobar:2010" , $grid->displayGridValue($itemList[0], $gridConfig->getFieldByName("node.content")));
@@ -154,6 +155,9 @@ class GridManagerTest extends BundleOrmTestCase
      * But I can't reproduce that bug...
      * TODO: go back here later and reproduce this issue...
      */
+    /**
+     * @group testDQL
+     */
     public function testGridLeftJoin()
     {
         // create Request mock (ok this is not a mock....)
@@ -166,7 +170,7 @@ class GridManagerTest extends BundleOrmTestCase
         $em = $this->getEntityManager();
         $repository = $em->getRepository('Kitpages\DataGridBundle\Tests\TestEntities\Node');
         $queryBuilder = $repository->createQueryBuilder("node");
-        $queryBuilder->select("DISTINCT(node.id), node, count(sn.id) as intervals")
+        $queryBuilder->select("DISTINCT node.id as gouglou, node, count(sn.id) as intervals")
             ->leftJoin('node.subNodeList', 'sn')
             ->groupBy('node.id')
             ->orderBy('node.id', 'ASC');
@@ -190,9 +194,6 @@ class GridManagerTest extends BundleOrmTestCase
         $this->assertEquals( 3, $paginator->getNextButtonPage());
         // simple callback
     }
-    /*
-     *
-     */
     public function testGridLeftJoinWithoutGroupBy()
     {
         // create Request mock (ok this is not a mock....)
@@ -204,13 +205,13 @@ class GridManagerTest extends BundleOrmTestCase
         $em = $this->getEntityManager();
         $repository = $em->getRepository('Kitpages\DataGridBundle\Tests\TestEntities\Node');
         $queryBuilder = $repository->createQueryBuilder("node");
-        $queryBuilder->select("node", "mainNode")
-            ->leftJoin('node.mainNode', 'mainNode');
+        $queryBuilder->select("node, mn")
+            ->leftJoin('node.mainNode', 'mn');
 
         $gridConfig = $this->initGridConfig();
         $nodeIdField = new Field("node.id");
         $gridConfig->addField($nodeIdField);
-        $mainNodeIdField = new Field("node.mainNode.id");
+        $mainNodeIdField = new Field("mn.id");
         $gridConfig->addField($mainNodeIdField);
 
         // get paginator
@@ -285,13 +286,13 @@ class GridManagerTest extends BundleOrmTestCase
         // grid test
         $itemList = $grid->getItemList();
         $this->assertEquals( 2 , count($itemList));
-        $this->assertEquals( 8 , $itemList[0]["id"]);
+        $this->assertEquals( 8 , $itemList[0]["node.id"]);
         $this->assertEquals( 1 , $paginator->getCurrentPage());
 
         $request->query->set("kitdg_grid_grid_sort_field", "node.user");
         $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $request);
         $itemList = $grid->getItemList();
-        $this->assertEquals( 6 , $itemList[0]["id"]);
+        $this->assertEquals( 6 , $itemList[0]["node.id"]);
 
         $request->query->set("kitdg_grid_grid_filter", "foo");
         $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $request);
@@ -328,7 +329,7 @@ class GridManagerTest extends BundleOrmTestCase
         // grid test
         $itemList = $grid->getItemList();
         $this->assertEquals( 2 , count($itemList));
-        $this->assertEquals( 8 , $itemList[0]["id"]);
+        $this->assertEquals( 8 , $itemList[0]["node.id"]);
         $this->assertEquals( 1 , $paginator->getCurrentPage());
 
         $request->query->set("kitdg_grid_grid_filter", "fös");
@@ -367,13 +368,13 @@ class GridManagerTest extends BundleOrmTestCase
         // grid test
         $itemList = $grid->getItemList();
         $this->assertEquals( 2 , count($itemList));
-        $this->assertEquals( 8 , $itemList[0]["id"]);
+        $this->assertEquals( 8 , $itemList[0]["node.id"]);
         $this->assertEquals( 1 , $paginator->getCurrentPage());
 
         $request->query->set("kitdg_grid_grid_sort_field", "node.user");
         $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $request);
         $itemList = $grid->getItemList();
-        $this->assertEquals( 6 , $itemList[0]["id"]);
+        $this->assertEquals( 6 , $itemList[0]["node.id"]);
 
         $request->query->set("kitdg_grid_grid_selector_value", "5");
         $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $request);

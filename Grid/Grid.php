@@ -28,8 +28,6 @@ class Grid
     protected $sortField = null;
     /** @var string */
     protected $sortOrder = null;
-    /** @var array ($gridQueryBuilder->getRootAliases()) */
-    protected $rootAliases = array();
     /** @var bool */
     protected $debugMode = false;
     /** @var EventDispatcherInterface */
@@ -97,29 +95,10 @@ class Grid
 
     public function displayGridValue($row, Field $field)
     {
-        // parse field name and get value after the dot
-        $fieldNameTab = explode('.', $field->getFieldName());
-
-        if ( in_array($fieldNameTab[0], $this->rootAliases) ) {
-            array_shift($fieldNameTab);
-        }
-
-        $value = $row;
-        while (count($fieldNameTab) > 0) {
-            $fieldName = array_shift($fieldNameTab);
-            // return null if not found and nullIfNotExists to true
-            if ( ( !( is_array($value) && array_key_exists($fieldName, $value) ) ) && $field->getNullIfNotExists() ) {
-                $value = null;
-                break;
-            }
-            // get parameter in the $row
-            if (!is_array($value)) {
-                throw new DataGridException("for key=$fieldName (origin=".$field->getFieldName().") value should be an array and it is not one. value=".print_r($value, true));
-            }
-            if (!array_key_exists($fieldName, $value)) {
-                throw new DataGridException("key=$fieldName (origin=".$field->getFieldName().") not found in array=".print_r($value, true));
-            }
-            $value = $value[$fieldName];
+        $value = null;
+        $fieldName = $field->getFieldName();
+        if (array_key_exists($fieldName, $row)) {
+            $value = $row[$fieldName];
         }
         // real treatment
         if ( is_callable( $field->getFormatValueCallback() ) ) {
@@ -239,15 +218,6 @@ class Grid
         $html .= '</pre>';
         return $html;
     }
-
-    /**
-     * @param array $rootAliases
-     */
-    public function setRootAliases($rootAliases)
-    {
-        $this->rootAliases = $rootAliases;
-    }
-
     /**
      * @param \Kitpages\DataGridBundle\Paginator\Paginator $paginator
      */

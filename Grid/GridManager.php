@@ -119,7 +119,6 @@ class GridManager
 
         // end normalization
         $grid->setItemList($normalizedItemList);
-        $grid->setRootAliases($gridQueryBuilder->getRootAliases());
 
         return $grid;
     }

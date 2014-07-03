@@ -38,7 +38,7 @@ class ConversionSubscriber
         }
         else {
             $row = $event->get("row");
-            $event->set("value", $row["id"].';'.$event->get("value"));
+            $event->set("value", $row["node.id"].';'.$event->get("value"));
         }
 
     }

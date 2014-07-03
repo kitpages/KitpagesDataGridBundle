@@ -17,16 +17,13 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher');
 
         $this->grid = new Grid();
-        $this->grid->setRootAliases(array("shopOrder"));
         $this->grid->setDispatcher($dispatcher);
         $this->now = new \DateTime();
         $this->row = array(
-            "id" => 12,
-            "company" => array(
-                "name" => "Test Company"
-            ),
-            'html' => "<a>",
-            "createdAt" => $this->now
+            "node.id" => 12,
+            "company.name" => "Test Company",
+            'node.html' => "<a>",
+            "node.createdAt" => $this->now
         );
         $this->mockField = $this->getMockBuilder('Kitpages\DataGridBundle\Grid\Field')
             ->disableOriginalConstructor()
@@ -47,10 +44,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
 
         $this->mockField->expects($this->any())
             ->method('getFieldName')
-            ->will($this->onConsecutiveCalls('company.name', 'shopOrder.company.name', 'shopOrder.createdAt', 'shopOrder.id', 'id', 'shopOrder.html'));
-
-        $displayValue = $this->grid->displayGridValue($this->row, $this->mockField);
-        $this->assertEquals("Test Company", $displayValue);
+            ->will($this->onConsecutiveCalls('company.name', 'node.createdAt', 'node.id', 'node.html'));
 
         $displayValue = $this->grid->displayGridValue($this->row, $this->mockField);
         $this->assertEquals("Test Company", $displayValue);
@@ -62,11 +56,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(12, $displayValue);
 
         $displayValue = $this->grid->displayGridValue($this->row, $this->mockField);
-        $this->assertEquals(12, $displayValue);
-
-        $displayValue = $this->grid->displayGridValue($this->row, $this->mockField);
         $this->assertEquals('&lt;a&gt;', $displayValue);
-
     }
 
     public function testDisplayGridValueAutoEscapeFalse()
@@ -77,7 +67,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
 
         $this->mockField->expects($this->any())
             ->method('getFieldName')
-            ->will($this->onConsecutiveCalls('shopOrder.html'));
+            ->will($this->onConsecutiveCalls('node.html'));
 
         $displayValue = $this->grid->displayGridValue($this->row, $this->mockField);
         $this->assertEquals('<a>', $displayValue);
@@ -94,7 +84,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
 
         $this->mockField->expects($this->any())
             ->method('getFieldName')
-            ->will($this->onConsecutiveCalls('company.name', 'html'));
+            ->will($this->onConsecutiveCalls('company.name', 'node.html'));
 
         $displayValue = $this->grid->displayGridValue($this->row, $this->mockField);
         $this->assertEquals('TEST COMPANY', $displayValue);
@@ -110,11 +100,11 @@ class GridTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
         $this->mockField->expects($this->any())
             ->method('getFormatValueCallback')
-            ->will($this->returnValue(function($value, $row) { return strtoupper($value).';'.$row["id"]; }));
+            ->will($this->returnValue(function($value, $row) { return strtoupper($value).';'.$row["node.id"]; }));
 
         $this->mockField->expects($this->any())
             ->method('getFieldName')
-            ->will($this->onConsecutiveCalls('company.name', 'html'));
+            ->will($this->onConsecutiveCalls('company.name', 'node.html'));
 
         $displayValue = $this->grid->displayGridValue($this->row, $this->mockField);
         $this->assertEquals('TEST COMPANY;12', $displayValue);

@@ -80,7 +80,7 @@ class Field
     }
 
     /**
-     * @param \Kitpages\DataGridBundle\Grid\function $formatValueCallback
+     * @param callable $formatValueCallback
      */
     public function setFormatValueCallback($formatValueCallback)
     {
@@ -88,7 +88,7 @@ class Field
     }
 
     /**
-     * @return \Kitpages\DataGridBundle\Grid\function
+     * @return callable
      */
     public function getFormatValueCallback()
     {

@@ -5,10 +5,14 @@ KitpagesDataGridBundle
 
 This Symfony2 Bundle is a simple datagrid bundle. It aims to be easy to use and extensible.
 
+Version 2 is coming ! There are BC Breaks.
+You can stay on v1.x with composer.
+
 Actual state
 ============
 
-stable, production ready
+* v1.x is stable, production ready
+* v2.x is in beta state
 
 Features
 ========

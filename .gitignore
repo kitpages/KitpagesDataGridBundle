@@ -1,5 +1,6 @@
 phpunit.xml
 Tests/autoload.php
+Tests/app/cache
 .idea/*
 vendor/*
 composer.lock

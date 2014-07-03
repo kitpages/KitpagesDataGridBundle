@@ -14,10 +14,10 @@
     {% block kit_grid_filter %}
     <div class="kit-grid-filter">
         <form action="{{ grid.requestUri }}" id="{{grid.filterFormName}}_form" method="GET">
-            <label for="{{grid.filterFormName}}">{{ "Filter" | trans }}</label>
+            <label for="{{grid.filterFormName}}">{{ "kitpages_data_grid.Filter" | trans }}</label>
             <input type="text" name="{{grid.filterFormName}}" id="{{grid.filterFormName}}" size="10" value="{{ grid.filterValue }}"/>
-            <input type="submit" value="{{ "Apply" | trans }}" name="submit"/>
-            <a href="{{ grid.requestUri }}" id="{{grid.filterFormName}}_reset_button">{{ "Reset" | trans }}</a>
+            <input type="submit" value="{{ "kitpages_data_grid.Apply" | trans }}" name="submit"/>
+            <a href="{{ grid.requestUri }}" id="{{grid.filterFormName}}_reset_button">{{ "kitpages_data_grid.Reset" | trans }}</a>
         </form>
     </div>
     {% endblock %}
@@ -67,7 +67,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="{{ grid.gridConfig.fieldList | length }}" class="kit-grid-no-data">{{ "No data found" | trans }}</td>
+                <td colspan="{{ grid.gridConfig.fieldList | length }}" class="kit-grid-no-data">{{ "kitpages_data_grid.No-data-found" | trans }}</td>
             </tr>
         {% endfor %}
         </tbody>

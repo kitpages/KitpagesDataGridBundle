@@ -5,6 +5,7 @@ kitpages_data_grid:
 framework:
     trusted_hosts: ~
     secret: "test"
+    translator:      { fallback: "fr" }
     test: ~
     templating:
         engines: ['twig']

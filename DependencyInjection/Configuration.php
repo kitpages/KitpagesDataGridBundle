@@ -22,6 +22,7 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('kitpages_data_grid');
 
         $this->addGridConfiguration($rootNode);
+        $this->addPaginatorConfiguration($rootNode);
 
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for
@@ -40,7 +41,33 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->scalarNode('default_twig')
                             ->cannotBeEmpty()
-                            ->defaultValue('KitpagesDataGridBundle:Grid:grid-standard.html.twig')
+                            ->defaultValue('KitpagesDataGridBundle:Grid:grid.html.twig')
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+
+    }
+    private function addPaginatorConfiguration(ArrayNodeDefinition $node)
+    {
+        $node
+            ->addDefaultsIfNotSet()
+            ->children()
+                ->arrayNode('paginator')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('default_twig')
+                            ->cannotBeEmpty()
+                            ->defaultValue('KitpagesDataGridBundle:Paginator:paginator.html.twig')
+                        ->end()
+                        ->scalarNode('item_count_in_page')
+                            ->cannotBeEmpty()
+                            ->defaultValue(50)
+                        ->end()
+                        ->scalarNode('visible_page_count_in_paginator')
+                            ->cannotBeEmpty()
+                            ->defaultValue(5)
                         ->end()
                     ->end()
                 ->end()

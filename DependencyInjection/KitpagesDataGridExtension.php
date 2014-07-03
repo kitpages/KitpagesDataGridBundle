@@ -26,7 +26,8 @@ class KitpagesDataGridExtension extends Extension
         $loader->load('services.xml');
 
         $this->remapParameters($config, $container, array(
-            'grid'  => 'kitpages_data_grid.grid'
+            'grid'  => 'kitpages_data_grid.grid',
+            'paginator'  => 'kitpages_data_grid.paginator',
         ));
 
     }

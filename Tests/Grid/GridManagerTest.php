@@ -55,11 +55,16 @@ class GridManagerTest extends BundleOrmTestCase
     {
         // create EventDispatcher mock
         $service = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher');
+        $parameters = array(
+            "default_twig" => "toto.html.twig",
+            "item_count_in_page" => 50,
+            "visible_page_count_in_paginator" => 5
+        );
 
         // normalizer
         $normalizer = new LegacyNormalizer();
 
-        $gridManager = new GridManager($service, new PaginatorManager($service), $normalizer);
+        $gridManager = new GridManager($service, new PaginatorManager($service, $parameters), $normalizer);
         return $gridManager;
 
     }

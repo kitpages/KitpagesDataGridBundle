@@ -592,7 +592,7 @@ class appTestDebugProjectContainer extends Container
      */
     protected function getKitpagesDataGrid_GlobalsTwigExtensionService()
     {
-        return $this->services['kitpages_data_grid.globals_twig_extension'] = new \Kitpages\DataGridBundle\Twig\GlobalsTwigExtension(array('default_twig' => 'KitpagesDataGridBundle:Grid:grid-standard.html.twig'));
+        return $this->services['kitpages_data_grid.globals_twig_extension'] = new \Kitpages\DataGridBundle\Twig\GlobalsTwigExtension(array('default_twig' => 'KitpagesDataGridBundle:Grid:grid-standard.html.twig'), array('default_twig' => 'KitpagesDataGridBundle:Paginator:paginator.html.twig', 'item_count_in_page' => 50, 'visible_page_count_in_paginator' => 5));
     }
 
     /**
@@ -644,7 +644,7 @@ class appTestDebugProjectContainer extends Container
      */
     protected function getKitpagesDataGrid_PaginatorManagerService()
     {
-        return $this->services['kitpages_data_grid.paginator_manager'] = new \Kitpages\DataGridBundle\Paginator\PaginatorManager($this->get('debug.event_dispatcher'));
+        return $this->services['kitpages_data_grid.paginator_manager'] = new \Kitpages\DataGridBundle\Paginator\PaginatorManager($this->get('debug.event_dispatcher'), array('default_twig' => 'KitpagesDataGridBundle:Paginator:paginator.html.twig', 'item_count_in_page' => 50, 'visible_page_count_in_paginator' => 5));
     }
 
     /**
@@ -1885,6 +1885,11 @@ class appTestDebugProjectContainer extends Container
             'kitpages_data_grid.globals_twig_extension.class' => 'Kitpages\\DataGridBundle\\Twig\\GlobalsTwigExtension',
             'kitpages_data_grid.grid' => array(
                 'default_twig' => 'KitpagesDataGridBundle:Grid:grid-standard.html.twig',
+            ),
+            'kitpages_data_grid.paginator' => array(
+                'default_twig' => 'KitpagesDataGridBundle:Paginator:paginator.html.twig',
+                'item_count_in_page' => 50,
+                'visible_page_count_in_paginator' => 5,
             ),
             'twig.class' => 'Twig_Environment',
             'twig.loader.filesystem.class' => 'Symfony\\Bundle\\TwigBundle\\Loader\\FilesystemLoader',

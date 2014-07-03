@@ -20,6 +20,7 @@
         </service>
         <service id="kitpages_data_grid.paginator_manager" class="%kitpages_data_grid.paginator_manager.class%">
             <argument type="service" id="event_dispatcher"/>
+            <argument>%kitpages_data_grid.paginator%</argument>
         </service>
         <service id="kitpages_data_grid.item_list_normalizer.legacy" class="%kitpages_data_grid.item_list_normalizer.legacy.class%">
         </service>
@@ -28,6 +29,7 @@
 
         <service id="kitpages_data_grid.globals_twig_extension" class="%kitpages_data_grid.globals_twig_extension.class%">
             <argument>%kitpages_data_grid.grid%</argument>
+            <argument>%kitpages_data_grid.paginator%</argument>
             <tag name="twig.extension"/>
         </service>
 

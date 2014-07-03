@@ -207,6 +207,11 @@
     <parameter key="kitpages_data_grid.grid" type="collection">
       <parameter key="default_twig">KitpagesDataGridBundle:Grid:grid-standard.html.twig</parameter>
     </parameter>
+    <parameter key="kitpages_data_grid.paginator" type="collection">
+      <parameter key="default_twig">KitpagesDataGridBundle:Paginator:paginator.html.twig</parameter>
+      <parameter key="item_count_in_page">50</parameter>
+      <parameter key="visible_page_count_in_paginator">5</parameter>
+    </parameter>
     <parameter key="twig.class">Twig_Environment</parameter>
     <parameter key="twig.loader.filesystem.class">Symfony\Bundle\TwigBundle\Loader\FilesystemLoader</parameter>
     <parameter key="twig.loader.chain.class">Twig_Loader_Chain</parameter>
@@ -956,6 +961,11 @@
     </service>
     <service id="kitpages_data_grid.paginator_manager" class="Kitpages\DataGridBundle\Paginator\PaginatorManager">
       <argument type="service" id="debug.event_dispatcher"/>
+      <argument type="collection">
+        <argument key="default_twig">KitpagesDataGridBundle:Paginator:paginator.html.twig</argument>
+        <argument key="item_count_in_page">50</argument>
+        <argument key="visible_page_count_in_paginator">5</argument>
+      </argument>
     </service>
     <service id="kitpages_data_grid.item_list_normalizer.legacy" class="Kitpages\DataGridBundle\Grid\ItemListNormalizer\LegacyNormalizer"/>
     <service id="kitpages_data_grid.item_list_normalizer.standard" class="Kitpages\DataGridBundle\Grid\ItemListNormalizer\StandardNormalizer"/>
@@ -963,6 +973,11 @@
       <tag name="twig.extension"/>
       <argument type="collection">
         <argument key="default_twig">KitpagesDataGridBundle:Grid:grid-standard.html.twig</argument>
+      </argument>
+      <argument type="collection">
+        <argument key="default_twig">KitpagesDataGridBundle:Paginator:paginator.html.twig</argument>
+        <argument key="item_count_in_page">50</argument>
+        <argument key="visible_page_count_in_paginator">5</argument>
       </argument>
     </service>
     <service id="twig" class="Twig_Environment">

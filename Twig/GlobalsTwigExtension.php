@@ -9,10 +9,12 @@ class GlobalsTwigExtension
     protected $paginatorParameterList;
 
     public function __construct(
-        $gridParameterList
+        $gridParameterList,
+        $paginatorParameterList
     )
     {
         $this->gridParameterList = $gridParameterList;
+        $this->paginatorParameterList = $paginatorParameterList;
     }
 
     public function getGlobals()
@@ -20,7 +22,7 @@ class GlobalsTwigExtension
         return array(
             "kitpages_data_grid" => array(
                 'grid' => $this->gridParameterList,
-                'paginator' => array()
+                'paginator' => $this->paginatorParameterList
             )
         );
     }

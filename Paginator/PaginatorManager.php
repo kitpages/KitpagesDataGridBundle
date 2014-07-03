@@ -17,13 +17,18 @@ class PaginatorManager
     /** @var EventDispatcherInterface */
     protected $dispatcher;
 
+    /** @var  array */
+    protected $paginatorParameterList;
+
     /**
      * @param EventDispatcherInterface                $dispatcher
      */
     public function __construct(
-        EventDispatcherInterface $dispatcher
+        EventDispatcherInterface $dispatcher,
+        $paginatorParameterList
     ) {
         $this->dispatcher = $dispatcher;
+        $this->paginatorParameterList = $paginatorParameterList;
     }
 
     ////
@@ -39,6 +44,15 @@ class PaginatorManager
      */
     public function getPaginator(QueryBuilder $queryBuilder, PaginatorConfig $paginatorConfig, Request $request)
     {
+        // insert default values in paginator config
+        $paginatorConfig = clone($paginatorConfig);
+        if (is_null($paginatorConfig->getItemCountInPage())) {
+            $paginatorConfig->setItemCountInPage($this->paginatorParameterList["item_count_in_page"]);
+        }
+        if (is_null($paginatorConfig->getVisiblePageCountInPaginator())) {
+            $paginatorConfig->setVisiblePageCountInPaginator($this->paginatorParameterList["visible_page_count_in_paginator"]);
+        }
+
         // create paginator object
         $paginator = new Paginator();
         $paginator->setPaginatorConfig($paginatorConfig);

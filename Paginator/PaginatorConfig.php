@@ -12,10 +12,10 @@ class PaginatorConfig
     protected $queryBuilder = null;
 
     /** @var int */
-    protected $itemCountInPage = 50;
+    protected $itemCountInPage = null;
 
     /** @var int */
-    protected $visiblePageCountInPaginator = 5;
+    protected $visiblePageCountInPaginator = null;
 
     /** @var string */
     protected $countFieldName = null;

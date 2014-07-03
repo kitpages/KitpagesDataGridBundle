@@ -18,6 +18,20 @@ class PaginatorManagerTest extends BundleOrmTestCase
         parent::tearDown();
     }
 
+    protected function getPaginatorManager()
+    {
+        // create EventDispatcher mock
+        $service = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher');
+        $parameters = array(
+            "default_twig" => "toto.html.twig",
+            "item_count_per_page" => 50,
+            "visible_page_count_in_paginator" => 5
+        );
+        // create paginatorManager
+        $paginatorManager = new PaginatorManager($service, $parameters);
+        return $paginatorManager;
+
+    }
     public function testPaginator()
     {
         // create queryBuilder
@@ -26,14 +40,10 @@ class PaginatorManagerTest extends BundleOrmTestCase
         $queryBuilder = $repository->createQueryBuilder("node");
         $queryBuilder->select("node");
 
-        // create EventDispatcher mock
-        $service = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher');
         // create Request mock (ok this is not a mock....)
         $request = new \Symfony\Component\HttpFoundation\Request();
         $_SERVER["REQUEST_URI"] = "/foo";
-
-        // create gridManager instance
-        $gridManager = new PaginatorManager($service);
+        $paginatorManager = $this->getPaginatorManager();
 
         // configure paginator
         $paginatorConfig = new PaginatorConfig();
@@ -41,7 +51,7 @@ class PaginatorManagerTest extends BundleOrmTestCase
         $paginatorConfig->setItemCountInPage(3);
 
         // get paginator
-        $paginator = $gridManager->getPaginator($queryBuilder, $paginatorConfig, $request);
+        $paginator = $paginatorManager->getPaginator($queryBuilder, $paginatorConfig, $request);
 
         // tests
         $this->assertEquals(11, $paginator->getTotalItemCount());
@@ -70,7 +80,8 @@ class PaginatorManagerTest extends BundleOrmTestCase
         $_SERVER["REQUEST_URI"] = "/foo";
 
         // create gridManager instance
-        $gridManager = new PaginatorManager($service);
+        $paginatorManager = $this->getPaginatorManager();
+
 
         // configure paginator
         $paginatorConfig = new PaginatorConfig();
@@ -78,7 +89,7 @@ class PaginatorManagerTest extends BundleOrmTestCase
         $paginatorConfig->setItemCountInPage(3);
 
         // get paginator
-        $paginator = $gridManager->getPaginator($queryBuilder, $paginatorConfig, $request);
+        $paginator = $paginatorManager->getPaginator($queryBuilder, $paginatorConfig, $request);
 
         // tests
         $this->assertEquals(6, $paginator->getTotalItemCount());

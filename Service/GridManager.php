@@ -195,8 +195,8 @@ class GridManager
                 if ($field->getFieldName() == $sortField) {
                     if ($field->getSortable() == true) {
                         $sortFieldObject = $field;
+                        break;
                     }
-                    break;
                 }
             }
             if (!$sortFieldObject) {

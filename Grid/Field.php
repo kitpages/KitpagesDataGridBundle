@@ -1,6 +1,8 @@
 <?php
 namespace Kitpages\DataGridBundle\Grid;
 
+use Kitpages\DataGridBundle\DataGridException;
+
 class Field
 {
     /** @var string */
@@ -24,7 +26,7 @@ class Field
     /** @var bool */
     protected $nullIfNotExists = false;
     /** @var array  */
-    protected $data = array();
+    protected $dataList = array();
 
     public function __construct($fieldName, $optionList = array())
     {
@@ -41,7 +43,7 @@ class Field
                 "translatable",
                 "category",
                 "nullIfNotExists",
-                "data"
+                "dataList"
             ) )) {
                 $this->$key = $val;
             } else {
@@ -211,19 +213,16 @@ class Field
     }
 
     /**
-     * @param array $data
-     */
-    public function setData($data)
-    {
-        $this->data = $data;
-    }
-
-    /**
      * @return array
      */
-    public function getData()
+    public function getData($key)
     {
-        return $this->data;
+        if (!array_key_exists($key, $this->dataList)) {
+            throw new DataGridException(
+                "key [$key] is not defined in the data-list (should be defined in the dataList parameter in the new Field..."
+            );
+        }
+        return $this->dataList[$key];
     }
 
 }

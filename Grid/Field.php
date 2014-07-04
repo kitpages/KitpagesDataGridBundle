@@ -23,6 +23,8 @@ class Field
     protected $category = null;
     /** @var bool */
     protected $nullIfNotExists = false;
+    /** @var array  */
+    protected $data = array();
 
     public function __construct($fieldName, $optionList = array())
     {
@@ -38,7 +40,8 @@ class Field
                 "autoEscape",
                 "translatable",
                 "category",
-                "nullIfNotExists"
+                "nullIfNotExists",
+                "data"
             ) )) {
                 $this->$key = $val;
             } else {
@@ -205,6 +208,22 @@ class Field
     public function getNullIfNotExists()
     {
         return $this->nullIfNotExists;
+    }
+
+    /**
+     * @param array $data
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
+    }
+
+    /**
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->data;
     }
 
 }

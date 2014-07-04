@@ -52,7 +52,7 @@ Add KitpagesChainBundle in your composer.json
 ```js
 {
     "require": {
-        "kitpages/data-grid-bundle": "*"
+        "kitpages/data-grid-bundle": "~2.0"
     }
 }
 ```
@@ -75,12 +75,22 @@ $bundles = array(
 Configuration in config.yml
 ===========================
 
-no configuration
+These values are default values. You can skip the configuration if it is ok for you.
+
+```yaml
+kitpages_data_grid:
+    grid:
+        default_twig: KitpagesDataGridBundle:Grid:grid.html.twig
+    paginator:
+        default_twig: KitpagesDataGridBundle:Paginator:paginator.html.twig
+        item_count_in_page: 50
+        visible_page_count_in_paginator: 5
+```
 
 Simple Usage example
 ====================
-In the controller
------------------
+
+## In the controller
 
 ```php
 use Kitpages\DataGridBundle\Grid\GridConfig;
@@ -121,34 +131,22 @@ class ContactController
 }
 ```
 
-Twig associated
----------------
+## Twig associated
+
 In your twig you just have to put this code to display the grid you configured.
 
     {% embed kitpages_data_grid.grid.default_twig with {'grid': grid} %}
     {% endembed %}
 
-Debug system
-------------
-If you want to see which data are available, you can do that :
-
-```php
-$grid = $gridManager->getGrid($queryBuilder, $gridConfig, $this->getRequest());
-$grid->setDebugMode(true);
-return $this->render('AppSiteBundle:Default:productList.html.twig', array(
-    'grid' => $grid
-));
-```
-
 More advanced usage
 ===================
-In the controller
------------------
+
+## In the controller
 
 same controller than before
 
-Twig associated
----------------
+## Twig associated
+
 If you want to add a column on the right of the table, you can put this code in your twig.
 
     {% embed kitpages_data_grid.grid.default_twig with {'grid': grid} %}
@@ -165,8 +163,8 @@ If you want to add a column on the right of the table, you can put this code in 
 
 More advanced usage
 ===================
-In the controller
------------------
+
+## In the controller
 
 ```php
 use Kitpages\DataGridBundle\Grid\GridConfig;
@@ -180,23 +178,23 @@ class AdminController extends Controller
         // create query builder
         $em = $this->get('doctrine')->getEntityManager();
         $queryBuilder = $em->createQueryBuilder()
-            ->select('mission, employee, client')
-            ->from('KitappMissionBundle:Mission', 'mission')
-            ->leftJoin('mission.employee', 'employee')
-            ->leftJoin('mission.client', 'client')
-            ->where('mission.state = :state')
-            ->add('orderBy', 'mission.updatedAt DESC')
+            ->select('m, e, c')
+            ->from('KitappMissionBundle:Mission', 'm')
+            ->leftJoin('m.employee', 'e')
+            ->leftJoin('m.client', 'c')
+            ->where('m.state = :state')
+            ->add('orderBy', 'm.updatedAt DESC')
             ->setParameter('state', $state)
         ;
 
         $gridConfig = new GridConfig();
         $gridConfig
-            ->setCountFieldName("mission.id");
-            ->addField(new Field('mission.title', array('label' => 'title', 'filterable' => true)))
-            ->addField(new Field('mission.country', array('filterable' => true)))
-            ->addField(new Field('client.corporation', array('filterable' => true)))
-            ->addField(new Field('employee.lastname', array('filterable' => true)))
-            ->addField(new Field('employee.email', array('filterable' => true)))
+            ->setCountFieldName("m.id");
+            ->addField(new Field('m.title', array('label' => 'title', 'filterable' => true)))
+            ->addField(new Field('m.country', array('filterable' => true)))
+            ->addField(new Field('c.corporation', array('filterable' => true)))
+            ->addField(new Field('e.lastname', array('filterable' => true)))
+            ->addField(new Field('e.email', array('filterable' => true)))
         ;
 
         $gridManager = $this->get('kitpages_data_grid.manager');
@@ -209,28 +207,26 @@ class AdminController extends Controller
 }
 ```
 
-Twig associated
----------------
+## Twig associated
+
 same Twig than before
 
-Limitation
+Field "as"
 ==========
 
-Field "as"
-----------
 For request like
 
     $queryBuilder->select("item, item.id * 3 as foo");
 
 You can display the foo field with
 
+    $gridConfig->addField(new Field("item.id"));
     $gridConfig->addField(new Field("foo"));
 
-But this field can't be sortable or filterable because of a limitation of the
-doctrine2 query builder.
 
 Events
 ======
+
 You can modify the way this bundle works by listening events and modify some
 objects injected in the $event.
 
@@ -238,8 +234,9 @@ see the event documentation in Resources/doc/30-Events.md
 
 Reference guide
 ===============
-Add a field in the gridConfig
------------------------------
+
+## Add a field in the gridConfig
+
 when you add a field, you can set these parameters :
 
 ```php
@@ -256,8 +253,8 @@ $gridConfig->addField(new Field('slug', array(
 )));
 ```
 
-What can you personalize in your twig template
-----------------------------------------------
+## What can you personalize in your twig template
+
 With the embed system of twig 1.8 and more, you can override some parts of the default
 rendering (see example in the "More advanced usage" paragraph).
 

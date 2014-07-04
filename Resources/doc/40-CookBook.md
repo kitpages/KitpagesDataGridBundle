@@ -10,3 +10,4 @@ You just have to use the twig embed bootstrap-grid.html.twig instead of grid.htm
     {% endembed %}
 ```
 
+You can also change the default embed in the config.yml file.

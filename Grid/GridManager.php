@@ -50,13 +50,13 @@ class GridManager
     /**
      * get grid object filled
      *
-     * @param  \Doctrine\ORM\QueryBuilder                $queryBuilder
      * @param  \Kitpages\DataGridBundle\Grid\GridConfig $gridConfig
      * @param  \Symfony\Component\HttpFoundation\Request $request
      * @return \Kitpages\DataGridBundle\Grid\Grid
      */
-    public function getGrid(QueryBuilder $queryBuilder, GridConfig $gridConfig, Request $request)
+    public function getGrid(GridConfig $gridConfig, Request $request)
     {
+        $queryBuilder = $gridConfig->getQueryBuilder();
         // create grid objet
         $grid = new Grid();
         $grid->setGridConfig($gridConfig);
@@ -87,8 +87,12 @@ class GridManager
             $paginatorConfig = new PaginatorConfig();
             $paginatorConfig->setCountFieldName($gridConfig->getCountFieldName());
             $paginatorConfig->setName($gridConfig->getName());
+            $paginatorConfig->setQueryBuilder($gridQueryBuilder);
         }
-        $paginator = $this->paginatorManager->getPaginator($gridQueryBuilder, $paginatorConfig, $request);
+        if (is_null($paginatorConfig->getQueryBuilder())) {
+            $paginatorConfig->setQueryBuilder($gridQueryBuilder);
+        }
+        $paginator = $this->paginatorManager->getPaginator($paginatorConfig, $request);
         $grid->setPaginator($paginator);
 
         // calculate limits

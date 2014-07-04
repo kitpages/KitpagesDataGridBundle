@@ -100,7 +100,8 @@ class GridManagerTest extends BundleOrmTestCase
         ));
 
         // get paginator
-        $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $request);
+        $gridConfig->setQueryBuilder($queryBuilder);
+        $grid = $gridManager->getGrid($gridConfig, $request);
         $paginator = $grid->getPaginator();
 
         // tests paginator
@@ -133,7 +134,8 @@ class GridManagerTest extends BundleOrmTestCase
         $gridConfig->addField(new Field("doubleId"));
 
         // get paginator
-        $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $request);
+        $gridConfig->setQueryBuilder($queryBuilder);
+        $grid = $gridManager->getGrid($gridConfig, $request);
         $paginator = $grid->getPaginator();
 
         // tests paginator
@@ -179,7 +181,8 @@ class GridManagerTest extends BundleOrmTestCase
         $gridConfig->addField(new Field("doubleId"));
 
         // get paginator
-        $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $request);
+        $gridConfig->setQueryBuilder($queryBuilder);
+        $grid = $gridManager->getGrid( $gridConfig, $request);
         $paginator = $grid->getPaginator();
 
         // tests paginator
@@ -215,7 +218,8 @@ class GridManagerTest extends BundleOrmTestCase
         $gridConfig->addField($mainNodeIdField);
 
         // get paginator
-        $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $request);
+        $gridConfig->setQueryBuilder($queryBuilder);
+        $grid = $gridManager->getGrid($gridConfig, $request);
         $paginator = $grid->getPaginator();
 
         // tests paginator
@@ -277,7 +281,8 @@ class GridManagerTest extends BundleOrmTestCase
         $gridConfig = $this->initGridConfig();
 
         // get paginator
-        $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $request);
+        $gridConfig->setQueryBuilder($queryBuilder);
+        $grid = $gridManager->getGrid($gridConfig, $request);
         $paginator = $grid->getPaginator();
 
         // tests paginator
@@ -290,12 +295,14 @@ class GridManagerTest extends BundleOrmTestCase
         $this->assertEquals( 1 , $paginator->getCurrentPage());
 
         $request->query->set("kitdg_grid_grid_sort_field", "node.user");
-        $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $request);
+        $gridConfig->setQueryBuilder($queryBuilder);
+        $grid = $gridManager->getGrid($gridConfig, $request);
         $itemList = $grid->getItemList();
         $this->assertEquals( 6 , $itemList[0]["node.id"]);
 
         $request->query->set("kitdg_grid_grid_filter", "foo");
-        $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $request);
+        $gridConfig->setQueryBuilder($queryBuilder);
+        $grid = $gridManager->getGrid($gridConfig, $request);
         $itemList = $grid->getItemList();
         $this->assertEquals( 3 , count($itemList));
 
@@ -320,7 +327,8 @@ class GridManagerTest extends BundleOrmTestCase
         $gridConfig = $this->initGridConfig();
 
         // get paginator
-        $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $request);
+        $gridConfig->setQueryBuilder($queryBuilder);
+        $grid = $gridManager->getGrid($gridConfig, $request);
         $paginator = $grid->getPaginator();
 
         // tests paginator
@@ -333,7 +341,8 @@ class GridManagerTest extends BundleOrmTestCase
         $this->assertEquals( 1 , $paginator->getCurrentPage());
 
         $request->query->set("kitdg_grid_grid_filter", "fös");
-        $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $request);
+        $gridConfig->setQueryBuilder($queryBuilder);
+        $grid = $gridManager->getGrid($gridConfig, $request);
         $itemList = $grid->getItemList();
         $this->assertEquals( 1 , count($itemList));
 
@@ -359,7 +368,8 @@ class GridManagerTest extends BundleOrmTestCase
         $gridConfig = $this->initGridConfig();
 
         // get paginator
-        $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $request);
+        $gridConfig->setQueryBuilder($queryBuilder);
+        $grid = $gridManager->getGrid($gridConfig, $request);
         $paginator = $grid->getPaginator();
 
         // tests paginator
@@ -372,12 +382,14 @@ class GridManagerTest extends BundleOrmTestCase
         $this->assertEquals( 1 , $paginator->getCurrentPage());
 
         $request->query->set("kitdg_grid_grid_sort_field", "node.user");
-        $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $request);
+        $gridConfig->setQueryBuilder($queryBuilder);
+        $grid = $gridManager->getGrid($gridConfig, $request);
         $itemList = $grid->getItemList();
         $this->assertEquals( 6 , $itemList[0]["node.id"]);
 
         $request->query->set("kitdg_grid_grid_selector_value", "5");
-        $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $request);
+        $gridConfig->setQueryBuilder($queryBuilder);
+        $grid = $gridManager->getGrid($gridConfig, $request);
         $itemList = $grid->getItemList();
         $this->assertEquals( 0 , count($itemList));
 

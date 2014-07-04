@@ -21,6 +21,7 @@ If you want to change the result number on each page for example.
 
         $gridConfig = new GridConfig();
         $gridConfig
+            ->setQueryBuilder($queryBuilder)
             ->setCountFieldName('ol.id')
             ->addField(new Field('ol.id', array('sortable' => true)))
             ->addField(new Field('ol.shopReference', array(
@@ -43,7 +44,7 @@ If you want to change the result number on each page for example.
         ;
         $gridConfig->setPaginatorConfig($gridPaginatorConfig);
 
-        $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $this->getRequest());
+        $grid = $gridManager->getGrid($gridConfig, $this->getRequest());
 
         return $this->render('AppSiteBundle:Default:grid.html.twig', array(
             'grid' => $grid
@@ -157,6 +158,7 @@ the leftJoin() condition in your queryBuilder.
 
         $gridConfig = new GridConfig();
         $gridConfig
+            ->setQueryBuilder($queryBuilder)
             ->setCountFieldName('c.id')
             ->addField(new Field('c.foo')
             ->addField(new Field('c.idParent', array(
@@ -166,7 +168,7 @@ the leftJoin() condition in your queryBuilder.
         ;
 
         $gridManager = $this->get('kitpages_data_grid.manager');
-        $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $this->getRequest());
+        $grid = $gridManager->getGrid($gridConfig, $this->getRequest());
 
         return $this->render('MySiteBundle:Default:grid.html.twig', array(
             'grid' => $grid
@@ -201,12 +203,13 @@ If you have for exemple an article with a comments property wich is a 1-n relati
         ;
 
         $gridConfig = new GridConfig();
+        $gridConfig->setQueryBuilder($qb)
         $gridConfig->setCountFieldName("c1.id");
         $gridConfig->addField(new Field("c1.comment", array("label" => "Comment")));
         $gridConfig->addField(new Field("c1.author", array("label" => "Author", "filterable" => true, "sortable" => true)));
 
         $gridManager = $this->get("kitpages_data_grid.manager");
-        $grid = $gridManager->getGrid($qb, $gridConfig, $this->getRequest());
+        $grid = $gridManager->getGrid($gridConfig, $this->getRequest());
 
         return $this->render('MySiteBundle:Default:grid.html.twig', array(
             'grid' => $grid
@@ -266,6 +269,7 @@ added before the count field.
 
     $gridConfig = new GridConfig();
     $gridConfig
+        ->setQueryBuilder($queryBuilder)
         ->setCountFieldName('item.type')
         ->addField(new Field('item.type'))
         ->addField(new Field('cnt'))

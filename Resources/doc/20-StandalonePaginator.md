@@ -21,7 +21,8 @@ In your controller
 
         $paginatorConfig = new PaginatorConfig();
         $paginatorConfig->setCountFieldName("ol.id");
-        $paginator = $gridManager->getPaginator($queryBuilder, $paginatorConfig, $this->getRequest());
+        $paginatorConfig->setQueryBuilder($queryBuilder);
+        $paginator = $gridManager->getPaginator($paginatorConfig, $this->getRequest());
         return $this->render('AppSiteBundle:Default:paginator.html.twig', array(
             "paginator" => $paginator
         ));

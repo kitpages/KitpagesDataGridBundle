@@ -109,6 +109,7 @@ class ContactController
 
         $gridConfig = new GridConfig();
         $gridConfig
+            ->setQueryBuilder($queryBuilder)
             ->setCountFieldName('item.id')
             ->addField(new Field('item.id'))
             ->addField(new Field('item.slug', array('filterable' => true)))
@@ -122,7 +123,7 @@ class ContactController
         ;
 
         $gridManager = $this->get('kitpages_data_grid.manager');
-        $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $this->getRequest());
+        $grid = $gridManager->getGrid($gridConfig, $this->getRequest());
 
         return $this->render('AppSiteBundle:Default:productList.html.twig', array(
             'grid' => $grid
@@ -189,6 +190,7 @@ class AdminController extends Controller
 
         $gridConfig = new GridConfig();
         $gridConfig
+            ->setQueryBuilder($queryBuilder)
             ->setCountFieldName("m.id");
             ->addField(new Field('m.title', array('label' => 'title', 'filterable' => true)))
             ->addField(new Field('m.country', array('filterable' => true)))
@@ -198,7 +200,7 @@ class AdminController extends Controller
         ;
 
         $gridManager = $this->get('kitpages_data_grid.manager');
-        $grid = $gridManager->getGrid($queryBuilder, $gridConfig, $this->getRequest());
+        $grid = $gridManager->getGrid($gridConfig, $this->getRequest());
 
         return $this->render('KitappMissionBundle:Admin:list.html.twig', array(
             'grid' => $grid

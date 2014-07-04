@@ -51,7 +51,8 @@ class PaginatorManagerTest extends BundleOrmTestCase
         $paginatorConfig->setItemCountInPage(3);
 
         // get paginator
-        $paginator = $paginatorManager->getPaginator($queryBuilder, $paginatorConfig, $request);
+        $paginatorConfig->setQueryBuilder($queryBuilder);
+        $paginator = $paginatorManager->getPaginator($paginatorConfig, $request);
 
         // tests
         $this->assertEquals(11, $paginator->getTotalItemCount());
@@ -89,7 +90,8 @@ class PaginatorManagerTest extends BundleOrmTestCase
         $paginatorConfig->setItemCountInPage(3);
 
         // get paginator
-        $paginator = $paginatorManager->getPaginator($queryBuilder, $paginatorConfig, $request);
+        $paginatorConfig->setQueryBuilder($queryBuilder);
+        $paginator = $paginatorManager->getPaginator($paginatorConfig, $request);
 
         // tests
         $this->assertEquals(6, $paginator->getTotalItemCount());

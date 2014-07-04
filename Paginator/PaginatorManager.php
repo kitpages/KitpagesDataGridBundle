@@ -37,13 +37,13 @@ class PaginatorManager
     /**
      * get Paginator object
      *
-     * @param  \Doctrine\ORM\QueryBuilder                     $queryBuilder
      * @param  \Kitpages\DataGridBundle\Paginator\PaginatorConfig $paginatorConfig
      * @param  \Symfony\Component\HttpFoundation\Request      $request
      * @return \Kitpages\DataGridBundle\Paginator\Paginator
      */
-    public function getPaginator(QueryBuilder $queryBuilder, PaginatorConfig $paginatorConfig, Request $request)
+    public function getPaginator(PaginatorConfig $paginatorConfig, Request $request)
     {
+        $queryBuilder = $paginatorConfig->getQueryBuilder();
         // insert default values in paginator config
         $paginatorConfig = clone($paginatorConfig);
         if (is_null($paginatorConfig->getItemCountInPage())) {

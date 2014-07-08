@@ -1,11 +1,15 @@
 Versions :
 ==========
 
-2014-07-03 : v2.0.0
+2014-07-08 : v2.0.0
 
-* WARINIG : Huge BC Break
+* WARINIG : BC Break, you can switch to branch 1.x
 * new : major refactoring: separation of paginator and grid
-* new : request normalizer modification
+* new : much easier access to fields
+* new : refactoring : normalizer is a new service
+* new : api changes: the queryBuilder is now in the GridConfiguration object
+* new : catagory and dataList : you can transfert data to a field to use these custom data in events
+* new : configuration for default twigs in config.yml
 
 2013-06-12 : tag v1.10.0
 

@@ -4,8 +4,6 @@ namespace Kitpages\DataGridBundle\Paginator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-use Doctrine\ORM\QueryBuilder;
-
 use Kitpages\DataGridBundle\Paginator\PaginatorConfig;
 use Kitpages\DataGridBundle\Paginator\Paginator;
 use Kitpages\DataGridBundle\Tool\UrlTool;

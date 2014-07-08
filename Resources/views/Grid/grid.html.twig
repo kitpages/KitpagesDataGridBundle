@@ -22,7 +22,7 @@
     </div>
     {% endblock %}
     {% block kit_grid_debug %}
-        {% if grid.isDebug %}
+        {% if grid.debugMode %}
             {{ grid.dump() | raw }}
         {% endif %}
     {% endblock %}

@@ -362,24 +362,6 @@ class Grid
     {
         return $this->debugMode;
     }
-    /**
-     * @param boolean $isDebug
-     * @deprecated use setDebugMode instead
-     */
-    public function setIsDebug($isDebug)
-    {
-        $this->setDebugMode($isDebug);
-        return $this;
-    }
-
-    /**
-     * @return boolean
-     * @deprecated use getDebugMode instead
-     */
-    public function getIsDebug()
-    {
-        return $this->getDebugMode();
-    }
 
     /**
      * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher

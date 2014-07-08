@@ -19,33 +19,16 @@ class StandardNormalizer
     {
         // execute the query
         $itemList = $query->getArrayResult();
-//        debug($itemList);
 
         $dqlParts = $queryBuilder->getDQLParts();
         $rootAlias = $dqlParts["from"][0]->getAlias();
-//        debug($dqlParts);
 
         // normalize result (for request of type $queryBuilder->select("item, bp, item.id * 3 as titi"); )
         $normalizedItemList = array();
         foreach ($itemList as $item) {
-
             $normalizedItem = $this->normalizeOneItem($dqlParts, $item, $rootAlias);
-
-//            $normalizedItem = array();
-//            foreach ($item as $key => $val) {
-//                // hack : is_array is added according to this issue : https://github.com/kitpages/KitpagesDataGridBundle/issues/18
-//                // can't reproduce this error...
-//                if (is_int($key) && is_array($val)) {
-//                    foreach ($val as $newKey => $newVal) {
-//                        $normalizedItem[$newKey] = $newVal;
-//                    }
-//                } else {
-//                    $normalizedItem[$key] = $val;
-//                }
-//            }
             $normalizedItemList[] = $normalizedItem;
         }
-//        debug($normalizedItemList);
         return $normalizedItemList;
     }
 
@@ -66,9 +49,6 @@ class StandardNormalizer
                 $joinAliasList[$attributeName] = $join->getAlias();
             }
         }
-//        debug ($joinAliasList);
-//        debug ($item);
-
         // check if there is a "as xxx" in the dql
         // horrible hack but doctrine doesn't help so much here...
         // if there is numerical keys in the result, as xxx are alpha numeric keys and

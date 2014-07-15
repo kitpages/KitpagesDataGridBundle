@@ -126,7 +126,7 @@ class ContactController
             ))
         ;
 
-        $gridManager = $this->get('kitpages_data_grid.manager');
+        $gridManager = $this->get('kitpages_data_grid.grid_manager');
         $grid = $gridManager->getGrid($gridConfig, $this->getRequest());
 
         return $this->render('AppSiteBundle:Default:productList.html.twig', array(

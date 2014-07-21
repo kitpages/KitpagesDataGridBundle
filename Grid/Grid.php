@@ -105,31 +105,31 @@ class Grid
             $callback = $field->getFormatValueCallback();
             $reflection = new \ReflectionFunction($callback);
             if ($reflection->getNumberOfParameters() == 1) {
-                $returnValue =  $callback($value);
+                $value =  $callback($value);
             } elseif ($reflection->getNumberOfParameters() == 2) {
-                $returnValue =  $callback($value, $row);
+                $value =  $callback($value, $row);
             } else {
                 throw new DataGridException("Wrong number of parameters in the callback for field ".$field->getFieldName());
             }
-        } else {
-            // send event for changing grid query builder
-            $event = new DataGridEvent();
-            $event->set("value", $value);
-            $event->set("row", $row);
-            $event->set("field", $field);
-            $this->dispatcher->dispatch(KitpagesDataGridEvents::ON_DISPLAY_GRID_VALUE_CONVERSION, $event);
-            if (!$event->isDefaultPrevented()) {
-                $value = $event->get("value");
-                if ($value instanceof \DateTime) {
-                    $returnValue = $value->format("Y-m-d H:i:s");
-                } else {
-                    $returnValue = $value;
-                }
-                $event->set("returnValue", $returnValue);
-            }
-            $this->dispatcher->dispatch(KitpagesDataGridEvents::AFTER_DISPLAY_GRID_VALUE_CONVERSION, $event);
-            $returnValue = $event->get("returnValue");
         }
+        // send event for changing grid query builder
+        $event = new DataGridEvent();
+        $event->set("value", $value);
+        $event->set("row", $row);
+        $event->set("field", $field);
+        $this->dispatcher->dispatch(KitpagesDataGridEvents::ON_DISPLAY_GRID_VALUE_CONVERSION, $event);
+        if (!$event->isDefaultPrevented()) {
+            $value = $event->get("value");
+            if ($value instanceof \DateTime) {
+                $returnValue = $value->format("Y-m-d H:i:s");
+            } else {
+                $returnValue = $value;
+            }
+            $event->set("returnValue", $returnValue);
+        }
+        $this->dispatcher->dispatch(KitpagesDataGridEvents::AFTER_DISPLAY_GRID_VALUE_CONVERSION, $event);
+        $returnValue = $event->get("returnValue");
+
         // auto escape ? (if null, return null, without autoescape...)
         if ($field->getAutoEscape() && !is_null($returnValue)) {
             $returnValue = htmlspecialchars($returnValue);

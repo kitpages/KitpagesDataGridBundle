@@ -1,6 +1,11 @@
 Versions :
 ==========
 
+2014-07-21 : v2.1.0
+
+* no BC Break
+* new: you can now chain a formatValueCallback and the event system
+
 2014-07-08 : v2.0.0
 
 * WARINIG : BC Break, you can switch to branch 1.x

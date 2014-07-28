@@ -1,6 +1,11 @@
 Versions :
 ==========
 
+2014-07-28 : v2.1.1
+
+* no BC Break
+* fix: minor syntax fix in translations
+
 2014-07-21 : v2.1.0
 
 * no BC Break

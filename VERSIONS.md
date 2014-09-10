@@ -1,6 +1,12 @@
 Versions :
 ==========
 
+2014-09-10 : v2.2.0
+
+* no BC Break
+* refactor: JS refactoring thanks to snovichkov
+* doc: fixes in doc
+
 2014-07-28 : v2.1.1
 
 * no BC Break

@@ -16,7 +16,7 @@
         <form class="form-search pull-right" action="{{ grid.requestUri }}" id="{{grid.filterFormName}}_form" method="GET">
             <input class="input-medium search-query" type="text" name="{{grid.filterFormName}}" placeholder="{{ "kitpages_data_grid.Filter" | trans }}" id="{{grid.filterFormName}}" value="{{ grid.filterValue }}"/>
             <button type="submit" class="btn" value="{{ "kitpages_data_grid.Apply" | trans }}">{{ "kitpages_data_grid.Apply" | trans }}</button>
-            <a class="btn btn-mini" href="{{ grid.requestUri }}" id="{{grid.filterFormName}}_reset_button">{{ "kitpages_data_grid.Reset" | trans }}</a>
+            <a class="btn btn-mini" href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" id="{{grid.filterFormName}}_reset_button">{{ "kitpages_data_grid.Reset" | trans }}</a>
         </form>
     </div>
     {% endblock %}

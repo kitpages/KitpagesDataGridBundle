@@ -289,7 +289,7 @@ You can format a data with a twig template by using the callback system :
         'ol.updatedAt',
         array(
             "formatValueCallback"=>function($value, $row) use ($twig) {
-                return $twig->render("AppSiteBundle:Default:grid-element.html.twig", $row);
+                return $twig->render("AppSiteBundle:Default:grid-element.html.twig", array("row" => $row, 'value' => $value) );
             },
             "autoEscape" => false
         )

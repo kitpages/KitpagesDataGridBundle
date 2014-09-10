@@ -124,7 +124,7 @@ modify the way we can apply the filter
         public function onApplyFilter(DataGridEvent $event)
         {
             // data available
-            $gridQueryBuilder = $event->get("gridQueryBuilder");
+            $queryBuilder = $event->get("gridQueryBuilder");
             $grid = $event->get("grid");
             $filter = $event->get("filter");
 
@@ -337,6 +337,39 @@ class GridListener
         if ($event->get("field")->getCategory() == "need_uppercase") {
             $event->set("returnValue", strtoupper($event->get("returnValue")));
         }
+    }
+}
+```
+
+
+## kitpages_data_grid.on_apply_selector
+
+Allows to change the way selector fields filters the results
+
+```php
+<?php
+namespace App\SiteBundle\EventListener;
+
+use Kitpages\DataGridBundle\Event\DataGridEvent;
+
+class GridListener
+{
+    public function onApplySelector(DataGridEvent $event)
+    {
+        // data available
+        $queryBuilder = $event->get("gridQueryBuilder");
+        $grid = $event->get("grid");
+        $selectorField = $event->get("selectorField");
+        $selectorValue = $event->get("selectorValue");
+
+        $queryBuilder->andWhere($selectorField." = :selectorValue");
+        $queryBuilder->setParameter("selectorValue", $selectorValue);
+
+        $grid->setSelectorField($selectorField);
+        $grid->setSelectorValue($selectorValue);
+
+        // cancel default behavior
+        $event->preventDefault();
     }
 }
 ```

@@ -322,7 +322,7 @@ Let's see in this example how to add checkboxes on the left of the grid for mult
         {% endblock %}
 
         {% block kit_grid_tbody_before_column %}
-            <td><input type="checkbox" name="check_{{ item.id }}" /></td>
+            <td><input type="checkbox" name="check_{{ item['item.id'] }}" /></td>
         {% endblock %}
 
         {% block kit_grid_after_table %}

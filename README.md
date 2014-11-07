@@ -16,7 +16,7 @@ Actual state
 ============
 
 * v1.x is stable, production ready
-* v2.x is in beta state
+* v2.x is stable and production ready
 
 Features
 ========

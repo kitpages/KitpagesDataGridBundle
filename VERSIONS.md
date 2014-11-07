@@ -1,6 +1,11 @@
 Versions :
 ==========
 
+2014-11-07 : v2.3.0
+
+* no BC Break
+* fix: important fix when using datagrid inside a subrequest
+
 2014-09-10 : v2.2.0
 
 * no BC Break

@@ -36,6 +36,10 @@ class Grid
     protected $selectorField = null;
     /** @var string */
     protected $selectorValue = null;
+    /** @var string */
+    protected $requestCurrentRoute = null;
+    /** @var array */
+    protected $requestCurrentRouteParams = array();
 
     public function __construct()
     {
@@ -256,6 +260,38 @@ class Grid
     public function setRequestUri($requestUri)
     {
         $this->requestUri = $requestUri;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRequestCurrentRoute()
+    {
+        return $this->requestCurrentRoute;
+    }
+
+    /**
+     * @param string $requestCurrentRoute
+     */
+    public function setRequestCurrentRoute($requestCurrentRoute)
+    {
+        $this->requestCurrentRoute = $requestCurrentRoute;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRequestCurrentRouteParams()
+    {
+        return $this->requestCurrentRouteParams;
+    }
+
+    /**
+     * @param array $requestCurrentRouteParams
+     */
+    public function setRequestCurrentRouteParams($requestCurrentRouteParams)
+    {
+        $this->requestCurrentRouteParams = $requestCurrentRouteParams;
     }
 
     /**

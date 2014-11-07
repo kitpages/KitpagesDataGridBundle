@@ -17,7 +17,7 @@
             <label for="{{grid.filterFormName}}">{{ "kitpages_data_grid.Filter" | trans }}</label>
             <input type="text" name="{{grid.filterFormName}}" id="{{grid.filterFormName}}" size="10" value="{{ grid.filterValue }}"/>
             <input type="submit" value="{{ "kitpages_data_grid.Apply" | trans }}" name="submit"/>
-            <a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" id="{{grid.filterFormName}}_reset_button">{{ "kitpages_data_grid.Reset" | trans }}</a>
+            <a href="{{ path( grid.requestCurrentRoute, grid.requestCurrentRouteParams ) }}" id="{{grid.filterFormName}}_reset_button">{{ "kitpages_data_grid.Reset" | trans }}</a>
         </form>
     </div>
     {% endblock %}

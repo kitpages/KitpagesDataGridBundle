@@ -62,6 +62,8 @@ class GridManager
         $grid->setGridConfig($gridConfig);
         $grid->setUrlTool(new UrlTool());
         $grid->setRequestUri($request->getRequestUri());
+        $grid->setRequestCurrentRoute($request->attributes->get("_route"));
+        $grid->setRequestCurrentRouteParams($request->attributes->get("_route_params"));
         $grid->setDispatcher($this->dispatcher);
 
         // create base request

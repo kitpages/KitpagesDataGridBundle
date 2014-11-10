@@ -13,7 +13,7 @@ In your controller
 
     public function gridAction()
     {
-        $gridManager = $this->get("kitpages_data_grid.manager");
+        $gridManager = $this->get("kitpages_data_grid.grid_manager");
 
         $repository = $this->getDoctrine()->getRepository('KitpagesShopBundle:OrderLine');
         $queryBuilder = $repository->createQueryBuilder("ol");

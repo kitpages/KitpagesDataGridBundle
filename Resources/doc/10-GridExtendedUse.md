@@ -13,7 +13,7 @@ If you want to change the result number on each page for example.
 
     public function gridAction()
     {
-        $gridManater = $this->get("kitpages_data_grid.manager");
+        $gridManater = $this->get("kitpages_data_grid.grid_manager");
 
         $repository = $this->getDoctrine()->getRepository('KitpagesShopBundle:OrderLine');
         $queryBuilder = $repository->createQueryBuilder('ol');
@@ -167,7 +167,7 @@ the leftJoin() condition in your queryBuilder.
             )))
         ;
 
-        $gridManager = $this->get('kitpages_data_grid.manager');
+        $gridManager = $this->get('kitpages_data_grid.grid_manager');
         $grid = $gridManager->getGrid($gridConfig, $this->getRequest());
 
         return $this->render('MySiteBundle:Default:grid.html.twig', array(
@@ -208,7 +208,7 @@ If you have for exemple an article with a comments property wich is a 1-n relati
         $gridConfig->addField(new Field("c1.comment", array("label" => "Comment")));
         $gridConfig->addField(new Field("c1.author", array("label" => "Author", "filterable" => true, "sortable" => true)));
 
-        $gridManager = $this->get("kitpages_data_grid.manager");
+        $gridManager = $this->get("kitpages_data_grid.grid_manager");
         $grid = $gridManager->getGrid($gridConfig, $this->getRequest());
 
         return $this->render('MySiteBundle:Default:grid.html.twig', array(

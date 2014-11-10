@@ -1,6 +1,7 @@
 <?php
 namespace Kitpages\DataGridBundle\Tests\Grid;
 
+use Doctrine\ORM\EntityManager;
 use Kitpages\DataGridBundle\Grid\Field;
 use Kitpages\DataGridBundle\Grid\ItemListNormalizer\LegacyNormalizer;
 use Kitpages\DataGridBundle\Grid\ItemListNormalizer\StandardNormalizer;
@@ -10,7 +11,9 @@ use Kitpages\DataGridBundle\Grid\GridManager;
 use Kitpages\DataGridBundle\Paginator\PaginatorManager;
 use Kitpages\DataGridBundle\Tests\BundleOrmTestCase;
 
-
+/**
+ * @group GridManagerTest
+ */
 class GridManagerTest extends BundleOrmTestCase
 {
     protected function setUp()
@@ -205,11 +208,16 @@ class GridManagerTest extends BundleOrmTestCase
         $gridManager = $this->getGridManager();
 
         // create queryBuilder
+        /** @var EntityManager $em */
         $em = $this->getEntityManager();
-        $repository = $em->getRepository('Kitpages\DataGridBundle\Tests\TestEntities\Node');
-        $queryBuilder = $repository->createQueryBuilder("node");
+//        $repository = $em->getRepository('Kitpages\DataGridBundle\Tests\TestEntities\Node');
+//        $queryBuilder = $repository->createQueryBuilder("node");
+        $queryBuilder = $em->createQueryBuilder();
         $queryBuilder->select("node, mn")
-            ->leftJoin('node.mainNode', 'mn');
+            ->from('Kitpages\DataGridBundle\Tests\TestEntities\Node', 'node')
+            ->leftJoin('node.mainNode', 'mn')
+            ->orderBy('node.id', 'ASC')
+        ;
 
         $gridConfig = $this->initGridConfig();
         $nodeIdField = new Field("node.id");
@@ -231,19 +239,18 @@ class GridManagerTest extends BundleOrmTestCase
 
         $cnt = 0;
         foreach($itemList as $item) {
-//            var_dump($item);
             $cnt ++;
             $nodeId = $grid->displayGridValue($item, $nodeIdField);
             $this->assertEquals($cnt, $nodeId);
-            try {
-                $mainNodeId = $grid->displayGridValue($item, $mainNodeIdField);
-                if ($cnt == 1) {
-                    $this->fail("node 1 should not have a parentId");
-                } else {
-                    $this->assertEquals($mainNodeId, 1);
-                }
-            } catch (\Exception $e) {
-                $this->assertEquals($cnt, 1);
+
+            $mainNodeId = $grid->displayGridValue($item, $mainNodeIdField);
+            if ($cnt == 1) {
+                // the first node should not avec a mainNodeId, see 3 first nodes of fixtures
+                $this->assertEquals(null, $mainNodeId);
+            } else {
+                var_dump($item);
+                var_dump($grid->getItemList());
+                $this->assertEquals(1, $mainNodeId);
             }
         }
 

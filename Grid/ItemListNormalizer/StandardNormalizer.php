@@ -23,32 +23,46 @@ class StandardNormalizer
         $dqlParts = $queryBuilder->getDQLParts();
         $rootAlias = $dqlParts["from"][0]->getAlias();
 
+        // get alias List
+        $aliasList = array();
+        if (array_key_exists('join', $dqlParts) && array_key_exists($rootAlias, $dqlParts['join']) ) {
+            $joinList = $dqlParts["join"][$rootAlias];
+            foreach ($joinList as $join) {
+                $aliasList[$join->getJoin()] = $join->getAlias();
+            }
+        }
+
         // normalize result (for request of type $queryBuilder->select("item, bp, item.id * 3 as titi"); )
         $normalizedItemList = array();
         foreach ($itemList as $item) {
-            $normalizedItem = $this->normalizeOneItem($dqlParts, $item, $rootAlias);
+            $normalizedItem = $this->normalizeOneItem($aliasList, $item, $rootAlias);
             $normalizedItemList[] = $normalizedItem;
         }
+
         return $normalizedItemList;
     }
 
 
-    protected function normalizeOneItem($dqlParts, $item, $baseAlias)
+    protected function normalizeOneItem($aliasList, $item, $baseAlias)
     {
         // case of left join that returns null
         if (is_null($item)) {
             return array();
         }
 
-        // get aliases to replace from $dqlParts
+        // get aliases to replace for this hierarchical level
+        // and create subAliasList
         $joinAliasList = array();
-        if (array_key_exists('join', $dqlParts) && array_key_exists($baseAlias, $dqlParts['join']) ) {
-            $joinList = $dqlParts["join"][$baseAlias];
-            foreach($joinList as $join) {
-                $attributeName = str_replace($baseAlias.'.', '', $join->getJoin());
-                $joinAliasList[$attributeName] = $join->getAlias();
+        $remainingAliasList = array();
+        foreach($aliasList as $aliasKey => $aliasVal) {
+            // si the current key begins by the baseAlias, we have to use it in this hierarchica level
+            if (strpos($aliasKey, $baseAlias.'.') === 0) {
+                $joinAliasList[ substr( $aliasKey, strlen($baseAlias)+1 ) ] = $aliasVal;
+            } else {
+                $remainingAliasList[$aliasKey] = $aliasVal;
             }
         }
+
         // check if there is a "as xxx" in the dql
         // horrible hack but doctrine doesn't help so much here...
         // if there is numerical keys in the result, as xxx are alpha numeric keys and
@@ -63,13 +77,13 @@ class StandardNormalizer
         $valueList = array();
         foreach($item as $key => $val) {
             if ($key === 0) {
-                $valueListToMerge = $this->normalizeOneItem($dqlParts, $val, $baseAlias);
+                $valueListToMerge = $this->normalizeOneItem($remainingAliasList, $val, $baseAlias);
                 $valueList = array_merge($valueList, $valueListToMerge);
             } elseif ( is_int($key) && ($key > 0)) {
                 $valueList[$key-1] = $val;
             } elseif ( ! $containAsSection ) {
                 if (array_key_exists($key, $joinAliasList)) {
-                    $valueListToMerge = $this->normalizeOneItem($dqlParts, $val, $joinAliasList[$key]);
+                    $valueListToMerge = $this->normalizeOneItem($remainingAliasList, $val, $joinAliasList[$key]);
                     $valueList = array_merge($valueList, $valueListToMerge);
                 } else {
                     $valueList[$baseAlias.'.'.$key] = $val;
@@ -80,4 +94,4 @@ class StandardNormalizer
         }
         return $valueList;
     }
-} 
+}

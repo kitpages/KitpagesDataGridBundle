@@ -1,6 +1,11 @@
 Versions :
 ==========
 
+2014-11-10 : v2.3.1
+
+* no BC Break
+* fix: fix for cases of multiple join levels. recursion of normalization where wrong.
+
 2014-11-07 : v2.3.0
 
 * no BC Break

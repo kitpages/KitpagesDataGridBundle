@@ -42,8 +42,16 @@ class StandardNormalizer
         return $normalizedItemList;
     }
 
-
-    protected function normalizeOneItem($aliasList, $item, $baseAlias)
+    /**
+     * Normalize one item
+     *
+     * @param array  $aliasList
+     * @param array  $item
+     * @param string $baseAlias
+     * @param bool   $flattenArray
+     * @return array
+     */
+    protected function normalizeOneItem($aliasList, $item, $baseAlias, $flattenArray = false)
     {
         // case of left join that returns null
         if (is_null($item)) {
@@ -76,14 +84,14 @@ class StandardNormalizer
 
         $valueList = array();
         foreach($item as $key => $val) {
-            if ($key === 0) {
+            if ($key === 0 || $flattenArray) {
                 $valueListToMerge = $this->normalizeOneItem($remainingAliasList, $val, $baseAlias);
                 $valueList = array_merge($valueList, $valueListToMerge);
             } elseif ( is_int($key) && ($key > 0)) {
                 $valueList[$key-1] = $val;
             } elseif ( ! $containAsSection ) {
                 if (array_key_exists($key, $joinAliasList)) {
-                    $valueListToMerge = $this->normalizeOneItem($remainingAliasList, $val, $joinAliasList[$key]);
+                    $valueListToMerge = $this->normalizeOneItem($remainingAliasList, $val, $joinAliasList[$key], count($val) === 1);
                     $valueList = array_merge($valueList, $valueListToMerge);
                 } else {
                     $valueList[$baseAlias.'.'.$key] = $val;

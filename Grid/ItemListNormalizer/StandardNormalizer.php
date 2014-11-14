@@ -62,8 +62,8 @@ class StandardNormalizer
         // and create subAliasList
         $joinAliasList = array();
         $remainingAliasList = array();
-        foreach($aliasList as $aliasKey => $aliasVal) {
-            // si the current key begins by the baseAlias, we have to use it in this hierarchica level
+        foreach ($aliasList as $aliasKey => $aliasVal) {
+            // if the current key begins by the baseAlias, we have to use it in this hierarchical level
             if (strpos($aliasKey, $baseAlias.'.') === 0) {
                 $joinAliasList[ substr( $aliasKey, strlen($baseAlias)+1 ) ] = $aliasVal;
             } else {
@@ -76,7 +76,7 @@ class StandardNormalizer
         // if there is numerical keys in the result, as xxx are alpha numeric keys and
         // the root alias is in the numerical "0" part... oh yeah...
         $containAsSection = false;
-        foreach ($item as $key=>$val) {
+        foreach ($item as $key => $val) {
             if (is_int($key)) {
                 $containAsSection = true;
             }

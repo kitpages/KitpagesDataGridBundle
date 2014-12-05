@@ -67,7 +67,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="{{ grid.gridConfig.fieldList | length }}" class="kit-grid-no-data">{{ "kitpages_data_grid.No-data-found" | trans }}</td>
+                <td colspan="{{ grid.gridConfig.fieldList | length }}" class="kit-grid-no-data">{% block kit_grid_no_data %}{{ "kitpages_data_grid.No_Data_Found" | trans }}{% endblock %}</td>
             </tr>
         {% endfor %}
         </tbody>

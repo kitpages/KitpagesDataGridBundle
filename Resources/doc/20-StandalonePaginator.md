@@ -13,7 +13,7 @@ In your controller
 
     public function gridAction()
     {
-        $gridManager = $this->get("kitpages_data_grid.grid_manager");
+        $paginatorManager = $this->get("kitpages_data_grid.paginator_manager");
 
         $repository = $this->getDoctrine()->getRepository('KitpagesShopBundle:OrderLine');
         $queryBuilder = $repository->createQueryBuilder("ol");
@@ -22,7 +22,7 @@ In your controller
         $paginatorConfig = new PaginatorConfig();
         $paginatorConfig->setCountFieldName("ol.id");
         $paginatorConfig->setQueryBuilder($queryBuilder);
-        $paginator = $gridManager->getPaginator($paginatorConfig, $this->getRequest());
+        $paginator = $paginatorManager->getPaginator($paginatorConfig, $this->getRequest());
         return $this->render('AppSiteBundle:Default:paginator.html.twig', array(
             "paginator" => $paginator
         ));

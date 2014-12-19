@@ -1,6 +1,13 @@
 Versions :
 ==========
 
+2014-12-19 : v2.4.0
+
+* new : bootstrap3 templates in order to display datagrids and paginator using standard bootstrap3 lib
+* new : no data configurable in embeded template
+* fix : no data message translation key fixed
+* fix : doc for standalone paginator
+
 2014-11-10 : v2.3.1
 
 * no BC Break

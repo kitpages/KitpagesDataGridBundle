@@ -1,0 +1,92 @@
+{% block kit_grid_main %}
+    <div class="kit-grid {{ grid.getGridCssName }}">
+        {% block kit_grid_selector %}
+            {% if grid.gridConfig.selectorList != null %}
+                <div class="kit-grid-selector">
+                    <ul class="nav nav-pills">
+                    {% for selector in grid.gridConfig.selectorList %}
+                        <li class="{% if grid.isSelectorSelected(selector.field, selector.value) %}active{% endif %}">
+                            <a href="{{ grid.getSelectorUrl(selector.field, selector.value) }}">{{ selector.label }}</a>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endblock %}
+        {% block kit_grid_filter %}
+            <div class="kit-grid-filter">
+                <form class="form-inline" action="{{ grid.requestUri }}" id="{{grid.filterFormName}}_form" method="GET">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <label class="sr-only" for="{{grid.filterFormName}}">{{ "kitpages_data_grid.Filter" | trans }}</label>
+                            <input type="text" class="form-control" id="{{grid.filterFormName}}" name="{{grid.filterFormName}}" placeholder="{{ "kitpages_data_grid.Filter" | trans }}">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-default">{{ "kitpages_data_grid.Apply" | trans }}</button>
+                    <a href="{{ path( grid.requestCurrentRoute, grid.requestCurrentRouteParams ) }}" id="{{grid.filterFormName}}_reset_button">{{ "kitpages_data_grid.Reset" | trans }}</a>
+                </form>
+            </div>
+        {% endblock %}
+        {% block kit_grid_debug %}
+            {% if grid.debugMode %}
+                {{ grid.dump() | raw }}
+            {% endif %}
+        {% endblock %}
+        {{ block('kit_grid_before_table') }}
+        <table class="table table-striped table-bordered table-hover">
+            {% block kit_grid_thead %}
+                <thead>
+                <tr>
+                    {{ block('kit_grid_thead_before_column') }}
+                    {% for field in grid.gridConfig.fieldList %}
+                        {% if field.visible %}
+                            <th class="{{ grid.getSortCssClass(field.fieldName) }}">
+                                {% if field.sortable %}
+                                    <a href="{{ grid.getSortUrl(field.fieldName) }}">{{ field.label | trans }}</a>
+                                {% else %}
+                                    {{ field.label | trans }}
+                                {% endif %}
+                            </th>
+                        {% endif %}
+                    {% endfor %}
+                    {{ block('kit_grid_thead_column') }}
+                </tr>
+                </thead>
+            {% endblock %}
+            {% block kit_grid_tbody %}
+                <tbody>
+                {% for item in grid.itemList %}
+                    <tr class="{% if loop.index % 2 == 0 %}kit-grid-even {% else %}kit-grid-odd {% endif %}">
+                        {% block kit_grid_tbody_before_column %}{%endblock%}
+                        {% for field in grid.gridConfig.fieldList %}
+                            {% if field.visible %}
+                                <td class="kit-grid-cell-{{ field.fieldName | replace({'.': '-'}) }}">
+                                    {% if field.translatable %}
+                                        {{ grid.displayGridValue ( item, field) | raw | trans }}
+                                    {% else %}
+                                        {{ grid.displayGridValue ( item, field) | raw }}
+                                    {% endif %}
+                                </td>
+                            {% endif %}
+                        {% endfor %}
+                        {{ block('kit_grid_tbody_column') }}
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="{{ grid.gridConfig.fieldList | length }}" class="kit-grid-no-data">{{ "kitpages_data_grid.No-data-found" | trans }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            {% endblock %}
+        </table>
+        {{ block('kit_grid_after_table') }}
+        {% block kit_grid_paginator %}
+            {% embed '::datagrid/bootstrap3-paginator.html.twig' with {'paginator':grid.paginator} %}
+            {% endembed %}
+        {% endblock %}
+        {{ block(' kit_grid_after_paginator') }}
+    </div>
+    {% block kit_grid_javascript %}
+        {% include "KitpagesDataGridBundle:Grid:javascript.html.twig" %}
+    {% endblock kit_grid_javascript %}
+{% endblock kit_grid_main %}

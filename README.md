@@ -91,6 +91,17 @@ kitpages_data_grid:
         visible_page_count_in_paginator: 5
 ```
 
+Note you can use the followin configuration in order to user Bootstrap 3 :
+
+```yaml
+kitpages_data_grid:
+    grid:
+        default_twig: KitpagesDataGridBundle:Grid:bootstrap3-grid.html.twig
+    paginator:
+        default_twig: KitpagesDataGridBundle:Paginator:bootstrap3-paginator.html.twig
+```
+
+
 Simple Usage example
 ====================
 

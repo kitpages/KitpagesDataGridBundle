@@ -74,7 +74,7 @@
     </table>
     {{ block('kit_grid_after_table') }}
     {% block kit_grid_paginator %}
-        {% embed 'KitpagesDataGridBundle:Paginator:bootstrap-paginator.html.twig' with {'paginator':grid.paginator} %}
+        {% embed kitpages_data_grid.paginator.default_twig with {'paginator':grid.paginator} %}
         {% endembed %}
     {% endblock %}
     {{ block(' kit_grid_after_paginator') }}

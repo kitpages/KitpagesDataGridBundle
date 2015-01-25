@@ -19,7 +19,7 @@
                     <div class="form-group">
                         <div class="input-group">
                             <label class="sr-only" for="{{grid.filterFormName}}">{{ "kitpages_data_grid.Filter" | trans }}</label>
-                            <input type="text" class="form-control" id="{{grid.filterFormName}}" name="{{grid.filterFormName}}" placeholder="{{ "kitpages_data_grid.Filter" | trans }}">
+                            <input type="text" class="form-control" id="{{grid.filterFormName}}" value="{{ grid.filterValue }}" name="{{grid.filterFormName}}" placeholder="{{ "kitpages_data_grid.Filter" | trans }}">
                         </div>
                     </div>
                     <button type="submit" class="btn btn-default">{{ "kitpages_data_grid.Apply" | trans }}</button>

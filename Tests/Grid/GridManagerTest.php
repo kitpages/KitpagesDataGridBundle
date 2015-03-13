@@ -248,8 +248,6 @@ class GridManagerTest extends BundleOrmTestCase
                 // the first node should not avec a mainNodeId, see 3 first nodes of fixtures
                 $this->assertEquals(null, $mainNodeId);
             } else {
-                var_dump($item);
-                var_dump($grid->getItemList());
                 $this->assertEquals(1, $mainNodeId);
             }
         }

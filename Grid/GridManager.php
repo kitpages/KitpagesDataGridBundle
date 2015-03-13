@@ -2,6 +2,7 @@
 namespace Kitpages\DataGridBundle\Grid;
 
 use Kitpages\DataGridBundle\Grid\ItemListNormalizer\NormalizerInterface;
+use Kitpages\DataGridBundle\Hydrators\DataGridHydrator;
 use Kitpages\DataGridBundle\Paginator\PaginatorManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -57,6 +58,12 @@ class GridManager
     public function getGrid(GridConfig $gridConfig, Request $request)
     {
         $queryBuilder = $gridConfig->getQueryBuilder();
+        $emConfig = $queryBuilder->getEntityManager()->getConfiguration();
+        if ($emConfig->getCustomHydrationMode(DataGridHydrator::HYDRATOR_MODE) === null)
+        {
+            $emConfig->addCustomHydrationMode('KitpagesDataGridHydrator', '\Kitpages\DataGridBundle\Hydrators\DataGridHydrator');
+        }
+
         // create grid objet
         $grid = new Grid();
         $grid->setGridConfig($gridConfig);

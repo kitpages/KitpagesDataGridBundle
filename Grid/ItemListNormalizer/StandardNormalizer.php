@@ -17,28 +17,6 @@ class StandardNormalizer
      */
     public function normalize(Query $query, QueryBuilder $queryBuilder)
     {
-
-        $itemList = $query->getScalarResult();
-        $normalizedList = $this->normalizeKeys($itemList);
-        return $normalizedList;
-    }
-
-    protected function normalizeKeys(array $itemList)
-    {
-        $normalizedList = array();
-
-        foreach($itemList as $item)
-        {
-            $normalizedItem = array();
-
-            foreach($item as $key => $val)
-            {
-                $normalizedKey = str_replace('_', '.', $key);
-                $normalizedItem[$normalizedKey] = $val;
-            }
-
-            $normalizedList[] = $normalizedItem;
-        }
-        return $normalizedList;
+        return $query->getResult('KitpagesDataGridHydrator');
     }
 }

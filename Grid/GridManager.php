@@ -61,7 +61,7 @@ class GridManager
         $emConfig = $queryBuilder->getEntityManager()->getConfiguration();
         if ($emConfig->getCustomHydrationMode(DataGridHydrator::HYDRATOR_MODE) === null)
         {
-            $emConfig->addCustomHydrationMode('KitpagesDataGridHydrator', '\Kitpages\DataGridBundle\Hydrators\DataGridHydrator');
+            $emConfig->addCustomHydrationMode(DataGridHydrator::HYDRATOR_MODE, '\Kitpages\DataGridBundle\Hydrators\DataGridHydrator');
         }
 
         // create grid objet

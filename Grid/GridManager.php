@@ -33,16 +33,23 @@ class GridManager
     protected $itemListNormalizer;
 
     /**
+     * @var string
+     */
+    protected $hydratorClass;
+
+    /**
      * @param EventDispatcherInterface                $dispatcher
      */
     public function __construct(
         EventDispatcherInterface $dispatcher,
         PaginatorManager $paginatorManager,
-        NormalizerInterface $itemListNormalizer
+        NormalizerInterface $itemListNormalizer,
+        $hydratorClass
     ) {
         $this->dispatcher = $dispatcher;
         $this->paginatorManager = $paginatorManager;
         $this->itemListNormalizer = $itemListNormalizer;
+        $this->hydratorClass = $hydratorClass;
     }
 
     ////
@@ -58,11 +65,6 @@ class GridManager
     public function getGrid(GridConfig $gridConfig, Request $request)
     {
         $queryBuilder = $gridConfig->getQueryBuilder();
-        $emConfig = $queryBuilder->getEntityManager()->getConfiguration();
-        if ($emConfig->getCustomHydrationMode(DataGridHydrator::HYDRATOR_MODE) === null)
-        {
-            $emConfig->addCustomHydrationMode(DataGridHydrator::HYDRATOR_MODE, '\Kitpages\DataGridBundle\Hydrators\DataGridHydrator');
-        }
 
         // create grid objet
         $grid = new Grid();
@@ -127,7 +129,8 @@ class GridManager
         // from the gridQueryBuilder in the listener and reinject it in the event.
         $normalizedItemList = $this->itemListNormalizer->normalize(
             $event->get("query"),
-            $event->get("gridQueryBuilder")
+            $event->get("gridQueryBuilder"),
+            $this->hydratorClass
         );
 
         // end normalization

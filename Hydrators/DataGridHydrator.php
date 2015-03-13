@@ -6,8 +6,6 @@ use Doctrine\DBAL\Types\Type;
 
 class DataGridHydrator extends \Doctrine\ORM\Internal\Hydration\ScalarHydrator {
 
-    const HYDRATOR_MODE = 'KitpagesDataGridHydrator';
-
     protected function gatherScalarRowData(&$data, &$cache)
     {
         $rowData = array();

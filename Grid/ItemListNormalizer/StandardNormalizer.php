@@ -15,8 +15,19 @@ class StandardNormalizer
     /**
      * @inheritdoc
      */
-    public function normalize(Query $query, QueryBuilder $queryBuilder)
+    public function normalize(Query $query, QueryBuilder $queryBuilder, $hydratorClass = null)
     {
-        return $query->getResult('KitpagesDataGridHydrator');
+
+        /*
+         * Add custom hydrator
+         */
+        $emConfig = $queryBuilder->getEntityManager()->getConfiguration();
+        $hydratorName = (new \ReflectionClass($hydratorClass))->getShortName();
+        if ($emConfig->getCustomHydrationMode($hydratorName) === null)
+        {
+            $emConfig->addCustomHydrationMode($hydratorName, $hydratorClass);
+        }
+
+        return $query->getResult($hydratorName);
     }
 }

@@ -16,6 +16,9 @@
         <many-to-one field="mainNode" target-entity="Kitpages\DataGridBundle\Tests\TestEntities\Node" inversed-by="subNodeList">
             <join-column name="mainNodeId" referenced-column-name="id" />
         </many-to-one>
+        <many-to-one field="assoc" target-entity="Kitpages\DataGridBundle\Tests\TestEntities\NodeAssoc" inversed-by="nodeList">
+            <join-column name="assoc_id" referenced-column-name="id" />
+        </many-to-one>
 
     </entity>
 

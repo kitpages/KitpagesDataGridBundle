@@ -11,6 +11,7 @@ class Node
     protected $parentId;
     protected $subNodeList;
     protected $mainNode;
+    protected $assoc;
 
     public function setContent($content)
     {
@@ -82,5 +83,13 @@ class Node
         return $this->subNodeList;
     }
 
+    public function getAssoc()
+    {
+        return $this->assoc;
+    }
 
+    public function setAssoc($assoc)
+    {
+        $this->assoc = $assoc;
+    }
 }

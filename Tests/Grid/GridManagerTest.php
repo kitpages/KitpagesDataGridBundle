@@ -200,6 +200,57 @@ class GridManagerTest extends BundleOrmTestCase
         $this->assertEquals( 3, $paginator->getNextButtonPage());
         // simple callback
     }
+
+    /**
+     */
+    public function testGridLeftJoinGroupBy()
+    {
+        // create Request mock (ok this is not a mock....)
+        $request = new \Symfony\Component\HttpFoundation\Request();
+        $request->query->set("kitdg_paginator_paginator_currentPage", 1);
+        // create gridManager instance
+        $gridManager = $this->getGridManager();
+
+        $em = $this->getEntityManager();
+
+        // create queryBuilder
+        $repository = $em->getRepository('Kitpages\DataGridBundle\Tests\TestEntities\Node');
+        $queryBuilder = $repository->createQueryBuilder("node");
+        $queryBuilder->select("node, assoc, count(sn.id) as intervals")
+            ->leftJoin('node.assoc', 'assoc')
+            ->leftJoin('node.subNodeList', 'sn')
+            ->groupBy('node.id')
+            ->where('node.id = 11')
+            ->orderBy('node.id', 'ASC');
+
+        $gridConfig = $this->initGridConfig();
+        $gridConfig->addField(new Field("assoc.id"));
+
+        // get paginator
+        $gridConfig->setQueryBuilder($queryBuilder);
+        $grid = $gridManager->getGrid( $gridConfig, $request);
+
+        // grid test
+        $itemList = $grid->getItemList();
+
+        $this->assertEquals(1 , count($itemList));
+
+        $expected = array(
+            'node.content' => 'I like it!',
+            'node.user' => "toto",
+            'node.parentId' => 0,
+            'node.id' => 11,
+            'assoc.id' => 1,
+            'assoc.name' => 'test assoc',
+            'intervals' => '0',
+            'node.createdAt' => new \DateTime('2010-04-21 12:14:20')
+        );
+
+        $this->assertEquals($expected, $itemList[0]);
+
+    }
+
+
     public function testGridLeftJoinWithoutGroupBy()
     {
         // create Request mock (ok this is not a mock....)

@@ -22,7 +22,8 @@ class StandardNormalizer
          * Add custom hydrator
          */
         $emConfig = $queryBuilder->getEntityManager()->getConfiguration();
-        $hydratorName = (new \ReflectionClass($hydratorClass))->getShortName();
+        $hydrator = new \ReflectionClass($hydratorClass);
+        $hydratorName = $hydrator->getShortName();
         if ($emConfig->getCustomHydrationMode($hydratorName) === null)
         {
             $emConfig->addCustomHydrationMode($hydratorName, $hydratorClass);

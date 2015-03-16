@@ -24,10 +24,7 @@ class StandardNormalizer
         $emConfig = $queryBuilder->getEntityManager()->getConfiguration();
         $hydrator = new \ReflectionClass($hydratorClass);
         $hydratorName = $hydrator->getShortName();
-        if ($emConfig->getCustomHydrationMode($hydratorName) === null)
-        {
-            $emConfig->addCustomHydrationMode($hydratorName, $hydratorClass);
-        }
+        $emConfig->addCustomHydrationMode($hydratorName, $hydratorClass);
 
         return $query->getResult($hydratorName);
     }

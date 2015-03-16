@@ -4,7 +4,8 @@ namespace Kitpages\DataGridBundle\Hydrators;
 
 use Doctrine\DBAL\Types\Type;
 
-class DataGridHydrator extends \Doctrine\ORM\Internal\Hydration\ScalarHydrator {
+class DataGridHydrator extends \Doctrine\ORM\Internal\Hydration\ScalarHydrator
+{
 
     protected function gatherScalarRowData(&$data, &$cache)
     {

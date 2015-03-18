@@ -4,8 +4,31 @@ namespace Kitpages\DataGridBundle\Hydrators;
 
 use Doctrine\DBAL\Types\Type;
 
-class DataGridHydrator extends \Doctrine\ORM\Internal\Hydration\ScalarHydrator
+class DataGridHydrator extends \Doctrine\ORM\Internal\Hydration\AbstractHydrator
 {
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function hydrateAllData()
+    {
+        $result = array();
+        $cache  = array();
+
+        while ($data = $this->_stmt->fetch(\PDO::FETCH_ASSOC)) {
+            $this->hydrateRowData($data, $cache, $result);
+        }
+
+        return $result;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function hydrateRowData(array $data, array &$cache, array &$result)
+    {
+        $result[] = $this->gatherScalarRowData($data, $cache);
+    }
 
     protected function gatherScalarRowData(&$data, &$cache)
     {

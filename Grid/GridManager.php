@@ -2,6 +2,7 @@
 namespace Kitpages\DataGridBundle\Grid;
 
 use Kitpages\DataGridBundle\Grid\ItemListNormalizer\NormalizerInterface;
+use Kitpages\DataGridBundle\Hydrators\DataGridHydrator;
 use Kitpages\DataGridBundle\Paginator\PaginatorManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -32,16 +33,23 @@ class GridManager
     protected $itemListNormalizer;
 
     /**
+     * @var string
+     */
+    protected $hydratorClass;
+
+    /**
      * @param EventDispatcherInterface                $dispatcher
      */
     public function __construct(
         EventDispatcherInterface $dispatcher,
         PaginatorManager $paginatorManager,
-        NormalizerInterface $itemListNormalizer
+        NormalizerInterface $itemListNormalizer,
+        $hydratorClass
     ) {
         $this->dispatcher = $dispatcher;
         $this->paginatorManager = $paginatorManager;
         $this->itemListNormalizer = $itemListNormalizer;
+        $this->hydratorClass = $hydratorClass;
     }
 
     ////
@@ -57,6 +65,7 @@ class GridManager
     public function getGrid(GridConfig $gridConfig, Request $request)
     {
         $queryBuilder = $gridConfig->getQueryBuilder();
+
         // create grid objet
         $grid = new Grid();
         $grid->setGridConfig($gridConfig);
@@ -120,7 +129,8 @@ class GridManager
         // from the gridQueryBuilder in the listener and reinject it in the event.
         $normalizedItemList = $this->itemListNormalizer->normalize(
             $event->get("query"),
-            $event->get("gridQueryBuilder")
+            $event->get("gridQueryBuilder"),
+            $this->hydratorClass
         );
 
         // end normalization

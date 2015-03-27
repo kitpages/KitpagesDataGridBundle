@@ -30,6 +30,8 @@ class KitpagesDataGridExtension extends Extension
             'paginator'  => 'kitpages_data_grid.paginator',
         ));
 
+        $container->setParameter('kitpages_data_grid.grid.hydrator_class', $config['grid']['hydrator_class']);
+
     }
 
     /**

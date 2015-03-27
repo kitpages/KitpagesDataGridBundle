@@ -17,6 +17,7 @@
             <argument type="service" id="event_dispatcher"/>
             <argument type="service" id="kitpages_data_grid.paginator_manager"/>
             <argument type="service" id="kitpages_data_grid.item_list_normalizer.standard"/>
+            <argument>%kitpages_data_grid.grid.hydrator_class%</argument>
         </service>
         <service id="kitpages_data_grid.paginator_manager" class="%kitpages_data_grid.paginator_manager.class%">
             <argument type="service" id="event_dispatcher"/>

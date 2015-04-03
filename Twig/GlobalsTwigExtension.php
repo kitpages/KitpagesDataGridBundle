@@ -33,7 +33,7 @@ class GlobalsTwigExtension
      */
     public function getName()
     {
-        "kitpages_data_grid_globals_extension";
+        return "kitpages_data_grid_globals_extension";
     }
 
 } 

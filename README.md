@@ -17,6 +17,8 @@ Actual state
 
 * v1.x is stable, production ready
 * v2.x is stable and production ready
+ * v2.5.x is following version 2.5.x of doctrine
+ * v2.4.x is following version 2.4.x of doctrine
 
 Features
 ========
@@ -56,7 +58,7 @@ Add KitpagesChainBundle in your composer.json
 ```js
 {
     "require": {
-        "kitpages/data-grid-bundle": "~2.0"
+        "kitpages/data-grid-bundle": "~2.4" // Use ~2.5 if you use doctrine >= 2.5
     }
 }
 ```

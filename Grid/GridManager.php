@@ -2,7 +2,6 @@
 namespace Kitpages\DataGridBundle\Grid;
 
 use Kitpages\DataGridBundle\Grid\ItemListNormalizer\NormalizerInterface;
-use Kitpages\DataGridBundle\Hydrators\DataGridHydrator;
 use Kitpages\DataGridBundle\Paginator\PaginatorManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;

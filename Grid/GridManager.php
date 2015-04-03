@@ -94,7 +94,7 @@ class GridManager
 
         // build paginator
         $paginatorConfig = $gridConfig->getPaginatorConfig();
-        if ($paginatorConfig == null) {
+        if ($paginatorConfig === null) {
             $paginatorConfig = new PaginatorConfig();
             $paginatorConfig->setCountFieldName($gridConfig->getCountFieldName());
             $paginatorConfig->setName($gridConfig->getName());
@@ -207,7 +207,7 @@ class GridManager
             $fieldList = $grid->getGridConfig()->getFieldList();
             foreach ($fieldList as $field) {
                 if ($field->getFieldName() == $sortField) {
-                    if ($field->getSortable() == true) {
+                    if ($field->getSortable() === true) {
                         $sortFieldObject = $field;
                         break;
                     }

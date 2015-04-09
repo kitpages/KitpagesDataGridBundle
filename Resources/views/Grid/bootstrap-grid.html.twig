@@ -49,7 +49,7 @@
         {% block kit_grid_tbody %}
         <tbody>
         {% for item in grid.itemList %}
-            <tr class="{% if loop.index % 2 == 0 %}kit-grid-even {% else %}kit-grid-odd {% endif %}">
+            <tr class="{% if loop.index % 2 == 0 %}kit-grid-even {% else %}kit-grid-odd {% endif %} {% block row_class %}{% endblock %}">
                 {% block kit_grid_tbody_before_column %}{%endblock%}
                 {% for field in grid.gridConfig.fieldList %}
                     {% if field.visible %}

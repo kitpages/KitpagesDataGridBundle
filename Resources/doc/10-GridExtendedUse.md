@@ -334,3 +334,17 @@ Let's see in this example how to add checkboxes on the left of the grid for mult
 
 You can see all the extension points of the data grid template in the
 file [views/Grid/grid.html.twig](https://github.com/kitpages/KitpagesDataGridBundle/blob/master/Resources/views/Grid/grid.html.twig)
+
+
+Add class to a table row
+-----------------------------------------------
+
+You can add a table row class by extending `kit_grid_row_class` block:
+    
+    {% embed kitpages_data_grid.grid.default_twig with {'grid': grid} %}
+        
+        {% block kit_grid_row_class %}
+            {% if item['t.deletedAt'] %} stroke {% endif %}
+        {% endblock %}
+
+    {% endembed %}

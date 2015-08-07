@@ -23,16 +23,16 @@ If you want to change the result number on each page for example.
         $gridConfig
             ->setQueryBuilder($queryBuilder)
             ->setCountFieldName('ol.id')
-            ->addField(new Field('ol.id', array('sortable' => true)))
-            ->addField(new Field('ol.shopReference', array(
+            ->addField('ol.id', array('sortable' => true))
+            ->addField('ol.shopReference', array(
                 'label' => 'Ref',
                 'filterable' => true,
                 'sortable' => true
-            )))
-            ->addField(new Field('ol.updatedAt', array(
+            ))
+            ->addField('ol.updatedAt', array(
                 'sortable' => true,
                 'formatValueCallback' => function ($value) { return $value->format('Y/m/d'); }
-            )))
+            ))
         ;
 
         // paginator configuration
@@ -160,11 +160,11 @@ the leftJoin() condition in your queryBuilder.
         $gridConfig
             ->setQueryBuilder($queryBuilder)
             ->setCountFieldName('c.id')
-            ->addField(new Field('c.foo')
-            ->addField(new Field('c.idParent', array(
+            ->addField('c.foo')
+            ->addField('c.idParent', array(
                 'label' => 'Parent',
                 'formatValueCallback' => function($value) { return (!empty($value)) ? $value['foo'] : 'None'; }
-            )))
+            ))
         ;
 
         $gridManager = $this->get('kitpages_data_grid.grid_manager');
@@ -205,8 +205,8 @@ If you have for exemple an article with a comments property wich is a 1-n relati
         $gridConfig = new GridConfig();
         $gridConfig->setQueryBuilder($qb)
         $gridConfig->setCountFieldName("c1.id");
-        $gridConfig->addField(new Field("c1.comment", array("label" => "Comment")));
-        $gridConfig->addField(new Field("c1.author", array("label" => "Author", "filterable" => true, "sortable" => true)));
+        $gridConfig->addField("c1.comment", array("label" => "Comment"));
+        $gridConfig->addField("c1.author", array("label" => "Author", "filterable" => true, "sortable" => true));
 
         $gridManager = $this->get("kitpages_data_grid.grid_manager");
         $grid = $gridManager->getGrid($gridConfig, $this->getRequest());
@@ -221,25 +221,25 @@ formatValueCallback
 If you want to format a data, you can use a simple callback. For example, if a data is a dateTime, you can format
 use that code :
 
-    $gridConfig->addField(new Field(
+    $gridConfig->addField(
         'ol.updatedAt',
         array(
             'label' => 'Updated at',
             'sortable'=>true,
             'formatValueCallback' => function($value) { return $value->format('Y/m/d'); }
         )
-    ));
+    );
 
 You can also have a second argument in your callback that will receive the entire row received from the query.
 
-    $gridConfig->addField(new Field(
+    $gridConfig->addField(
         'ol.updatedAt',
         array(
             'label' => 'Date and Id',
             'sortable' => true,
             'formatValueCallback' => function($value, $row) { return $value->format('Y/m/d') . '--' . $row['id']; }
         )
-    ));
+    );
 
 
 Add selector action (to filter on a field with a value)
@@ -271,8 +271,8 @@ added before the count field.
     $gridConfig
         ->setQueryBuilder($queryBuilder)
         ->setCountFieldName('item.type')
-        ->addField(new Field('item.type'))
-        ->addField(new Field('cnt'))
+        ->addField('item.type')
+        ->addField('cnt')
     ;
 
 
@@ -285,7 +285,7 @@ You can format a data with a twig template by using the callback system :
     // get templating service
     $twig = $this->get('templating');
     // add the field
-    $gridConfig->addField(new Field(
+    $gridConfig->addField(
         'ol.updatedAt',
         array(
             "formatValueCallback"=>function($value, $row) use ($twig) {
@@ -293,7 +293,7 @@ You can format a data with a twig template by using the callback system :
             },
             "autoEscape" => false
         )
-    ));
+    );
 
 And the twig file could be grid-element.html.twig in the right bundle :
 

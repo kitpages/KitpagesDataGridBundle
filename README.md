@@ -128,14 +128,11 @@ class ContactController
         $gridConfig
             ->setQueryBuilder($queryBuilder)
             ->setCountFieldName('item.id')
-            ->addField(new Field('item.id'))
-            ->addField(new Field('item.slug', array('filterable' => true)))
-            ->addField(new Field(
-                'item.updatedAt',
-                array(
-                    'sortable' => true,
-                    'formatValueCallback' => function($value) { return $value->format('Y/m/d'); }
-                )
+            ->addField('item.id')
+            ->addField('item.slug', array('filterable' => true))
+            ->addField('item.updatedAt', array(
+                'sortable' => true,
+                'formatValueCallback' => function($value) { return $value->format('Y/m/d'); }
             ))
         ;
 
@@ -209,11 +206,11 @@ class AdminController extends Controller
         $gridConfig
             ->setQueryBuilder($queryBuilder)
             ->setCountFieldName("m.id");
-            ->addField(new Field('m.title', array('label' => 'title', 'filterable' => true)))
-            ->addField(new Field('m.country', array('filterable' => true)))
-            ->addField(new Field('c.corporation', array('filterable' => true)))
-            ->addField(new Field('e.lastname', array('filterable' => true)))
-            ->addField(new Field('e.email', array('filterable' => true)))
+            ->addField('m.title', array('label' => 'title', 'filterable' => true))
+            ->addField('m.country', array('filterable' => true))
+            ->addField('c.corporation', array('filterable' => true))
+            ->addField('e.lastname', array('filterable' => true))
+            ->addField('e.email', array('filterable' => true))
         ;
 
         $gridManager = $this->get('kitpages_data_grid.grid_manager');
@@ -239,8 +236,8 @@ For request like
 
 You can display the foo field with
 
-    $gridConfig->addField(new Field("item.id"));
-    $gridConfig->addField(new Field("foo"));
+    $gridConfig->addField("item.id");
+    $gridConfig->addField("foo");
 
 
 Events
@@ -259,7 +256,7 @@ Reference guide
 when you add a field, you can set these parameters :
 
 ```php
-$gridConfig->addField(new Field('slug', array(
+$gridConfig->addField('slug', array(
     'label' => 'Mon slug',
     'sortable' => false,
     'visible' => true,
@@ -269,7 +266,7 @@ $gridConfig->addField(new Field('slug', array(
     'autoEscape' => true,
     'category' => null, // only used by you for checking this value in your events if you want to...
     'nullIfNotExists' => false, // for leftJoin, if value is not defined, this can return null instead of an exception
-)));
+));
 ```
 
 ## What can you personalize in your twig template

@@ -68,7 +68,7 @@ class GridManagerTest extends BundleOrmTestCase
         // normalizer
         $normalizer = new StandardNormalizer();
 
-        $gridManager = new GridManager($service, new PaginatorManager($service, $parameters), $normalizer, '\Kitpages\DataGridBundle\Hydrators\DataGridHydrator');
+        $gridManager = new GridManager($service, new PaginatorManager($service, $parameters), $normalizer, '\Kitpages\DataGridBundle\Hydrators\DataGridHydrator', '\Kitpages\DataGridBundle\Grid\Grid');
         return $gridManager;
 
     }

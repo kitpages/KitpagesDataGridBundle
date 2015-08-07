@@ -37,18 +37,25 @@ class GridManager
     protected $hydratorClass;
 
     /**
+     * @var string
+     */
+    protected $gridClass;
+
+    /**
      * @param EventDispatcherInterface                $dispatcher
      */
     public function __construct(
         EventDispatcherInterface $dispatcher,
         PaginatorManager $paginatorManager,
         NormalizerInterface $itemListNormalizer,
-        $hydratorClass
+        $hydratorClass,
+        $gridClass
     ) {
         $this->dispatcher = $dispatcher;
         $this->paginatorManager = $paginatorManager;
         $this->itemListNormalizer = $itemListNormalizer;
         $this->hydratorClass = $hydratorClass;
+        $this->gridClass = $gridClass;
     }
 
     ////
@@ -66,7 +73,13 @@ class GridManager
         $queryBuilder = $gridConfig->getQueryBuilder();
 
         // create grid objet
-        $grid = new Grid();
+        $grid = new $this->gridClass();
+
+        if (!$grid instanceof GridInterface)
+        {
+            throw new \InvalidArgumentException($this->gridClass . ' must implement Kitpages\DataGridBundle\Grid\Grid\GridInterface');
+        }
+
         $grid->setGridConfig($gridConfig);
         $grid->setUrlTool(new UrlTool());
         $grid->setRequestUri($request->getRequestUri());

@@ -10,7 +10,7 @@ use Kitpages\DataGridBundle\KitpagesDataGridEvents;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class Grid
+class Grid implements GridInterface
 {
     /** @var Paginator */
     protected $paginator = null;

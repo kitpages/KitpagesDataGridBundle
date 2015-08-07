@@ -11,7 +11,7 @@ In your controller
     use Kitpages\DataGridBundle\Paginator\PaginatorConfig;
     [...]
 
-    public function gridAction()
+    public function gridAction(Request $request)
     {
         $paginatorManager = $this->get("kitpages_data_grid.paginator_manager");
 
@@ -22,7 +22,7 @@ In your controller
         $paginatorConfig = new PaginatorConfig();
         $paginatorConfig->setCountFieldName("ol.id");
         $paginatorConfig->setQueryBuilder($queryBuilder);
-        $paginator = $paginatorManager->getPaginator($paginatorConfig, $this->getRequest());
+        $paginator = $paginatorManager->getPaginator($paginatorConfig, $request);
         return $this->render('AppSiteBundle:Default:paginator.html.twig', array(
             "paginator" => $paginator
         ));

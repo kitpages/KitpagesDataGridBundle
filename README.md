@@ -112,10 +112,11 @@ Simple Usage example
 ```php
 use Kitpages\DataGridBundle\Grid\GridConfig;
 use Kitpages\DataGridBundle\Grid\Field;
+use Symfony\Component\HttpFoundation\Request;
 
 class ContactController
 {
-    public function productListAction()
+    public function productListAction(Request $request)
     {
         // create query builder
         $repository = $this->getDoctrine()->getRepository('AcmeStoreBundle:Product');
@@ -137,7 +138,7 @@ class ContactController
         ;
 
         $gridManager = $this->get('kitpages_data_grid.grid_manager');
-        $grid = $gridManager->getGrid($gridConfig, $this->getRequest());
+        $grid = $gridManager->getGrid($gridConfig, $request);
 
         return $this->render('AppSiteBundle:Default:productList.html.twig', array(
             'grid' => $grid
@@ -184,11 +185,12 @@ More advanced usage
 ```php
 use Kitpages\DataGridBundle\Grid\GridConfig;
 use Kitpages\DataGridBundle\Grid\Field;
+use Symfony\Component\HttpFoundation\Request;
 
 class AdminController extends Controller
 {
 
-    public function listAction($state)
+    public function listAction(Request $request, $state)
     {
         // create query builder
         $em = $this->get('doctrine')->getEntityManager();
@@ -214,7 +216,7 @@ class AdminController extends Controller
         ;
 
         $gridManager = $this->get('kitpages_data_grid.grid_manager');
-        $grid = $gridManager->getGrid($gridConfig, $this->getRequest());
+        $grid = $gridManager->getGrid($gridConfig, $request);
 
         return $this->render('KitappMissionBundle:Admin:list.html.twig', array(
             'grid' => $grid

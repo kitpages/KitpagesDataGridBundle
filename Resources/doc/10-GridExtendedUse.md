@@ -44,7 +44,7 @@ If you want to change the result number on each page for example.
         ;
         $gridConfig->setPaginatorConfig($gridPaginatorConfig);
 
-        $grid = $gridManager->getGrid($gridConfig, $this->getRequest());
+        $grid = $gridManager->getGrid($gridConfig, $request;
 
         return $this->render('AppSiteBundle:Default:grid.html.twig', array(
             'grid' => $grid
@@ -143,10 +143,10 @@ And add the subscriber to the event listener. This is an example in a service.xm
 
 Select recursive field
 ----------------------
-If you have for exemple a categorie table which as a recursion with parent_id, you must use 
+If you have for exemple a categorie table which as a recursion with parent_id, you must use
 the leftJoin() condition in your queryBuilder.
 
-    public function gridAction()
+    public function gridAction(Request $request)
     {
         $em = $this->getDoctrine()->getEntityManager();
         $queryBuilder = $em->createQueryBuilder();
@@ -168,7 +168,7 @@ the leftJoin() condition in your queryBuilder.
         ;
 
         $gridManager = $this->get('kitpages_data_grid.grid_manager');
-        $grid = $gridManager->getGrid($gridConfig, $this->getRequest());
+        $grid = $gridManager->getGrid($gridConfig, $request);
 
         return $this->render('MySiteBundle:Default:grid.html.twig', array(
             'grid' => $grid
@@ -179,17 +179,17 @@ Select collection from a 1-n relationship
 -----------------------------------------
 If you have for exemple an article with a comments property wich is a 1-n relationship. You have the article id and you want to create a grid for the article's comments :
 
-    public function gridAction()
+    public function gridAction(Request $request)
     {
         $manager = $this->getDoctrine()->getManager();
-        
+
         /* @var $qb \Doctrine\ORM\QueryBuilder */
         $qb = $manager->createQueryBuilder('comments-list');
         $qb->select('c1')
             ->from('Acme\MyBundle\Entity\Comment', 'c1')
             ->where(
                 $qb->expr()->in(
-                    'c1.id', 
+                    'c1.id',
                     $manager->createQueryBuilder('articles')
                         ->select('c2.id')
                         ->from('Acme\MyBundle\Entity\Article', 'a')
@@ -209,7 +209,7 @@ If you have for exemple an article with a comments property wich is a 1-n relati
         $gridConfig->addField("c1.author", array("label" => "Author", "filterable" => true, "sortable" => true));
 
         $gridManager = $this->get("kitpages_data_grid.grid_manager");
-        $grid = $gridManager->getGrid($gridConfig, $this->getRequest());
+        $grid = $gridManager->getGrid($gridConfig, $request);
 
         return $this->render('MySiteBundle:Default:grid.html.twig', array(
             'grid' => $grid
@@ -340,9 +340,9 @@ Add class to a table row
 -----------------------------------------------
 
 You can add a table row class by extending `kit_grid_row_class` block:
-    
+
     {% embed kitpages_data_grid.grid.default_twig with {'grid': grid} %}
-        
+
         {% block kit_grid_row_class %}
             {% if item['t.deletedAt'] %} stroke {% endif %}
         {% endblock %}

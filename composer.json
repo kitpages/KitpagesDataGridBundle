@@ -34,5 +34,5 @@
     "autoload": {
         "psr-0": { "Kitpages\\DataGridBundle": "" }
     },
-    "target-dir": "mops1k/data-grid-bundle"
+    "target-dir": "mops1k/data-grid-bundle/mops1k/data-grid-bundle"
 }

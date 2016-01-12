@@ -1,5 +1,5 @@
 {
-    "name": "mops1k/data-grid-bundle",
+    "name": "Kitpages/data-grid-bundle",
     "type": "symfony-bundle",
     "description": "Symfony DataGridBundle",
     "keywords": ["Datagrid", "paginator", "filter", "sort"],

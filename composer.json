@@ -1,5 +1,5 @@
 {
-    "name": "kitpages/data-grid-bundle",
+    "name": "mops1k/data-grid-bundle",
     "type": "symfony-bundle",
     "description": "Symfony DataGridBundle",
     "keywords": ["Datagrid", "paginator", "filter", "sort"],
@@ -9,6 +9,12 @@
         {
             "name": "Philippe Le Van",
             "email": "philippe.levan@kitpages.fr"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url":  "https://github.com/mops1k/KitpagesDataGridBundle.git"
         }
     ],
     "require": {

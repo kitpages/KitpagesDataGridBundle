@@ -11,12 +11,6 @@
             "email": "philippe.levan@kitpages.fr"
         }
     ],
-    "repositories": [
-        {
-            "type": "vcs",
-            "url":  "https://github.com/mops1k/KitpagesDataGridBundle.git"
-        }
-    ],
     "require": {
         "php": ">=5.5.9",
         "symfony/symfony": "3.0.*",

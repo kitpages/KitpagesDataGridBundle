@@ -32,12 +32,12 @@
                 {{ grid.dump() | raw }}
             {% endif %}
         {% endblock %}
-        {{ block('kit_grid_before_table') }}
+        {% block kit_grid_before_table %}{% endblock %}
         <table class="table table-striped table-bordered table-hover">
             {% block kit_grid_thead %}
                 <thead>
                 <tr>
-                    {{ block('kit_grid_thead_before_column') }}
+                    {% block kit_grid_thead_before_column %}{% endblock %}
                     {% for field in grid.gridConfig.fieldList %}
                         {% if field.visible %}
                             <th class="{{ grid.getSortCssClass(field.fieldName) }}">
@@ -49,7 +49,7 @@
                             </th>
                         {% endif %}
                     {% endfor %}
-                    {{ block('kit_grid_thead_column') }}
+                    {% block kit_grid_thead_column %}{% endblock %}
                 </tr>
                 </thead>
             {% endblock %}
@@ -69,7 +69,7 @@
                                 </td>
                             {% endif %}
                         {% endfor %}
-                        {{ block('kit_grid_tbody_column') }}
+                        {% block kit_grid_tbody_column %}{% endblock %}
                     </tr>
                 {% else %}
                     <tr>
@@ -79,12 +79,12 @@
                 </tbody>
             {% endblock %}
         </table>
-        {{ block('kit_grid_after_table') }}
+        {% block kit_grid_after_table %}{% endblock %}
         {% block kit_grid_paginator %}
             {% embed kitpages_data_grid.paginator.default_twig with {'paginator':grid.paginator} %}
             {% endembed %}
         {% endblock %}
-        {{ block(' kit_grid_after_paginator') }}
+        {% block kit_grid_after_paginator %}{% endblock %}
     </div>
     {% block kit_grid_javascript %}
         {% include "KitpagesDataGridBundle:Grid:javascript.html.twig" %}

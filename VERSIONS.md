@@ -1,6 +1,10 @@
 Versions :
 ==========
 
+Unversioned:
+
+* new : compatible with twig 2
+
 2018-03-19 : v3.1.1
 
 no bc break

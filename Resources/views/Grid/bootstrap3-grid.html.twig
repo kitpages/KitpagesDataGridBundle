@@ -33,14 +33,14 @@
             {% endif %}
         {% endblock %}
         {{ block('kit_grid_before_table') }}
-        <table class="table table-striped table-bordered table-hover">
+        <table class="{% block kit_grid_table_class %}table table-striped table-bordered table-hover{% endblock %}">
             {% block kit_grid_thead %}
                 <thead>
                 <tr>
                     {{ block('kit_grid_thead_before_column') }}
                     {% for field in grid.gridConfig.fieldList %}
                         {% if field.visible %}
-                            <th class="{{ grid.getSortCssClass(field.fieldName) }}">
+                            <th class="{{ grid.getSortCssClass(field.fieldName) }} kit-grid-header-{{ field.fieldName|replace('.', '-') }}">
                                 {% if field.sortable %}
                                     <a href="{{ grid.getSortUrl(field.fieldName) }}">{{ field.label | trans }}</a>
                                 {% else %}
@@ -59,12 +59,20 @@
                     <tr class="{% if loop.index % 2 == 0 %}kit-grid-even {% else %}kit-grid-odd {% endif %} {% block kit_grid_row_class %}{% endblock %}">
                         {% block kit_grid_tbody_before_column %}{%endblock%}
                         {% for field in grid.gridConfig.fieldList %}
+                            {% set value = grid.displayGridValue(item, field) %}
+                            {% set fieldNameSlugDashed = field.fieldName|replace({'.': '-'}) %}
+                            {% set fieldNameSlugUnderscored = field.fieldName|replace({'.': '_'}) %}
+
                             {% if field.visible %}
-                                <td class="kit-grid-cell-{{ field.fieldName | replace({'.': '-'}) }}">
-                                    {% if field.translatable %}
-                                        {{ grid.displayGridValue ( item, field) | raw | trans }}
+                                <td class="kit-grid-cell-{{ fieldNameSlugDashed }}">
+                                    {% if block('kit_grid_cell_' ~ fieldNameSlugUnderscored) is defined %}
+                                        {{ block('kit_grid_cell_' ~ fieldNameSlugUnderscored) }}
                                     {% else %}
-                                        {{ grid.displayGridValue ( item, field) | raw }}
+                                        {% if field.translatable %}
+                                            {{ value | raw | trans }}
+                                        {% else %}
+                                            {{ value | raw }}
+                                        {% endif %}
                                     {% endif %}
                                 </td>
                             {% endif %}

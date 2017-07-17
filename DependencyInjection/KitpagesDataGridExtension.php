@@ -31,7 +31,6 @@ class KitpagesDataGridExtension extends Extension
         ));
 
         $container->setParameter('kitpages_data_grid.grid.hydrator_class', $config['grid']['hydrator_class']);
-
     }
 
     /**
@@ -49,5 +48,4 @@ class KitpagesDataGridExtension extends Extension
             }
         }
     }
-
 }

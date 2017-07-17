@@ -26,12 +26,18 @@
             {{ grid.dump() | raw }}
         {% endif %}
     {% endblock %}
-    {{ block('kit_grid_before_table') }}
+
+    {% if block('kit_grid_before_table') is defined %}
+        {{ block('kit_grid_before_table') }}
+    {% endif %}
     <table>
         {% block kit_grid_thead %}
         <thead>
         <tr>
-            {{ block('kit_grid_thead_before_column') }}
+            {% if block('kit_grid_thead_before_column') is defined %}
+                {{ block('kit_grid_thead_before_column') }}
+            {% endif %}
+
             {% for field in grid.gridConfig.fieldList %}
                 {% if field.visible %}
                     <th class="{{ grid.getSortCssClass(field.fieldName) }}">
@@ -43,7 +49,10 @@
                     </th>
                 {% endif %}
             {% endfor %}
-            {{ block('kit_grid_thead_column') }}
+
+            {% if block('kit_grid_thead_column') is defined %}
+                {{ block('kit_grid_thead_column') }}
+            {% endif %}
         </tr>
         </thead>
         {% endblock %}
@@ -63,7 +72,10 @@
                         </td>
                     {% endif %}
                 {% endfor %}
-                {{ block('kit_grid_tbody_column') }}
+
+                {% if block('kit_grid_tbody_column') is defined %}
+                    {{ block('kit_grid_tbody_column') }}
+                {% endif %}
             </tr>
         {% else %}
             <tr>
@@ -73,12 +85,19 @@
         </tbody>
         {% endblock %}
     </table>
-    {{ block('kit_grid_after_table') }}
+
+    {% if block('kit_grid_after_table') is defined %}
+        {{ block('kit_grid_after_table') }}
+    {% endif %}
+
     {% block kit_grid_paginator %}
         {% embed kitpages_data_grid.paginator.default_twig with {'paginator':grid.paginator} %}
         {% endembed %}
     {% endblock %}
-    {{ block(' kit_grid_after_paginator') }}
+
+    {% if block('kit_grid_after_paginator') is defined %}
+        {{ block(' kit_grid_after_paginator') }}
+    {% endif %}
 </div>
 {% block kit_grid_javascript %}
     {% include "KitpagesDataGridBundle:Grid:javascript.html.twig" %}

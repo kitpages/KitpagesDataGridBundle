@@ -34,7 +34,7 @@
         {% block kit_grid_thead %}
         <thead>
         <tr>
-            {% if block('kit_grid_after_column') is defined %}
+            {% if block('kit_grid_thead_before_column') is defined %}
                 {{ block('kit_grid_thead_before_column') }}
             {% endif %}
 

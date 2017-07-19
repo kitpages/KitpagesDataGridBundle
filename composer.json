@@ -25,9 +25,9 @@
 
         "beberlei/DoctrineExtensions": "0.3.0",
         "phpunit/phpunit": "~6.2",
-        "phpunit/dbunit": "~3.0.0",
+        "phpunit/dbunit": "~3.0",
 
-        "patchwork/dumper": "~1.2"
+        "patchwork/dumper": "~v1.4"
     },
     "autoload": {
         "psr-0": { "Kitpages\\DataGridBundle": "" }

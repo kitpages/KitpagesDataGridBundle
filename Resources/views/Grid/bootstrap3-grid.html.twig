@@ -49,7 +49,9 @@
                         {% if field.visible %}
                             <th class="{{ grid.getSortCssClass(field.fieldName) }} kit-grid-header-{{ field.fieldName|replace({'.': '-'}) }}">
                                 {% if field.sortable %}
-                                    <a href="{{ grid.getSortUrl(field.fieldName) }}">{{ field.label | trans }}</a>
+                                    {% block kit_grid_thead_field_sortable %}
+                                        <a href="{{ grid.getSortUrl(field.fieldName) }}">{{ field.label | trans }}</a>
+                                    {% endblock %}
                                 {% else %}
                                     {{ field.label | trans }}
                                 {% endif %}

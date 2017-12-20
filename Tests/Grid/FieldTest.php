@@ -45,4 +45,29 @@ class FieldTest extends \PHPUnit_Framework_TestCase
             $this->assertTrue(true);
         }
     }
+
+    public function testTagSystem()
+    {
+        $field = new Field(
+            'phone',
+            array(
+                'label' => 'Phone',
+                'sortable' => true,
+                'filterable' => true,
+                'visible' => false,
+                'formatValueCallback' => function($value) { return strtoupper($value);},
+                'autoEscape' => true,
+                'translatable' => true,
+                'category' => 'my.category',
+                'nullIfNotExists' => true
+            ),
+            array (
+                'foo',
+                'bar'
+            )
+        );
+        $this->assertTrue($field->hasTag('foo'));
+        $this->assertFalse($field->hasTag('tutu'));
+        $this->assertEquals(array('foo', 'bar'), $field->getTagList());
+    }
 }

@@ -139,6 +139,23 @@ class GridConfig
     }
 
     /**
+     * Returns a list of fields that contains the given $tag.
+     *
+     * @param $tag
+     * @return Field[]
+     */
+    public function getFieldListByTag($tag)
+    {
+        $matchingFieldList = array();
+        foreach ($this->fieldList as $field) {
+            if ($field->hasTag($tag)) {
+                $matchingFieldList[]  = $field;
+            }
+        }
+        return $matchingFieldList;
+    }
+
+    /**
      * @param string $countFieldName
      *
      * @return GridConfig Fluent interface

@@ -249,6 +249,21 @@ objects injected in the $event.
 
 see the event documentation in Resources/doc/30-Events.md
 
+Tags
+====
+
+Tag system is used to get some fields by tags. When you create a field, you can
+define some tags associated to this field. After that, in the grid config, you can
+find the fields that match this tag.
+
+	// add tag as the third parameter of the field 
+    $gridConfig->addField("item.id", [], ['foo', 'bar']);
+    $gridConfig->addField("foo", [], ['myTag', 'foo']);
+
+	// get fieldList matching 'bar' tag. There is only one result.
+	$fieldList = $gridConfig->getFieldListByTag('bar');
+	$fieldList[0] // -> this is the first Field (which name is 'item.id')
+
 Reference guide
 ===============
 

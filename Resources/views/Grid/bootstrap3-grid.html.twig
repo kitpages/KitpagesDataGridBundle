@@ -32,24 +32,36 @@
                 {{ grid.dump() | raw }}
             {% endif %}
         {% endblock %}
-        {{ block('kit_grid_before_table') }}
-        <table class="table table-striped table-bordered table-hover">
+
+        {% if block('kit_grid_before_table') is defined %}
+            {{ block('kit_grid_before_table') }}
+        {% endif %}
+
+        <table class="{% block kit_grid_table_class %}table table-striped table-bordered table-hover{% endblock %}">
             {% block kit_grid_thead %}
                 <thead>
                 <tr>
-                    {{ block('kit_grid_thead_before_column') }}
+                    {% if block('kit_grid_thead_before_column') is defined %}
+                        {{ block('kit_grid_thead_before_column') }}
+                    {% endif %}
+
                     {% for field in grid.gridConfig.fieldList %}
                         {% if field.visible %}
-                            <th class="{{ grid.getSortCssClass(field.fieldName) }}">
+                            <th class="{{ grid.getSortCssClass(field.fieldName) }} kit-grid-header-{{ field.fieldName|replace({'.': '-'}) }}">
                                 {% if field.sortable %}
-                                    <a href="{{ grid.getSortUrl(field.fieldName) }}">{{ field.label | trans }}</a>
+                                    {% block kit_grid_thead_field_sortable %}
+                                        <a href="{{ grid.getSortUrl(field.fieldName) }}">{{ field.label | trans }}</a>
+                                    {% endblock %}
                                 {% else %}
                                     {{ field.label | trans }}
                                 {% endif %}
                             </th>
                         {% endif %}
                     {% endfor %}
-                    {{ block('kit_grid_thead_column') }}
+
+                    {% if block('kit_grid_thead_column') is defined %}
+                        {{ block('kit_grid_thead_column') }}
+                    {% endif %}
                 </tr>
                 </thead>
             {% endblock %}
@@ -59,17 +71,28 @@
                     <tr class="{% if loop.index % 2 == 0 %}kit-grid-even {% else %}kit-grid-odd {% endif %} {% block kit_grid_row_class %}{% endblock %}">
                         {% block kit_grid_tbody_before_column %}{%endblock%}
                         {% for field in grid.gridConfig.fieldList %}
+                            {% set value = grid.displayGridValue(item, field) %}
+                            {% set fieldNameSlugDashed = field.fieldName|replace({'.': '-'}) %}
+                            {% set fieldNameSlugUnderscored = field.fieldName|replace({'.': '_'}) %}
+
                             {% if field.visible %}
-                                <td class="kit-grid-cell-{{ field.fieldName | replace({'.': '-'}) }}">
-                                    {% if field.translatable %}
-                                        {{ grid.displayGridValue ( item, field) | raw | trans }}
+                                <td class="kit-grid-cell-{{ fieldNameSlugDashed }}">
+                                    {% if block('kit_grid_cell_' ~ fieldNameSlugUnderscored) is defined %}
+                                        {{ block('kit_grid_cell_' ~ fieldNameSlugUnderscored) }}
                                     {% else %}
-                                        {{ grid.displayGridValue ( item, field) | raw }}
+                                        {% if field.translatable %}
+                                            {{ value | raw | trans }}
+                                        {% else %}
+                                            {{ value | raw }}
+                                        {% endif %}
                                     {% endif %}
                                 </td>
                             {% endif %}
                         {% endfor %}
-                        {{ block('kit_grid_tbody_column') }}
+
+                        {% if block('kit_grid_tbody_column') is defined %}
+                            {{ block('kit_grid_tbody_column') }}
+                        {% endif %}
                     </tr>
                 {% else %}
                     <tr>
@@ -79,12 +102,19 @@
                 </tbody>
             {% endblock %}
         </table>
-        {{ block('kit_grid_after_table') }}
+
+        {% if block('kit_grid_after_table') is defined %}
+            {{ block('kit_grid_after_table') }}
+        {% endif %}
+
         {% block kit_grid_paginator %}
             {% embed kitpages_data_grid.paginator.default_twig with {'paginator':grid.paginator} %}
             {% endembed %}
         {% endblock %}
-        {{ block(' kit_grid_after_paginator') }}
+
+        {% if block('kit_grid_after_paginator') is defined %}
+            {{ block(' kit_grid_after_paginator') }}
+        {% endif %}
     </div>
     {% block kit_grid_javascript %}
         {% include "KitpagesDataGridBundle:Grid:javascript.html.twig" %}

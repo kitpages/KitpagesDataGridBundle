@@ -1,6 +1,11 @@
 Versions :
 ==========
 
+2017-12-20 : v2.6.0
+
+* new : add tag system that allow to retrieve a field list in a grid config
+* fix : fix unit tests for a new version of doctrine
+
 2014-12-19 : v2.4.0
 
 * new : bootstrap3 templates in order to display datagrids and paginator using standard bootstrap3 lib

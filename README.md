@@ -15,10 +15,12 @@ There are BC Breaks between version 1 and version 2.
 Actual state
 ============
 
-* v1.x is stable, production ready
+see VERSIONS.md
+
+* v2.5.x is following version 2.5.x of doctrine
+* v2.4.x is following version 2.4.x of doctrine
 * v2.x is stable and production ready
- * v2.5.x is following version 2.5.x of doctrine
- * v2.4.x is following version 2.4.x of doctrine
+* v1.x is stable, production ready
 
 Features
 ========

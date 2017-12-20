@@ -9,6 +9,7 @@
     </testsuites>
     <php>
         <server name="KERNEL_DIR" value="./Tests/app/" />
+        <server name="KERNEL_CLASS" value="Kitpages\DataGridBundle\Tests\AppKernel" />
     </php>
 
     <filter>

@@ -10,7 +10,7 @@
         <field name="content" column="content" type="text" nullable="true" />
         <field name="user" column="user" type="text" nullable="true" />
         <field name="createdAt" column="created_at" type="datetime" />
-        <field name="parentId" column="parent_id" type="integer" />
+        <field name="parentId" column="parent_id" type="integer" nullable="true" />
 
         <one-to-many field="subNodeList" target-entity="Kitpages\DataGridBundle\Tests\TestEntities\Node" mapped-by="mainNode" />
         <many-to-one field="mainNode" target-entity="Kitpages\DataGridBundle\Tests\TestEntities\Node" inversed-by="subNodeList">

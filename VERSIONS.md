@@ -1,6 +1,11 @@
 Versions :
 ==========
 
+2017-12-20 : v3.0.0
+
+* new : compatible with symfony 3 and symfony 4 (but only twig ~1.8)
+* fix : unit tests for phpunit 6
+
 2017-12-20 : v2.6.0
 
 * new : add tag system that allow to retrieve a field list in a grid config

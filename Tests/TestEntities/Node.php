@@ -16,6 +16,7 @@ class Node
     public function setContent($content)
     {
         $this->content = $content;
+        return $this;
     }
 
     public function getContent()
@@ -26,6 +27,7 @@ class Node
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
+        return $this;
     }
 
     public function getCreatedAt()
@@ -36,6 +38,7 @@ class Node
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
     }
 
     public function getId()
@@ -46,6 +49,7 @@ class Node
     public function setParentId($parentId)
     {
         $this->parentId = $parentId;
+        return $this;
     }
 
     public function getParentId()
@@ -56,6 +60,7 @@ class Node
     public function setUser($user)
     {
         $this->user = $user;
+        return $this;
     }
 
     public function getUser()
@@ -66,6 +71,7 @@ class Node
     public function setMainNode($mainNode)
     {
         $this->mainNode = $mainNode;
+        return $this;
     }
 
     public function getMainNode()
@@ -76,6 +82,7 @@ class Node
     public function setSubNodeList($subNodeList)
     {
         $this->subNodeList = $subNodeList;
+        return $this;
     }
 
     public function getSubNodeList()
@@ -91,5 +98,6 @@ class Node
     public function setAssoc($assoc)
     {
         $this->assoc = $assoc;
+        return $this;
     }
 }

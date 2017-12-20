@@ -18,6 +18,7 @@ class NodeAssoc
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
     }
 
     public function getId()
@@ -28,11 +29,13 @@ class NodeAssoc
     public function setName($name)
     {
         $this->name = $name;
+        return $this;
     }
 
     public function getName()
     {
         return $this->name;
+        return $this;
     }
 
     public function addNodeList(\Kitpages\DataGridBundle\Tests\TestEntities\Node $node)
@@ -45,11 +48,13 @@ class NodeAssoc
     public function removeNodeList(\Kitpages\DataGridBundle\Tests\TestEntities\Node $node)
     {
         $this->nodeList->removeElement($node);
+        return $this;
     }
 
     public function getNodeList()
     {
         return $this->nodeList;
+        return $this;
     }
 
 }

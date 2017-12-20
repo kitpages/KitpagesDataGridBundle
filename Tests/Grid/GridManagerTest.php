@@ -3,13 +3,13 @@ namespace Kitpages\DataGridBundle\Tests\Grid;
 
 use Doctrine\ORM\EntityManager;
 use Kitpages\DataGridBundle\Grid\Field;
-use Kitpages\DataGridBundle\Grid\ItemListNormalizer\LegacyNormalizer;
 use Kitpages\DataGridBundle\Grid\ItemListNormalizer\StandardNormalizer;
 use Kitpages\DataGridBundle\Paginator\PaginatorConfig;
 use Kitpages\DataGridBundle\Grid\GridConfig;
 use Kitpages\DataGridBundle\Grid\GridManager;
 use Kitpages\DataGridBundle\Paginator\PaginatorManager;
 use Kitpages\DataGridBundle\Tests\BundleOrmTestCase;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * @group GridManagerTest
@@ -58,7 +58,7 @@ class GridManagerTest extends BundleOrmTestCase
     public function getGridManager()
     {
         // create EventDispatcher mock
-        $service = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher');
+        $service = new EventDispatcher();
         $parameters = array(
             "default_twig" => "toto.html.twig",
             "item_count_in_page" => 50,

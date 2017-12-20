@@ -3,8 +3,10 @@ namespace Kitpages\DataGridBundle\Tests\Grid;
 
 use Kitpages\DataGridBundle\Grid\Field;
 use Kitpages\DataGridBundle\Grid\GridConfig;
+use PHPUnit\Framework\TestCase;
 
-class GridConfigTest extends \PHPUnit_Framework_TestCase
+
+class GridConfigTest extends TestCase
 {
     /**
      * @var GridConfig

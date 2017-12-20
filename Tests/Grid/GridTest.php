@@ -5,16 +5,17 @@ use Kitpages\DataGridBundle\Grid\Grid;
 use Kitpages\DataGridBundle\Grid\Field;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Kitpages\DataGridBundle\Tests\Grid\ConversionSubscriber;
+use PHPUnit\Framework\TestCase;
 
 
-class GridTest extends \PHPUnit_Framework_TestCase
+class GridTest extends TestCase
 {
     private $grid;
     private $now;
     private $row;
     public function setUp()
     {
-        $dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher');
+        $dispatcher = new EventDispatcher();
 
         $this->grid = new Grid();
         $this->grid->setDispatcher($dispatcher);

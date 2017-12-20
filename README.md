@@ -7,6 +7,15 @@ KitpagesDataGridBundle
 
 This Symfony2 Bundle is a simple datagrid bundle. It aims to be easy to use and extensible.
 
+## Warning version 3
+
+Version 3 is for symfony ~3.3 and ~4.0 and PHP 7, and only twig ~1.8 
+
+Version 3 is here. You can switch to branch 2.x (or tags 2.x) if you want to stay on legacy version.
+
+There is no BC break in the usage between version 2 and version 3, but the version
+3 is not compatible with symfony < 3.3.
+
 ## Warning version 2
 
 Version 2 is here. You can switch to branch 1.x (or tags 1.x) if you want to stay on legacy version.
@@ -17,6 +26,7 @@ Actual state
 
 see VERSIONS.md
 
+* v3.x is in beta, no change in funcionnality
 * v2.5.x is following version 2.5.x of doctrine
 * v2.4.x is following version 2.4.x of doctrine
 * v2.x is stable and production ready

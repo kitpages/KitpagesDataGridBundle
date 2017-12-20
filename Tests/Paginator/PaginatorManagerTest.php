@@ -4,6 +4,8 @@ namespace Kitpages\DataGridBundle\Tests\Paginator;
 use Kitpages\DataGridBundle\Paginator\PaginatorManager;
 use Kitpages\DataGridBundle\Paginator\PaginatorConfig;
 use Kitpages\DataGridBundle\Tests\BundleOrmTestCase;
+use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 
 class PaginatorManagerTest extends BundleOrmTestCase
@@ -21,7 +23,7 @@ class PaginatorManagerTest extends BundleOrmTestCase
     protected function getPaginatorManager()
     {
         // create EventDispatcher mock
-        $service = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher');
+        $service = new EventDispatcher();
         $parameters = array(
             "default_twig" => "toto.html.twig",
             "item_count_per_page" => 50,
@@ -75,7 +77,7 @@ class PaginatorManagerTest extends BundleOrmTestCase
         $queryBuilder->groupBy("node.user");
 
         // create EventDispatcher mock
-        $service = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher');
+        $service = new EventDispatcher();
         // create Request mock (ok this is not a mock....)
         $request = new \Symfony\Component\HttpFoundation\Request();
         $_SERVER["REQUEST_URI"] = "/foo";

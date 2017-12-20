@@ -2,8 +2,9 @@
 namespace Kitpages\DataGridBundle\Tests\Tool;
 
 use Kitpages\DataGridBundle\Tool\UrlTool;
+use PHPUnit\Framework\TestCase;
 
-class UrlToolTest extends \PHPUnit_Framework_TestCase
+class UrlToolTest extends TestCase
 {
     public function testChangeRequestQueryString()
     {

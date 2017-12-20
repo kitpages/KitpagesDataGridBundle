@@ -12,11 +12,18 @@ framework:
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
 
-
+twig:
+    paths:
+        "%kernel.root_dir%/app/Resources/views/": __main__
 doctrine:
     dbal:
         driver:   'pdo_sqlite'
         memory:   true
     orm:
         entity_managers:
-            default: ~
+            default:
+                mappings:
+                    Kitpages\DataGridBundle\Tests\TestEntities\Node:
+                        type: xml
+                        dir: "%kernel.root_dir%/app/Resources/config/doctrine"
+                        prefix: Kitpages\DataGridBundle\Tests\TestEntities

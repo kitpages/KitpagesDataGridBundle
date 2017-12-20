@@ -1,9 +1,10 @@
 <?php
 namespace Kitpages\DataGridBundle\Tests\Grid;
 
+use PHPUnit\Framework\TestCase;
 use Kitpages\DataGridBundle\Grid\Field;
 
-class FieldTest extends \PHPUnit_Framework_TestCase
+class FieldTest extends TestCase
 {
     public function testConstructor()
     {

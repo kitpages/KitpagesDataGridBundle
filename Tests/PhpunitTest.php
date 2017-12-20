@@ -1,7 +1,7 @@
 <?php
 namespace Kitpages\DataGridBundle\Tests;
-
-class PhpunitTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+class PhpunitTest extends TestCase
 {
     public function testPhpunit()
     {

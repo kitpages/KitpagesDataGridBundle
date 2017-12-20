@@ -6,45 +6,45 @@ use Kitpages\DataGridBundle\DataGridException;
 class Field
 {
     /** @var string */
-    protected $fieldName = null;
+    protected $fieldName;
     /** @var string */
-    protected $label = null;
+    protected $label;
     /** @var boolean */
     protected $sortable = false;
     /** @var boolean */
     protected $filterable = false;
     /** @var boolean */
     protected $visible = true;
-    /** @var function */
-    protected $formatValueCallback = null;
+    /** @var callable */
+    protected $formatValueCallback;
     /** @var boolean */
     protected $autoEscape = true;
     /** @var boolean */
     protected $translatable = false;
     /** @var string  */
-    protected $category = null;
+    protected $category;
     /** @var bool */
     protected $nullIfNotExists = false;
     /** @var array  */
     protected $dataList = array();
 
-    public function __construct($fieldName, $optionList = array())
+    public function __construct($fieldName, array $optionList = array())
     {
         $this->fieldName = $fieldName;
         $this->label = $fieldName;
         foreach ($optionList as $key => $val) {
             if (in_array($key, array(
-                "label",
-                "sortable",
-                "filterable",
-                "visible",
-                "formatValueCallback",
-                "autoEscape",
-                "translatable",
-                "category",
-                "nullIfNotExists",
-                "dataList"
-            ) )) {
+                'label',
+                'sortable',
+                'filterable',
+                'visible',
+                'formatValueCallback',
+                'autoEscape',
+                'translatable',
+                'category',
+                'nullIfNotExists',
+                'dataList'
+            ), true)) {
                 $this->$key = $val;
             } else {
                 throw new \InvalidArgumentException("key $key doesn't exist in option list");
@@ -213,7 +213,9 @@ class Field
     }
 
     /**
+     * @param string $key
      * @return array
+     * @throws DataGridException
      */
     public function getData($key)
     {

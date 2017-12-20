@@ -34,7 +34,7 @@ class GridConfigTest extends \PHPUnit_Framework_TestCase
             'label' => $fieldName,
         ));
 
-        $this->assertInstanceOf('Kitpages\DataGridBundle\Grid\Field', $this->gridConfig->getFieldByName($fieldName));
+        $this->assertInstanceOf(Field::class, $this->gridConfig->getFieldByName($fieldName));
         $this->assertEquals($fieldName, $this->gridConfig->getFieldByName($fieldName)->getLabel());
     }
 
@@ -50,5 +50,24 @@ class GridConfigTest extends \PHPUnit_Framework_TestCase
                 $this->assertTrue(true);
             }
         }
+    }
+
+    public function testTags()
+    {
+        $this->gridConfig->addField(
+            new Field('f1', array(), array('foo', 'bar'))
+        );
+        $this->gridConfig->addField(
+            new Field('f2', array(), array('bar'))
+        );
+        $this->gridConfig->addField(
+            new Field('f3', array(), array('foo', 'bar', 'biz'))
+        );
+        $this->assertCount(1, $this->gridConfig->getFieldListByTag('biz'));
+        $this->assertCount(2, $this->gridConfig->getFieldListByTag('foo'));
+        $this->assertCount(3, $this->gridConfig->getFieldListByTag('bar'));
+        $this->assertCount(0, $this->gridConfig->getFieldListByTag('gloubi'));
+        $field = $this->gridConfig->getFieldListByTag('biz')[0];
+        $this->assertEquals('f3', $field->getFieldName());
     }
 }

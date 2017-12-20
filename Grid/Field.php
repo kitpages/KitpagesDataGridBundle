@@ -27,8 +27,18 @@ class Field
     protected $nullIfNotExists = false;
     /** @var array  */
     protected $dataList = array();
+    /**
+     * List of tags associated to a field. Used only by users of the bundles.
+     * No influence in the internals of the bundle.
+     * @var string[]
+     */
+    protected $tagList = array();
 
-    public function __construct($fieldName, array $optionList = array())
+    public function __construct(
+        $fieldName,
+        array $optionList = array(),
+        array $tagList = array()
+    )
     {
         $this->fieldName = $fieldName;
         $this->label = $fieldName;
@@ -50,6 +60,7 @@ class Field
                 throw new \InvalidArgumentException("key $key doesn't exist in option list");
             }
         }
+        $this->tagList = $tagList;
     }
 
     /**
@@ -227,4 +238,31 @@ class Field
         return $this->dataList[$key];
     }
 
+    /**
+     * @return string[]
+     */
+    public function getTagList()
+    {
+        return $this->tagList;
+    }
+
+    /**
+     * @param string[] $tagList
+     */
+    public function setTagList($tagList)
+    {
+        $this->tagList = $tagList;
+        return $this;
+    }
+
+    /**
+     * Returns true if the given $tag is present in the tag list of the field.
+     *
+     * @param $tag
+     * @return bool
+     */
+    public function hasTag($tag)
+    {
+        return in_array($tag, $this->tagList, true);
+    }
 }

@@ -1,7 +1,7 @@
 KitpagesDataGridBundle
 ========================
 
-[![Build Status](https://travis-ci.org/kitpages/KitpagesDataGridBundle.png?branch=master)](https://travis-ci.org/kitpages/KitpagesDataGridBundle)
+[![Build Status](https://travis-ci.org/kitpages/KitpagesDataGridBundle.svg?branch=master)](https://travis-ci.org/kitpages/KitpagesDataGridBundle)
 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/df09ed10-4c61-4b1d-8cf7-5206901493c4/small.png)](https://insight.sensiolabs.com/projects/df09ed10-4c61-4b1d-8cf7-5206901493c4)
 

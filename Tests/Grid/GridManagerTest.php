@@ -3,6 +3,7 @@ namespace Kitpages\DataGridBundle\Tests\Grid;
 
 use Doctrine\ORM\EntityManager;
 use Kitpages\DataGridBundle\Grid\Field;
+use Kitpages\DataGridBundle\Grid\Grid;
 use Kitpages\DataGridBundle\Grid\ItemListNormalizer\StandardNormalizer;
 use Kitpages\DataGridBundle\Paginator\PaginatorConfig;
 use Kitpages\DataGridBundle\Grid\GridConfig;
@@ -117,6 +118,26 @@ class GridManagerTest extends BundleOrmTestCase
         // simple callback
         $this->assertEquals( "2010/04/24" , $grid->displayGridValue($itemList[0], $gridConfig->getFieldByName("node.createdAt")));
         $this->assertEquals( "foobar:2010" , $grid->displayGridValue($itemList[0], $gridConfig->getFieldByName("node.content")));
+
+        // test $grid given in parameter
+        $myCustomGrid = new CustomGrid();
+        $myCustomGrid->setMyCustomParamter('my parameter value');
+        $grid = $gridManager->getGrid($gridConfig, $request, $myCustomGrid);
+        $paginator = $myCustomGrid->getPaginator();
+
+        // tests paginator
+        $this->assertEquals(11, $paginator->getTotalItemCount());
+
+        // grid test
+        $itemList = $myCustomGrid->getItemList();
+        $this->assertEquals( 11 , count($itemList));
+        $this->assertEquals( 1 , $itemList[0]["node.id"]);
+        // custom grid test
+        $this->assertEquals('my parameter value', $grid->getMyCustomParamter());
+        // simple callback
+        $this->assertEquals( "2010/04/24" , $myCustomGrid->displayGridValue($itemList[0], $gridConfig->getFieldByName("node.createdAt")));
+        $this->assertEquals( "foobar:2010" , $myCustomGrid->displayGridValue($itemList[0], $gridConfig->getFieldByName("node.content")));
+
     }
 
     public function testGridRelation()

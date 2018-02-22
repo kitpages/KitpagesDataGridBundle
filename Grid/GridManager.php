@@ -59,14 +59,23 @@ class GridManager
      *
      * @param  \Kitpages\DataGridBundle\Grid\GridConfig $gridConfig
      * @param  \Symfony\Component\HttpFoundation\Request $request
+     * @param Grid $grid : the user can give a instance of Grid (or a subclass
+     * of grid) if he wants the grid object to be manually initialized before
+     * the getGrid call.
      * @return \Kitpages\DataGridBundle\Grid\Grid
      */
-    public function getGrid(GridConfig $gridConfig, Request $request)
+    public function getGrid(
+        GridConfig $gridConfig,
+        Request $request,
+        Grid $grid = null
+    )
     {
         $queryBuilder = $gridConfig->getQueryBuilder();
 
         // create grid objet
-        $grid = new Grid();
+        if ($grid === null) {
+            $grid = new Grid();
+        }
         $grid->setGridConfig($gridConfig);
         $grid->setUrlTool(new UrlTool());
         $grid->setRequestUri($request->getRequestUri());

@@ -67,7 +67,7 @@ You need to add the following lines in your deps :
 
 Add KitpagesChainBundle in your composer.json
 
-```js
+```
 {
     "require": {
         "kitpages/data-grid-bundle": "~2.4" // Use ~2.5 if you use doctrine >= 2.5
@@ -276,6 +276,30 @@ find the fields that match this tag.
 	// get fieldList matching 'bar' tag. There is only one result.
 	$fieldList = $gridConfig->getFieldListByTag('bar');
 	$fieldList[0] // -> this is the first Field (which name is 'item.id')
+
+Custom class for the $grid object
+=================================
+
+By default, the following line 
+```php
+$grid = $gridManager->getGrid($gridConfig, $request);
+```
+returns an object of the type Grid
+
+You can use your own subclass of Grid. By default the GridManager creates the instance $grid of Grid but you can create the instance by yourself.
+
+```php
+class CustomGrid extends Grid
+{
+	public $myParameter;
+}
+$myCustomGrid = new CustomGrid();
+$grid = $gridManager->getGrid($gridConfig, $request,$myCustomGrid);
+
+// now the $grid object is an instance of CustomGrid (it 
+// is exactly the same object than $myCustomGrid, not cloned)
+```
+ 
 
 Reference guide
 ===============

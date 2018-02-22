@@ -1,6 +1,13 @@
 Versions :
 ==========
 
+2018-02-22 : v3.1.0
+
+no bc break
+
+* new : adds the ability to use its own subclass of Grid as a result of
+gridManager->getGrid.
+
 2017-12-20 : v3.0.0
 
 * new : compatible with symfony 3 and symfony 4 (but only twig ~1.8)

@@ -1,6 +1,12 @@
 Versions :
 ==========
 
+2018-03-19 : v3.1.1
+
+no bc break
+
+* fix issue #69 : tag list in parameter list of gridConfig->addField()
+
 2018-02-22 : v3.1.0
 
 no bc break

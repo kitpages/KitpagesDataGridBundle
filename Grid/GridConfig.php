@@ -28,17 +28,18 @@ class GridConfig
     /**
      * @param Field|string  $field
      * @param array         $options
+     * @param string[] list of tags
      *
      * @return GridConfig Fluent interface
      */
-    public function addField($field, $options = array())
+    public function addField($field, $options = array(), $tagList = array())
     {
         if (! (is_string($field) || $field instanceof Field)) {
             throw new \InvalidArgumentException('Argument $field should be string or instance of Kitpages\DataGridBundle\Grid\Field');
         }
 
         if (is_string($field)) {
-            $field = new Field($field, $options);
+            $field = new Field($field, $options, $tagList);
         }
 
         $this->fieldList[] = $field;

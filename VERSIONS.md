@@ -1,9 +1,10 @@
 Versions :
 ==========
 
-Unversioned:
+2018-10-10: v3.2.0
 
 * new : compatible with twig 2
+* fix : twig min version to 1.23
 
 2018-03-19 : v3.1.1
 

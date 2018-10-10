@@ -9,16 +9,11 @@ This Symfony Bundle is a simple datagrid bundle. It aims to be easy to use and e
 
 ## Warning version 3
 
-Version 3 is for symfony ~3.3 and ~4.0 and PHP 7, and only twig ~1.8 
-
-Version 3 is here. You can switch to branch 2.x (or tags 2.x) if you want to stay on legacy version.
-
-There is no BC break in the usage between version 2 and version 3, but the version
-3 is not compatible with symfony < 3.3.
+Version 3 is for Symfony ~3.3 or ~4.0 and PHP 7.
+There is no BC break in the usage between version 2 and version 3
 
 ## Warning version 2
 
-Version 2 is here. You can switch to branch 1.x (or tags 1.x) if you want to stay on legacy version.
 There are BC Breaks between version 1 and version 2.
 
 Actual state
@@ -26,7 +21,7 @@ Actual state
 
 see VERSIONS.md
 
-* v3.x is in beta, no change in funcionnality
+* v3.x is in beta, no change in funcionnality.
 * v2.5.x is following version 2.5.x of doctrine
 * v2.4.x is following version 2.4.x of doctrine
 * v2.x is stable and production ready
@@ -48,7 +43,7 @@ Features
 System Requirement
 ==================
 * jQuery has to be present on your pages
-* version 1.8+ of twig is mandatory (use of twig embeds)
+* Twig version 1.23+ is mandatory (use of twig embeds and Twig_Extension_GlobalsInterface)
 
 Documentation
 =============
@@ -63,25 +58,14 @@ The documentation is in this README and in [Resources/doc](https://github.com/ki
 
 Installation
 ============
-You need to add the following lines in your deps :
 
-Add KitpagesChainBundle in your composer.json
+Run :
 
 ```
-{
-    "require": {
-        "kitpages/data-grid-bundle": "~2.4" // Use ~2.5 if you use doctrine >= 2.5
-    }
-}
+composer require kitpages/data-grid-bundle "~3.0"
 ```
 
-Now tell composer to download the bundle by running the step:
-
-``` bash
-$ php composer.phar update kitpages/data-grid-bundle
-```
-
-AppKernel.php
+Add to `AppKernel.php` :
 
 ``` php
 $bundles = array(

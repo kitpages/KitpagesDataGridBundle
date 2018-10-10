@@ -168,7 +168,7 @@ If you want to add a column on the right of the table, you can put this code in 
         {% endblock %}
 
         {% block kit_grid_tbody_column %}
-            <td><a href="{{ path ("my_route", {"id": item.id}) }}">Edit</a></td>
+            <td><a href="{{ path ("my_route", {"id": item['item.id']}) }}">Edit</a></td>
         {% endblock %}
 
     {% endembed %}

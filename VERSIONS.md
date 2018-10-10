@@ -1,6 +1,12 @@
 Versions :
 ==========
 
+2018-10-10 : v2.7.0
+
+* fix deprecation : add Twig_Extension_GlobalsInterface on twig extension
+* change dependency to fix min version of twig to 1.23 (not BC Break, already
+used by symfony 2.3)
+
 2017-12-20 : v2.6.0
 
 * new : add tag system that allow to retrieve a field list in a grid config

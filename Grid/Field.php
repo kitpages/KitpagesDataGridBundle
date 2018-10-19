@@ -21,12 +21,14 @@ class Field
     protected $autoEscape = true;
     /** @var boolean */
     protected $translatable = false;
-    /** @var string  */
+    /** @var string */
     protected $category;
     /** @var bool */
     protected $nullIfNotExists = false;
     /** @var array  */
     protected $dataList = array();
+    /** @var string */
+    protected $uniqueId;
     /**
      * List of tags associated to a field. Used only by users of the bundles.
      * No influence in the internals of the bundle.
@@ -38,12 +40,11 @@ class Field
         $fieldName,
         array $optionList = array(),
         array $tagList = array()
-    )
-    {
+    ) {
         $this->fieldName = $fieldName;
         $this->label = $fieldName;
         foreach ($optionList as $key => $val) {
-            if (in_array($key, array(
+            if (\in_array($key, array(
                 'label',
                 'sortable',
                 'filterable',
@@ -53,7 +54,8 @@ class Field
                 'translatable',
                 'category',
                 'nullIfNotExists',
-                'dataList'
+                'dataList',
+                'uniqueId'
             ), true)) {
                 $this->$key = $val;
             } else {
@@ -248,6 +250,7 @@ class Field
 
     /**
      * @param string[] $tagList
+     * @return self
      */
     public function setTagList($tagList)
     {
@@ -263,6 +266,22 @@ class Field
      */
     public function hasTag($tag)
     {
-        return in_array($tag, $this->tagList, true);
+        return \in_array($tag, $this->tagList, true);
+    }
+
+    /**
+     * @return string
+     */
+    public function getUniqueId(): ?string
+    {
+        return $this->uniqueId;
+    }
+
+    /**
+     * @param string $uniqueId
+     */
+    public function setUniqueId(string $uniqueId): void
+    {
+        $this->uniqueId = $uniqueId;
     }
 }

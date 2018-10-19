@@ -34,11 +34,11 @@ class GridConfig
      */
     public function addField($field, $options = array(), $tagList = array())
     {
-        if (! (is_string($field) || $field instanceof Field)) {
+        if (! (\is_string($field) || $field instanceof Field)) {
             throw new \InvalidArgumentException('Argument $field should be string or instance of Kitpages\DataGridBundle\Grid\Field');
         }
 
-        if (is_string($field)) {
+        if (\is_string($field)) {
             $field = new Field($field, $options, $tagList);
         }
 

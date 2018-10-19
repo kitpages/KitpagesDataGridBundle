@@ -75,9 +75,9 @@ class Grid
             $fieldName
         );
         if ($fieldName == $this->getSortField()) {
-            $order = ($this->getSortOrder() == "ASC") ? "DESC" : "ASC";
+            $order = ($this->getSortOrder() === 'ASC') ? 'DESC' : 'ASC';
         } else {
-            $order = "ASC";
+            $order = 'ASC';
         }
 
         return $this->urlTool->changeRequestQueryString(
@@ -88,10 +88,10 @@ class Grid
     }
     public function getSortCssClass($fieldName)
     {
-        $css = "";
+        $css = '';
         if ($fieldName == $this->getSortField()) {
-            $css .= " kit-grid-sort ";
-            $css .= " kit-grid-sort-".strtolower($this->getSortOrder())." ";
+            $css .= ' kit-grid-sort ';
+            $css .= ' kit-grid-sort-'.strtolower($this->getSortOrder()).' ';
         }
 
         return $css;
@@ -104,59 +104,64 @@ class Grid
         if (array_key_exists($fieldName, $row)) {
             $value = $row[$fieldName];
         }
+
         // real treatment
-        if ( is_callable( $field->getFormatValueCallback() ) ) {
+        if (\is_callable($field->getFormatValueCallback())) {
             $callback = $field->getFormatValueCallback();
             $reflection = new \ReflectionFunction($callback);
-            if ($reflection->getNumberOfParameters() == 1) {
+            if ($reflection->getNumberOfParameters() === 1) {
                 $value =  $callback($value);
-            } elseif ($reflection->getNumberOfParameters() == 2) {
+            } elseif ($reflection->getNumberOfParameters() === 2) {
                 $value =  $callback($value, $row);
             } else {
-                throw new DataGridException("Wrong number of parameters in the callback for field ".$field->getFieldName());
+                throw new DataGridException('Wrong number of parameters in the callback for field '.$field->getFieldName());
             }
         }
+
         // send event for changing grid query builder
         $event = new DataGridEvent();
-        $event->set("value", $value);
-        $event->set("row", $row);
-        $event->set("field", $field);
+        $event->set('value', $value);
+        $event->set('row', $row);
+        $event->set('field', $field);
         $this->dispatcher->dispatch(KitpagesDataGridEvents::ON_DISPLAY_GRID_VALUE_CONVERSION, $event);
+
         if (!$event->isDefaultPrevented()) {
-            $value = $event->get("value");
+            $value = $event->get('value');
             if ($value instanceof \DateTime) {
-                $returnValue = $value->format("Y-m-d H:i:s");
+                $returnValue = $value->format('Y-m-d H:i:s');
             } else {
                 $returnValue = $value;
             }
-            $event->set("returnValue", $returnValue);
+            $event->set('returnValue', $returnValue);
         }
+
         $this->dispatcher->dispatch(KitpagesDataGridEvents::AFTER_DISPLAY_GRID_VALUE_CONVERSION, $event);
-        $returnValue = $event->get("returnValue");
+        $returnValue = $event->get('returnValue');
 
         // auto escape ? (if null, return null, without autoescape...)
-        if ($field->getAutoEscape() && !is_null($returnValue)) {
+        if ($field->getAutoEscape() && $returnValue !== null) {
             $returnValue = htmlspecialchars($returnValue);
         }
+
         return $returnValue;
     }
 
     public function getFilterFormName()
     {
-        return "kitdg_grid_".$this->getGridConfig()->getName()."_filter";
+        return 'kitdg_grid_'.$this->getGridConfig()->getName().'_filter';
     }
     public function getSortFieldFormName()
     {
-        return "kitdg_grid_".$this->getGridConfig()->getName()."_sort_field";
+        return 'kitdg_grid_'.$this->getGridConfig()->getName().'_sort_field';
     }
     public function getSortOrderFormName()
     {
-        return "kitdg_grid_".$this->getGridConfig()->getName()."_sort_order";
+        return 'kitdg_grid_'.$this->getGridConfig()->getName().'_sort_order';
     }
     public function getSelectorCssSelected($selectorField, $selectorValue)
     {
         if ($this->isSelectorSelected($selectorField, $selectorValue)) {
-            return "kit-grid-selector-selected";
+            return 'kit-grid-selector-selected';
         } else {
             return ;
         }
@@ -172,11 +177,11 @@ class Grid
     }
     public function getSelectorFieldFormName()
     {
-        return "kitdg_grid_".$this->getGridConfig()->getName()."_selector_field";
+        return 'kitdg_grid_'.$this->getGridConfig()->getName().'_selector_field';
     }
     public function getSelectorValueFormName()
     {
-        return "kitdg_grid_".$this->getGridConfig()->getName()."_selector_value";
+        return 'kitdg_grid_'.$this->getGridConfig()->getName().'_selector_value';
     }
 
     public function getGridCssName()

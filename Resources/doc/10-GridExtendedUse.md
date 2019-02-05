@@ -241,6 +241,37 @@ You can also have a second argument in your callback that will receive the entir
         )
     );
 
+Customize field display using twig (bootstrap3 only)
+---
+
+If you want to customize how a field is displayed using twig, use the "uniqueId" parameter.
+
+```php
+$gridConfig = new GridConfig();
+$gridConfig
+    ->setQueryBuilder($queryBuilder)
+    ->addField('d.createdAt', [
+        'uniqueId' => 'createdAt', // <---- here
+        'label' => 'Created at',
+        'sortable' => true,
+        'filterable' => true,
+        'visible' => $this->isGranted(Roles::ADMIN),
+    ])
+    // ...
+```
+
+And then in your twig template :
+
+```twig
+{% embed '@KitpagesDataGrid/Grid/bootstrap3-grid.html.twig' %}
+    {% block kit_grid_cell_id_createdAt %}
+        {{ value|date('Y-m-d') }} by {{ item['d.authorName'] }}
+    {% endblock %}
+{% endembed %}
+```
+
+Every column header has a custom CSS class, if you have defined a uniqueId : `kit-grid-header-createdAt`
+If you didn't, you can use your fieldName but "slug dashed" (d.createdAt become d-createdAt) so : `kit-grid-header-d-createdAt`
 
 Add selector action (to filter on a field with a value)
 -------------------------------------------------------

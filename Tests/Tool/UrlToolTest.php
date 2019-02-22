@@ -35,23 +35,23 @@ class UrlToolTest extends TestCase
         $this->assertEquals("/titi?key1=val1&key2=val2&key3=val3", $newUrl);
     }
 
-    // public function testChangeRequestUtf8QueryString()
-    // {
-    //     $urlTool = new UrlTool();
-    //     $url = "/titi?key1=val1&key2=val2";
-    //     $newUrl = $urlTool->changeRequestQueryString(
-    //         $url,
-    //         "key1",
-    //         "fös"
-    //     );
-    //     $this->assertEquals("/titi?key1=f%C3%B6s&key2=val2", $newUrl);
-    //     $newUrl = $urlTool->changeRequestQueryString(
-    //         $newUrl,
-    //         "key3",
-    //         "mystring=-+ glou"
-    //     );
-    //     $this->assertEquals("/titi?key1=f%C3%B6s&key2=val2&key3=mystring%3D-%2B%20glou", $newUrl);
-    // }
+    public function testChangeRequestUtf8QueryString()
+    {
+        $urlTool = new UrlTool();
+        $url = "/titi?key1=val1&key2=val2";
+        $newUrl = $urlTool->changeRequestQueryString(
+            $url,
+            "key1",
+            "fös"
+        );
+        $this->assertEquals("/titi?key1=f%C3%B6s&key2=val2", $newUrl);
+        $newUrl = $urlTool->changeRequestQueryString(
+            $newUrl,
+            "key3",
+            "mystring=-+ glou"
+        );
+        $this->assertEquals("/titi?key1=f%C3%B6s&key2=val2&key3=mystring%3D-%2B+glou", $newUrl);
+    }
 
     public function testChangeRequestWithArray()
     {
@@ -72,7 +72,7 @@ class UrlToolTest extends TestCase
         );
         $this->assertEquals("/titi?tab%5B0%5D=newval1&tab%5B1%5D=newval2&tab%5B2%5D=newval3&key2=val2", $newUrl);
 
-        
+
 
         $url = "/titi?tab[field1]=val_tab1&tab[field2]=val_tab2&key2=val2";
 

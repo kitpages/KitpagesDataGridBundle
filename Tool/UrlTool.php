@@ -1,13 +1,7 @@
 <?php
 
 namespace Kitpages\DataGridBundle\Tool;
-/**
- * Created by JetBrains PhpStorm.
- * User: levan
- * Date: 25/04/12
- * Time: 16:01
- * To change this template use File | Settings | File Templates.
- */
+
 class UrlTool
 {
     /**
@@ -25,31 +19,21 @@ class UrlTool
         }
 
         $parseTab = parse_url($url);
+
         $queryString = "";
+
         if (array_key_exists("query", $parseTab)) {
             $queryString = $parseTab["query"];
         }
+
         parse_str($queryString, $query);
+
         foreach ($changeTab as $key => $val) {
             $query[$key] = $val;
         }
-        // build new query string
-        $newQueryTab = array();
-        foreach ($query as $key=>$val) {
-            if (is_array($val)) {
-                $key = $key."[]";
-            }
-            if (!is_array($val)) {
-                $val = array($val);
-            }
-            foreach ($val as $subValue) {
-                $newQueryTab[] = $key."=".rawurlencode($subValue);
-            }
-        }
-        $newQueryString = implode("&", $newQueryTab);
-        $parseTab["query"] = $newQueryString;
 
-        // change
+        $parseTab["query"] = http_build_query($query);
+
         return
             ((isset($parseTab['scheme'])) ? $parseTab['scheme'] . '://' : '')
             .((isset($parseTab['user'])) ? $parseTab['user'] . ((isset($parseTab['pass'])) ? ':' . $parseTab['pass'] : '') .'@' : '')
@@ -59,5 +43,4 @@ class UrlTool
             .((isset($parseTab['query'])) ? '?' . $parseTab['query'] : '')
             .((isset($parseTab['fragment'])) ? '#' . $parseTab['fragment'] : '');
     }
-
 }

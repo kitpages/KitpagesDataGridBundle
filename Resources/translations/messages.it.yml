@@ -1,7 +1,7 @@
 kitpages_data_grid:
-    Filter: Filter
-    Apply: Apply
+    Filter: Cerca
+    Apply: Filtra
     Reset: Reset
-    No_Data_Found: No data found
-    Next: Next
-    Previous: Previous
+    No_Data_Found: Nessun dato trovato
+    Next: Prossimo
+    Previous: Precedente

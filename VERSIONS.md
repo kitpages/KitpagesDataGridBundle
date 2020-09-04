@@ -1,5 +1,8 @@
 Versions :
 ==========
+2020-09-04: v3.4.0
+
+* upgrade to doctrine-bundle 2.x
 
 2018-10-10: v3.2.0
 

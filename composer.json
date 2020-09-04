@@ -14,10 +14,11 @@
     "require": {
         "php": ">=7.1",
         "symfony/framework-bundle": "~3.3|~4.0",
+        "symfony/dependency-injection": "~3.3|~4.0",
         "symfony/translation": "~3.3|~4.0",
         "symfony/templating": "~3.3|~4.0",
         "doctrine/orm": "~2.5",
-        "doctrine/doctrine-bundle": "~1.8",
+        "doctrine/doctrine-bundle": "~1.8|~2.0",
         "twig/twig": "~1.23|~2.0",
         "symfony/twig-bundle": "~3.3|~4.0"
     },

@@ -78,7 +78,7 @@
         {% embed kitpages_data_grid.paginator.default_twig with {'paginator':grid.paginator} %}
         {% endembed %}
     {% endblock %}
-    {{ block(' kit_grid_after_paginator') }}
+    {# {{ block('kit_grid_after_paginator') }} #}
 </div>
 {% block kit_grid_javascript %}
     {% include "KitpagesDataGridBundle:Grid:javascript.html.twig" %}

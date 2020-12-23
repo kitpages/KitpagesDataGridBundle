@@ -98,9 +98,9 @@ These values are default values. You can skip the configuration if it is ok for 
 ```yaml
 kitpages_data_grid:
     grid:
-        default_twig: KitpagesDataGridBundle:Grid:grid.html.twig
+        default_twig: @KitpagesDataGrid/Grid/grid.html.twig
     paginator:
-        default_twig: KitpagesDataGridBundle:Paginator:paginator.html.twig
+        default_twig: @KitpagesDataGrid/Paginator/paginator.html.twig
         item_count_in_page: 50
         visible_page_count_in_paginator: 5
 ```
@@ -110,9 +110,9 @@ Note you can use the followin configuration in order to user Bootstrap 3 :
 ```yaml
 kitpages_data_grid:
     grid:
-        default_twig: KitpagesDataGridBundle:Grid:bootstrap3-grid.html.twig
+        default_twig: @KitpagesDataGrid/Grid/bootstrap3-grid.html.twig
     paginator:
-        default_twig: KitpagesDataGridBundle:Paginator:bootstrap3-paginator.html.twig
+        default_twig: @KitpagesDataGrid/Paginator/bootstrap3-paginator.html.twig
 ```
 
 

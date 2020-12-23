@@ -2,6 +2,9 @@
 
 namespace Kitpages\DataGridBundle\Grid;
 
+use Kitpages\DataGridBundle\Event\AfterDisplayGridValueConversion;
+use Kitpages\DataGridBundle\Event\OnDisplayGridValueConversion;
+use Kitpages\DataGridBundle\Paginator\Paginator;
 use Kitpages\DataGridBundle\Tool\UrlTool;
 use Kitpages\DataGridBundle\Grid\Field;
 use Kitpages\DataGridBundle\DataGridException;
@@ -123,7 +126,7 @@ class Grid
         $event->set('value', $value);
         $event->set('row', $row);
         $event->set('field', $field);
-        $this->dispatcher->dispatch(KitpagesDataGridEvents::ON_DISPLAY_GRID_VALUE_CONVERSION, $event);
+        $this->dispatcher->dispatch(new OnDisplayGridValueConversion($event));
 
         if (!$event->isDefaultPrevented()) {
             $value = $event->get('value');
@@ -135,7 +138,7 @@ class Grid
             $event->set('returnValue', $returnValue);
         }
 
-        $this->dispatcher->dispatch(KitpagesDataGridEvents::AFTER_DISPLAY_GRID_VALUE_CONVERSION, $event);
+        $this->dispatcher->dispatch(new AfterDisplayGridValueConversion($event));
         $returnValue = $event->get('returnValue');
 
         // auto escape ? (if null, return null, without autoescape...)

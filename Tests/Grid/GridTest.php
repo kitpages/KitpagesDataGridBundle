@@ -13,7 +13,7 @@ class GridTest extends TestCase
     private $grid;
     private $now;
     private $row;
-    public function setUp()
+    public function setUp(): void
     {
         $dispatcher = new EventDispatcher();
 

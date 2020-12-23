@@ -13,7 +13,7 @@ class GridConfigTest extends TestCase
      */
     protected $gridConfig;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->gridConfig = new GridConfig();
 

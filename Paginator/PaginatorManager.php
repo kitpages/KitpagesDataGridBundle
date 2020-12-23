@@ -1,6 +1,8 @@
 <?php
 namespace Kitpages\DataGridBundle\Paginator;
 
+use Kitpages\DataGridBundle\Event\AfterGetPaginatorQuery;
+use Kitpages\DataGridBundle\Event\OnGetPaginatorQuery;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -73,13 +75,13 @@ class PaginatorManager
         $event->set("paginator", $paginator);
         $event->set("paginatorQueryBuilder", $countQueryBuilder);
         $event->set("request", $request);
-        $this->dispatcher->dispatch(KitpagesDataGridEvents::ON_GET_PAGINATOR_QUERY, $event);
+        $this->dispatcher->dispatch(new OnGetPaginatorQuery($event));
 
         if (!$event->isDefaultPrevented()) {
             $query = $countQueryBuilder->getQuery();
             $event->set("query", $query);
         }
-        $this->dispatcher->dispatch(KitpagesDataGridEvents::AFTER_GET_PAGINATOR_QUERY, $event);
+        $this->dispatcher->dispatch(new AfterGetPaginatorQuery($event));
 
         // hack : recover query from the event so the developper can build a new query
         // from the paginatorQueryBuilder in the listener and reinject it in the event.

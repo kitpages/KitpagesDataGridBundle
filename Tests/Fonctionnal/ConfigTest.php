@@ -11,7 +11,7 @@ class ConfigTest
     {
         $client = self::createClient();
         $gridParameters = $client->getContainer()->getParameter('kitpages_data_grid.grid');
-        $this->assertEquals("KitpagesDataGridBundle:Grid:grid-standard.html.twig", $gridParameters["default_twig"]);
+        $this->assertEquals("@KitpagesDataGrid/Grid/grid-standard.html.twig", $gridParameters["default_twig"]);
         $this->assertEquals('\Kitpages\DataGridBundle\Hydrators\DataGridHydrator', $gridParameters["hydrator_class"]);
     }
 

@@ -18,8 +18,8 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('kitpages_data_grid');
+        $treeBuilder = new TreeBuilder('kitpages_data_grid');
+        $rootNode = $treeBuilder->getRootNode();
 
         $this->addGridConfiguration($rootNode);
         $this->addPaginatorConfiguration($rootNode);
@@ -44,7 +44,7 @@ class Configuration implements ConfigurationInterface
                         ->end()
                         ->scalarNode('default_twig')
                             ->cannotBeEmpty()
-                            ->defaultValue('KitpagesDataGridBundle:Grid:grid.html.twig')
+                            ->defaultValue('@KitpagesDataGrid/Grid/grid.html.twig')
                         ->end()
                     ->end()
                 ->end()
@@ -62,7 +62,7 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->scalarNode('default_twig')
                             ->cannotBeEmpty()
-                            ->defaultValue('KitpagesDataGridBundle:Paginator:paginator.html.twig')
+                            ->defaultValue('@KitpagesDataGrid/Paginator/paginator.html.twig')
                         ->end()
                         ->scalarNode('item_count_in_page')
                             ->cannotBeEmpty()

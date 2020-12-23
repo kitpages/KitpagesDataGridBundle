@@ -1,20 +1,20 @@
 kitpages_data_grid:
     grid:
-        default_twig: KitpagesDataGridBundle:Grid:grid-standard.html.twig
+        default_twig: @KitpagesDataGrid/Grid/grid-standard.html.twig
 
 framework:
     trusted_hosts: ~
     secret: "test"
     translator:      { fallback: "fr" }
     test: ~
-    templating:
-        engines: ['twig']
+    #templating:
+    #    engines: ['twig']
     router:
-        resource: "%kernel.root_dir%/config/routing.yml"
+        resource: "%kernel.project_dir%/config/routing.yml"
 
 twig:
     paths:
-        "%kernel.root_dir%/app/Resources/views/": __main__
+        "%kernel.project_dir%/app/Resources/views/": __main__
 doctrine:
     dbal:
         driver:   'pdo_sqlite'
@@ -25,5 +25,5 @@ doctrine:
                 mappings:
                     Kitpages\DataGridBundle\Tests\TestEntities\Node:
                         type: xml
-                        dir: "%kernel.root_dir%/app/Resources/config/doctrine"
+                        dir: "%kernel.project_dir%/app/Resources/config/doctrine"
                         prefix: Kitpages\DataGridBundle\Tests\TestEntities

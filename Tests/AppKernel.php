@@ -24,6 +24,6 @@ class AppKernel extends Kernel
 
     public function getCacheDir()
     {
-        return $this->rootDir.'/app/cache/'.$this->environment;
+        return $this->getProjectDir().'/app/cache/'.$this->environment;
     }
 }

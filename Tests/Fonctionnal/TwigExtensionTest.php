@@ -18,7 +18,7 @@ class TwigExtensionTest
          */
         $templating = $client->getContainer()->get('templating');
         $this->assertEquals(
-            "KitpagesDataGridBundle:Grid:grid-standard.html.twig",
+            "@KitpagesDataGrid/Grid/grid-standard.html.twig",
             $templating->render("globals.html.twig")
         );
     }

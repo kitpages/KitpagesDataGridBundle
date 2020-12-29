@@ -4,6 +4,7 @@ namespace Kitpages\DataGridBundle\Grid;
 
 use Doctrine\ORM\QueryBuilder;
 use Kitpages\DataGridBundle\Paginator\PaginatorConfig;
+use SebastianBergmann\CodeCoverage\Driver\Selector;
 
 class GridConfig
 {

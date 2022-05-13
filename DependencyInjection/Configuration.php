@@ -18,8 +18,8 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('kitpages_data_grid');
+        $treeBuilder = new TreeBuilder('kitpages_data_grid');
+        $rootNode = $treeBuilder->getRootNode();
 
         $this->addGridConfiguration($rootNode);
         $this->addPaginatorConfiguration($rootNode);
@@ -31,6 +31,10 @@ class Configuration implements ConfigurationInterface
         return $treeBuilder;
     }
 
+    /**
+     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node
+     * @return void
+     */
     private function addGridConfiguration(ArrayNodeDefinition $node)
     {
         $node
@@ -50,8 +54,12 @@ class Configuration implements ConfigurationInterface
                 ->end()
             ->end()
         ;
-
     }
+
+    /**
+     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node
+     * @return void
+     */
     private function addPaginatorConfiguration(ArrayNodeDefinition $node)
     {
         $node

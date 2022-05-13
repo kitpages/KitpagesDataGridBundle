@@ -123,7 +123,7 @@ class GridManager
         $event->set("grid", $grid);
         $event->set("gridQueryBuilder", $gridQueryBuilder);
         $event->set("request", $request);
-        $this->dispatcher->dispatch(KitpagesDataGridEvents::ON_GET_GRID_QUERY, $event);
+        $this->dispatcher->dispatch($event, KitpagesDataGridEvents::ON_GET_GRID_QUERY);
 
         if (!$event->isDefaultPrevented()) {
             // execute request
@@ -131,7 +131,7 @@ class GridManager
             $event->set("query", $query);
         }
 
-        $this->dispatcher->dispatch(KitpagesDataGridEvents::AFTER_GET_GRID_QUERY, $event);
+        $this->dispatcher->dispatch($event, KitpagesDataGridEvents::AFTER_GET_GRID_QUERY);
 
         // hack : recover query from the event so the developper can build a new grid
         // from the gridQueryBuilder in the listener and reinject it in the event.
@@ -156,7 +156,7 @@ class GridManager
         $event->set("grid", $grid);
         $event->set("gridQueryBuilder", $queryBuilder);
         $event->set("filter", $filter);
-        $this->dispatcher->dispatch(KitpagesDataGridEvents::ON_APPLY_FILTER, $event);
+        $this->dispatcher->dispatch($event, KitpagesDataGridEvents::ON_APPLY_FILTER);
 
         if (!$event->isDefaultPrevented()) {
             $fieldList = $grid->getGridConfig()->getFieldList();
@@ -173,7 +173,7 @@ class GridManager
             }
             $grid->setFilterValue($filter);
         }
-        $this->dispatcher->dispatch(KitpagesDataGridEvents::AFTER_APPLY_FILTER, $event);
+        $this->dispatcher->dispatch($event, KitpagesDataGridEvents::AFTER_APPLY_FILTER);
     }
 
     protected function applySelector(QueryBuilder $queryBuilder, Grid $grid, $selectorField, $selectorValue)
@@ -186,7 +186,7 @@ class GridManager
         $event->set("gridQueryBuilder", $queryBuilder);
         $event->set("selectorField", $selectorField);
         $event->set("selectorValue", $selectorValue);
-        $this->dispatcher->dispatch(KitpagesDataGridEvents::ON_APPLY_SELECTOR, $event);
+        $this->dispatcher->dispatch($event, KitpagesDataGridEvents::ON_APPLY_SELECTOR);
 
         if (!$event->isDefaultPrevented()) {
             $queryBuilder->andWhere($selectorField." = :selectorValue");
@@ -195,7 +195,7 @@ class GridManager
             $grid->setSelectorField($selectorField);
             $grid->setSelectorValue($selectorValue);
         }
-        $this->dispatcher->dispatch(KitpagesDataGridEvents::AFTER_APPLY_SELECTOR, $event);
+        $this->dispatcher->dispatch($event, KitpagesDataGridEvents::AFTER_APPLY_SELECTOR);
     }
 
     protected function applySort(QueryBuilder $gridQueryBuilder, Grid $grid, $sortField, $sortOrder)
@@ -208,7 +208,7 @@ class GridManager
         $event->set("gridQueryBuilder", $gridQueryBuilder);
         $event->set("sortField", $sortField);
         $event->set("sortOrder", $sortOrder);
-        $this->dispatcher->dispatch(KitpagesDataGridEvents::ON_APPLY_SORT, $event);
+        $this->dispatcher->dispatch($event, KitpagesDataGridEvents::ON_APPLY_SORT);
 
         if (!$event->isDefaultPrevented()) {
             $sortFieldObject = null;
@@ -232,7 +232,7 @@ class GridManager
             $grid->setSortOrder($sortOrder);
         }
 
-        $this->dispatcher->dispatch(KitpagesDataGridEvents::AFTER_APPLY_SORT, $event);
+        $this->dispatcher->dispatch( $event, KitpagesDataGridEvents::AFTER_APPLY_SORT);
     }
 
 }

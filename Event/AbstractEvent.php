@@ -1,7 +1,7 @@
 <?php
 namespace Kitpages\DataGridBundle\Event;
 
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 abstract class AbstractEvent extends Event
 {
@@ -22,12 +22,12 @@ abstract class AbstractEvent extends Event
         return $this->isDefaultPrevented;
     }
 
-    public function stopPropagation()
+    public function stopPropagation(): void
     {
         $this->isPropagationStopped = true;
     }
 
-    public function isPropagationStopped()
+    public function isPropagationStopped(): bool
     {
         return $this->isPropagationStopped;
     }

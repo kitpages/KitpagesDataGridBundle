@@ -7,6 +7,10 @@ KitpagesDataGridBundle
 
 This Symfony Bundle is a simple datagrid bundle. It aims to be easy to use and extensible.
 
+## Support version 5
+
+Symfony 5 version is supported.
+
 ## Warning version 3
 
 Version 3 is for symfony ~3.3 and ~4.0 and PHP 7, and only twig ~1.8 
